@@ -13,7 +13,7 @@ public class lang_no extends ListResourceBundle {
 			{ "FARM", "gård"},
 			{ "FARMER", "bonde"},
 			{ "WELCOMEMSG", "Velkommen til Farm Tycoon"},
-			{ "SAVEFOUND", "Vi har funnet ei tildligar lagred spil."},
+			{ "SAVEFOUND", "Vi har funnet ei tidligar lagred spil."},
 			{ "ASKLOADGAME", "vill du laste in spillet? (ja/nei)"},
 			{ "yes", new String[]{"j","ja"}},
 			{ "no", new String[]{"n","nei"}},
