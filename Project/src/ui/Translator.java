@@ -70,4 +70,9 @@ public abstract class Translator {
 	public static Object getObject(String key) {
 		return getBundle().getObject(key);
 	}
+	public static boolean matchStringToArray(String key,String needle) {
+		return java.util.Arrays.asList(
+				getStringArray(key)).contains(
+						needle.toLowerCase());
+	}
 }

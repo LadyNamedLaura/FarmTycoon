@@ -10,6 +10,7 @@ public class ConsoleApp {
 	
 	public ConsoleApp() {
 		domain = new domain.Controller();
+		Translator.setLocale("en");
 		welcome();
 		if(domain.saveExists()){
 			if (askLoad())
@@ -34,9 +35,9 @@ public class ConsoleApp {
 		System.out.println(Translator.getString("SAVEFOUND"));
 		System.out.println(Translator.getString("ASKLOADGAME"));
 		input = scanner.next();
-		if (java.util.Arrays.asList(Translator.getStringArray("yes")).contains(input))
+		if (Translator.matchStringToArray("yes",input))
 			return true;
-		else if(java.util.Arrays.asList(Translator.getStringArray("no")).contains(input))
+		else if(Translator.matchStringToArray("no",input))
 			return false;
 		else
 			return askLoad();

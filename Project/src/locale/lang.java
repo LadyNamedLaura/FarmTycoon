@@ -2,7 +2,7 @@ package locale;
 
 import java.util.ListResourceBundle;
 
-public class lang_en extends ListResourceBundle {
+public class lang extends ListResourceBundle {
 
 	@Override
 	public Object[][] getContents() {
@@ -15,7 +15,7 @@ public class lang_en extends ListResourceBundle {
 			{ "WELCOMEMSG", "Welcome to Farm Tycoon"},
 			{ "SAVEFOUND", "a previously saved game was found."},
 			{ "ASKLOADGAME", "do you want to load this game? (yes/no)"},
-			{ "yes", new String[]{"y","Y","Yes","yes","YES"}},
-			{ "no", new String[]{"n","N","No","no","NO"}},
+			{ "yes", new String[]{"y","yes"}},
+			{ "no", new String[]{"n","no"}},
 	};
 }
