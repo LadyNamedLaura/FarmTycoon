@@ -8,7 +8,7 @@ public class Farm {
 	private static final int height = 4;
 	
 	private int cash;// EUR x 100
-	private ArrayList<ArrayList<Tile>> tiles;
+	private ArrayList<ArrayList<Tile>> tiles = new ArrayList<ArrayList<Tile>>();
 	private Market market;
 	private ArrayList<Creature> creatures;
 	private Farmer farmer;
@@ -39,6 +39,57 @@ public class Farm {
 			break;
 		}
 		
+		farmer = new Farmer();
+		
+	}
+
+	/**
+	 * @return the width
+	 */
+	public static int getWidth() {
+		return width;
+	}
+
+	/**
+	 * @return the height
+	 */
+	public static int getHeight() {
+		return height;
+	}
+
+	/**
+	 * @return the cash
+	 */
+	public int getCash() {
+		return cash;
+	}
+
+	/**
+	 * @return the tiles
+	 */
+	public ArrayList<ArrayList<Tile>> getTiles() {
+		return tiles;
+	}
+
+	/**
+	 * @return the market
+	 */
+	public Market getMarket() {
+		return market;
+	}
+
+	/**
+	 * @return the creatures
+	 */
+	public ArrayList<Creature> getCreatures() {
+		return creatures;
+	}
+
+	/**
+	 * @return the farmer
+	 */
+	public Farmer getFarmer() {
+		return farmer;
 	}
 
 }
