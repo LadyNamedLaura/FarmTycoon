@@ -5,7 +5,7 @@ public class Game {
 	private Clock clock;
 	
 	public Game() {
-		clock = new Clock(1);
+		clock = new Clock();
 		farm = new Farm();
 	}
 	public Farm getFarm() {
