@@ -3,7 +3,8 @@ package domain;
 import java.util.Date;
 
 public class Clock {
-	private final long STARTTIME = 1325397600L; // 1 jan. 2012 6:00
+	private static final long STARTTIME = 1325397600L; // 1 jan. 2012 6:00
+	public static final long SECONDSADAY = 86400;
 	private double multiplier;
 	private long offset;
 	
