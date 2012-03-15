@@ -16,9 +16,9 @@ import domain.Farm;
 
 public class FarmMapper 
 {
-	private final static String GET_FARM_SQL = "SELECT ? FROM farm where ? = ?";
+	private final static String GET_FARM_SQL = "SELECT Cash FROM Farm";
 	
-	private final static String UPDATE_SQL = "UPDATE farm SET ? WHERE farmName = ?";
+	private final static String UPDATE_SQL = "UPDATE Farm SET Cash";
 	
 	private Farm farm;
 	
@@ -51,5 +51,27 @@ public class FarmMapper
 			e.printStackTrace();
 		}
 		
+	}
+	
+	public int getCash()
+	{
+		int cash = 0;
+		// create Statement for querying database
+		Statement statement;
+		Connection connection = PersistenceController.getInstance().getConnect();
+		try {
+			statement = connection.createStatement();
+
+			// query database
+			ResultSet resultSet = statement.executeQuery("SELECT Cash FROM Farm");
+			if (resultSet.next()) {
+				cash = resultSet.getInt("Cash");
+			}
+			statement.close();
+			return cash;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return (Integer) null;
 	}
 }
