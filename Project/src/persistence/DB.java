@@ -14,6 +14,7 @@ public class DB {
 	public DB() throws DBConnectException {
 		this("farmsave");
 	}
+
 	/**
 	 * 
 	 * @param name
@@ -22,11 +23,10 @@ public class DB {
 	public DB(String name) throws DBConnectException {
 		try {
 			Class.forName("org.sqlite.JDBC");
-			connection = java.sql.DriverManager.getConnection(
-					String.format("jdbc:sqlite:%s.sav",name));
+			connection = java.sql.DriverManager.getConnection(String.format(
+					"jdbc:sqlite:%s.sav", name));
 		} catch (java.sql.SQLException sqlException) {
-			DBConnectException e =
-					(DBConnectException) sqlException;
+			DBConnectException e = (DBConnectException) sqlException;
 			e.setDBName(name);
 			throw e;
 		}
@@ -35,8 +35,9 @@ public class DB {
 			new SystemDBException();
 		}
 	}
+
 	public void init() throws DBUpdateException {
-		
+
 		try {
 			MapperList[] list = MapperList.values();
 			for (MapperList info : list) {
@@ -51,15 +52,15 @@ public class DB {
 	public void close() throws DBCloseException {
 		try {
 			connection.close();
-		}
-		catch (java.sql.SQLException e) {
-				throw (DBCloseException) e; 
+		} catch (java.sql.SQLException e) {
+			throw (DBCloseException) e;
 		}
 	}
 
 	public java.sql.Connection getConnection() {
-			return connection;
+		return connection;
 	}
+
 	/**
 	 * @see java.lang.Object#finalize()
 	 */

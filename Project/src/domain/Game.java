@@ -5,7 +5,7 @@ import java.sql.SQLException;
 public class Game {
 	private Farm farm;
 	private Clock clock;
-	
+
 	public Game(boolean load) {
 		if (load) {
 			try {
@@ -20,12 +20,15 @@ public class Game {
 			farm = new Farm();
 		}
 	}
+
 	public Farm getFarm() {
 		return farm;
 	}
+
 	public Clock getClock() {
 		return clock;
 	}
+
 	public void save() throws SQLException {
 		farm.save();
 		clock.save();
