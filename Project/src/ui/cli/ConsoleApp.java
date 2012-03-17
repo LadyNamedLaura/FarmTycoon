@@ -1,4 +1,6 @@
-package ui;
+package ui.cli;
+
+import ui.Translator;
 
 /**
  * @author Rigès De Witte, Simon Peeters,Barny Pieters,Laurens Van Damme 

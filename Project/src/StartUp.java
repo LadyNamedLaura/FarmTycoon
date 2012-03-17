@@ -8,7 +8,7 @@ public class StartUp {
 	
 	public StartUp()
 	{
-		new ui.ConsoleApp();
+		new ui.cli.ConsoleApp();
 	}
 
 }

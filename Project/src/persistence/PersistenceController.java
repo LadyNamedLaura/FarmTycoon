@@ -1,41 +1,41 @@
 package persistence;
 
-import java.sql.Connection;
-import java.util.List;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-import persistence.FarmMapper;
-
-import domain.Farm;
+import exceptions.DBCloseException;
+import exceptions.DBConnectException;
 
 public class PersistenceController 
 {
 	private static PersistenceController persistenceController;
-	private FarmMapper farmMapper;
-	private Connect connection;
+	private DB db;
 
-	public static PersistenceController getInstance() 
+	public static PersistenceController getInstance() throws DBConnectException 
 	{
 		if (persistenceController == null)
 			persistenceController = new PersistenceController();
 		return persistenceController;
 	}
 
-	private PersistenceController() {
-		connection = new Connect();
-		farmMapper = new FarmMapper();
+	private PersistenceController() throws DBConnectException {
+		db = new DB();
 	}
-
-
-	public void saveBoek(Farm farm) {
-		farmMapper.saveFarm(farm);
+	public void setSaveName(String name) throws DBCloseException, DBConnectException {
+		db.close();
+		db = new DB(name);
 	}
-
-
-	public Connection getConnect() {
-		return connection.getConnection();
+	public DB getDB(){
+		return db;
 	}
-
-	public void closeConnection() {
-		connection.closeConnect();
+	public boolean saveExists() {
+		try{
+			java.sql.Statement st = db.getConnection().createStatement();
+			ResultSet rs;
+			rs = st.executeQuery("SELECT COUNT(*) AS count FROM Farm WHERE id = 0");
+			return (rs.getInt("count") > 0);
+		} catch (SQLException e) {
+			return false;
+		}
 	}
 }
