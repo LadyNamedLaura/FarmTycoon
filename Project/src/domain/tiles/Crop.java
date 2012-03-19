@@ -1,6 +1,11 @@
-package domain;
+package domain.tiles;
 
 import java.util.Date;
+
+import domain.Clock;
+import domain.Controller;
+import domain.Savable;
+import domain.TileState;
 
 public class Crop extends Savable implements TileState {
 	private enum CropList {
@@ -81,6 +86,6 @@ public class Crop extends Savable implements TileState {
 	}
 
 	public StateList getStateType() {
-		return StateList.Crop;
+		return StateList.CROP;
 	}
 }

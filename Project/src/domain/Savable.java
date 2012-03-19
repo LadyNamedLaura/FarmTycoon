@@ -4,9 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 
 public abstract class Savable {
-	// protected abstract static int nextid;
 	protected int id = -1;
-	protected String[][] dbfields;
 
 	public int getId() {
 		if (id == -1)

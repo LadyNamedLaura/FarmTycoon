@@ -1,4 +1,7 @@
-package domain;
+package domain.tiles;
+
+import domain.Savable;
+import domain.TileState;
 
 /**
  * Class containing all possible buildings
@@ -63,7 +66,7 @@ public class Building extends Savable implements TileState {
 	 */
 	@Override
 	public StateList getStateType() {
-		return StateList.Building;
+		return StateList.BUILDING;
 	}
 
 }

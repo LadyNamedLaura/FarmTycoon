@@ -1,7 +1,6 @@
 package exceptions;
 
-import java.sql.SQLException;
-
-public class DBCloseException extends SQLException {
+@SuppressWarnings("serial")
+public class DBCloseException extends DBException {
 
 }

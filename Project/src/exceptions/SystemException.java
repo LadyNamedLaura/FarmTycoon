@@ -6,6 +6,7 @@ package exceptions;
  * @author simon
  * 
  */
+@SuppressWarnings("serial")
 public class SystemException extends Exception {
 
 }

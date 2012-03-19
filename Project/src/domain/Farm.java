@@ -4,6 +4,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
 
+import domain.tiles.Market;
+import domain.tiles.StateList;
+
 public class Farm extends Savable {
 	public static final int width = 4;
 	public static final int height = 4;
@@ -11,7 +14,7 @@ public class Farm extends Savable {
 
 	private int cash;// EUR x 100
 	private ArrayList<ArrayList<Tile>> tiles = new ArrayList<ArrayList<Tile>>();
-	private Market market;
+	private Market market = null;
 	private ArrayList<Creature> creatures;
 	private Farmer farmer;
 
@@ -19,7 +22,7 @@ public class Farm extends Savable {
 		this(STARTCASH);
 	}
 
-	public Farm(int cash, Market market, boolean loadTiles) {
+	public Farm(int cash, boolean loadTiles) {
 		tiles.ensureCapacity(width);
 		for (int i = 0; i < width; i++) {
 			tiles.add(i, new ArrayList<Tile>());
@@ -29,36 +32,55 @@ public class Farm extends Savable {
 					try {
 						tiles.get(i).add(j,
 								(Tile) Tile.load(Tile.class, (i * 10) + j));
+						TileState state = tiles.get(i).get(j).getState();
+						if (state instanceof Market)
+							this.market = (Market) state;
 					} catch (Exception e) {
 						e.printStackTrace();
-						tiles.get(i).add(j, new Tile(i, j, null));
+						tiles.get(i).add(j, new Tile(i, j));
 					}
 				else
-					tiles.get(i).add(j, new Tile(i, j, null));
+					tiles.get(i).add(j, new Tile(i, j));
 			}
 		}
 		this.cash = cash;
-		this.market = market;
 		this.farmer = new Farmer();
+		if (this.market == null) {
+			switch (new Random().nextInt(4)) {
+			case 0:
+				this.tiles.get(0).get(0).setType(StateList.MARKET);
+				this.market = (Market) this.tiles.get(0).get(0).getState();
+				break;
+			case 1:
+				this.tiles.get(width - 1).get(0).setType(StateList.MARKET);
+				this.market = (Market) this.tiles.get(width - 1).get(0)
+						.getState();
+				break;
+			case 2:
+				this.tiles.get(width - 1).get(height - 1)
+						.setType(StateList.MARKET);
+				this.market = (Market) this.tiles.get(width - 1)
+						.get(height - 1).getState();
+				break;
+			case 3:
+				this.tiles.get(0).get(height - 1).setType(StateList.MARKET);
+				this.market = (Market) this.tiles.get(0).get(height - 1)
+						.getState();
+				break;
+			}
+			if (this.market == null) {
+				throw new java.lang.NullPointerException(
+						"failed to create market");
+			}
+		}
+		if (this.market == null) {
+			throw new java.lang.NullPointerException("no market");
+		}
 
 	}
 
 	public Farm(int cash) {
-		this(cash, null, false);
-		switch (new Random().nextInt(4)) {
-		case 0:
-			market = new Market(0, 0);
-			break;
-		case 1:
-			market = new Market(width, 0);
-			break;
-		case 2:
-			market = new Market(width, height);
-			break;
-		case 3:
-			market = new Market(0, height);
-			break;
-		}
+		this(cash, false);
 
 	}
 

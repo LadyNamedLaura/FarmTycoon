@@ -1,12 +1,14 @@
 package ui;
 
+import java.util.MissingResourceException;
+
 /**
  * @author Rigès De Witte, Simon Peeters,Barny Pieters,Laurens Van Damme
  * 
  *         wrapper around java.util.ResourceBundle to make its use more straight
  *         forward
  */
-public abstract class Translator {
+public class Translator {
 	private static final String BUNDLENAME = "locale.lang";
 	private static java.util.ResourceBundle bundle = null;
 
@@ -21,8 +23,9 @@ public abstract class Translator {
 	 * 
 	 * @param lang
 	 *            language to use
+	 * @throws MissingResourceException
 	 */
-	public static void setLocale(String lang) {
+	public static void setLocale(String lang) throws MissingResourceException {
 		setLocale(new java.util.Locale(lang));
 	}
 
@@ -33,8 +36,10 @@ public abstract class Translator {
 	 *            language to use.
 	 * @param region
 	 *            region to use.
+	 * @throws MissingResourceException
 	 */
-	public static void setLocale(String lang, String region) {
+	public static void setLocale(String lang, String region)
+			throws MissingResourceException {
 		setLocale(new java.util.Locale(lang, region));
 	}
 
@@ -47,8 +52,10 @@ public abstract class Translator {
 	 *            region to use.
 	 * @param vendor
 	 *            vendor to use.
+	 * @throws MissingResourceException
 	 */
-	public static void setLocale(String lang, String region, String vendor) {
+	public static void setLocale(String lang, String region, String vendor)
+			throws MissingResourceException {
 		setLocale(new java.util.Locale(lang, region, vendor));
 	}
 
@@ -57,8 +64,10 @@ public abstract class Translator {
 	 * 
 	 * @param locale
 	 *            locale to use.
+	 * @throws MissingResourceException
 	 */
-	public static void setLocale(java.util.Locale locale) {
+	public static void setLocale(java.util.Locale locale)
+			throws MissingResourceException {
 		bundle = java.util.ResourceBundle.getBundle(BUNDLENAME, locale);
 	}
 
@@ -68,8 +77,9 @@ public abstract class Translator {
 	 * @param key
 	 *            key of a string to get.
 	 * @return the translated string.
+	 * @throws MissingResourceException
 	 */
-	public static String getString(String key) {
+	public static String getString(String key) throws MissingResourceException {
 		return getBundle().getString(key);
 	}
 
@@ -79,8 +89,10 @@ public abstract class Translator {
 	 * @param key
 	 *            key to the array of strings.
 	 * @return the translated array of strings.
+	 * @throws MissingResourceException
 	 */
-	public static String[] getStringArray(String key) {
+	public static String[] getStringArray(String key)
+			throws MissingResourceException {
 		return getBundle().getStringArray(key);
 	}
 
@@ -90,12 +102,23 @@ public abstract class Translator {
 	 * @param key
 	 *            key to the object.
 	 * @return the translated object.
+	 * @throws MissingResourceException
 	 */
-	public static Object getObject(String key) {
+	public static Object getObject(String key) throws MissingResourceException {
 		return getBundle().getObject(key);
 	}
 
-	public static boolean matchStringToArray(String key, String needle) {
+	/**
+	 * Checks if {@value needle} matches any string in a translated array
+	 * referenced to by {@value key}. Check is case insensitive.
+	 * 
+	 * @param key
+	 * @param needle
+	 * @return Whether or not the string matches.
+	 * @throws MissingResourceException
+	 */
+	public static boolean matchStringToArray(String key, String needle)
+			throws MissingResourceException {
 		return java.util.Arrays.asList(getStringArray(key)).contains(
 				needle.toLowerCase());
 	}

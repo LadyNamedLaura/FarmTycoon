@@ -1,20 +1,17 @@
 package persistence;
 
-//import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.InvocationTargetException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import domain.Savable;
-
 import exceptions.DBConnectException;
 
 /**
  * Enum containing all information needed to save Savable objects to the
- * database. Every Class which implements {@link document.Savable} should have
- * an entry in this enum.
+ * database. Every Class which implements {@link domain.Savable} should have an
+ * entry in this enum.
  * 
  * @author Rigès De Witte
  * @author Simon Peeters
@@ -22,174 +19,23 @@ import exceptions.DBConnectException;
  * @author Laurens Van Damme
  * 
  */
-@SuppressWarnings("serial")
 public enum MapperList {
-	Tile(new HashMap<String, String>() {
-		{
-			put("x", "INT");
-			put("y", "INT");
-			put("state", "TEXT");
-			put("stateid", "INT");
-		}
-	}, new Mapper() {
-		public domain.Tile load(Map<String, Object> data) throws SQLException,
-				IllegalArgumentException, SecurityException,
-				InstantiationException, IllegalAccessException,
-				NoSuchMethodException, ClassNotFoundException,
-				InvocationTargetException {
-			domain.TileState state;
-			if (((String) data.get("state")).equals("none")) {
-				state = null;
-			} else if ((Integer) data.get("stateid") == -1) {
-				state = (domain.TileState) Class
-						.forName((String) data.get("state"))
-						.getConstructor(Integer.class, Integer.class)
-						.newInstance((Integer) data.get("x"),
-								(Integer) data.get("y"));
-			} else {
-				state = (domain.TileState) MapperList.valueOf(
-						(String) data.get("state")).loadById(
-						(Integer) data.get("stateid"));
-			}
-			return new domain.Tile((Integer) data.get("x"),
-					(Integer) data.get("y"), state);
-		}
-
-		public Map<String, Object> save(domain.Savable obj) throws SQLException {
-			domain.Tile tile = (domain.Tile) obj;
-			Map<String, Object> ret = new HashMap<String, Object>();
-			ret.put("x", tile.getCoords()[0]);
-			ret.put("y", tile.getCoords()[1]);
-			if (tile.getState() == null) {
-				ret.put("state", "'none'");
-				ret.put("stateid", -1);
-			} else {
-				ret.put("state", "'"
-						+ tile.getState().getClass().getSimpleName() + "'");
-				if (tile.getState() instanceof domain.Savable) {
-					domain.Savable state = (domain.Savable) tile.getState();
-					ret.put("stateid", state.getId());
-					state.save();
-				} else {
-					ret.put("stateid", -1);
-				}
-			}
-			return ret;
-		}
-	}),
-
-	Crop(new HashMap<String, String>() {
-		{
-			put("type", "TEXT");
-			put("planted", "BIGINT");
-		}
-	}, new Mapper() {
-		public domain.Crop load(Map<String, Object> data) throws SQLException {
-			return new domain.Crop((String) data.get("type"),
-					(Long) data.get("planted"));
-		}
-
-		public Map<String, Object> save(domain.Savable obj) {
-			domain.Crop crop = (domain.Crop) obj;
-			Map<String, Object> ret = new HashMap<String, Object>();
-			ret.put("type", "'" + crop.getType() + "'");
-			ret.put("planted", crop.getPlanted().getTime());
-			return ret;
-		}
-	}),
-
-	Clock((Map<String, String>) new HashMap<String, String>() {
-		{
-			put("Offset", "BIGINT");
-			put("Multi", "DOUBLE");
-		}
-	}, new Mapper() {
-		public domain.Clock load(Map<String, Object> data) {
-			data.get("Multi");
-			data.get("Offset");
-			return new domain.Clock((Double) data.get("Multi"),
-					(Long) data.get("Offset"));
-		}
-
-		public Map<String, Object> save(Savable obj) throws SQLException {
-			Map<String, Object> ret = new HashMap<String, Object>();
-			domain.Clock clock = (domain.Clock) obj;
-			ret.put("Offset", clock.getOffset());
-			ret.put("Multi", clock.getMultiplier());
-			return ret;
-		}
-	}),
-
-	Farm((Map<String, String>) new HashMap<String, String>() {
-		{
-			put("cash", "INT");
-			put("marketX", "INT");
-			put("marketY", "INT");
-		}
-	}, new Mapper() {
-		public domain.Farm load(Map<String, Object> data) throws SQLException,
-				IllegalArgumentException, SecurityException,
-				InstantiationException, IllegalAccessException,
-				NoSuchMethodException, ClassNotFoundException,
-				InvocationTargetException {
-			return new domain.Farm((Integer) data.get("cash"),
-					new domain.Market((Integer) data.get("marketX"),
-							(Integer) data.get("marketY")), true);
-		}
-
-		public Map<String, Object> save(domain.Savable obj) {
-			Map<String, Object> ret = new HashMap<String, Object>();
-			domain.Farm farm = (domain.Farm) obj;
-			ret.put("cash", farm.getCash());
-			ret.put("marketX", farm.getMarket().getCoords()[0]);
-			ret.put("marketY", farm.getMarket().getCoords()[1]);
-			return ret;
-		}
-	});
-
 	/**
-	 * Abstract class defining the interface between the database and
-	 * {@link MappeList} items
-	 * 
+	 * @see domain.Tile
 	 */
-	private static abstract class Mapper {
-		/**
-		 * Turns the data passed in to the {@link domain.Savable} object this
-		 * Mapper is made for. The complete row of the database is passed ass a
-		 * <"columnname",value> Map.
-		 * 
-		 * @param data
-		 *            a Map containing the database data of the object to load.
-		 * @return the Savable object generated from the database data.
-		 * @throws SQLException
-		 * @throws IllegalArgumentException
-		 * @throws SecurityException
-		 * @throws InstantiationException
-		 * @throws IllegalAccessException
-		 * @throws NoSuchMethodException
-		 * @throws ClassNotFoundException
-		 * @throws InvocationTargetException
-		 */
-		public abstract domain.Savable load(Map<String, Object> data)
-				throws SQLException, IllegalArgumentException,
-				SecurityException, InstantiationException,
-				IllegalAccessException, NoSuchMethodException,
-				ClassNotFoundException, InvocationTargetException;
-
-		/**
-		 * Converts a {@link domain.Savable} object into database ready data.
-		 * All data needed should be passed in a {@code <"columnname",value>}
-		 * Map.
-		 * 
-		 * @param obj
-		 *            the object to convert
-		 * @return a <"columnname", value> map containing all data needed to
-		 *         reconstruct the object.
-		 * @throws SQLException
-		 */
-		public abstract Map<String, Object> save(domain.Savable obj)
-				throws SQLException;
-	}
+	Tile(new persistence.mappers.Tile()),
+	/**
+	 * @see domain.Crop
+	 */
+	Crop(new persistence.mappers.Crop()),
+	/**
+	 * @see domain.Clock
+	 */
+	Clock(new persistence.mappers.Clock()),
+	/**
+	 * @see domain.Farm
+	 */
+	Farm(new persistence.mappers.Farm());
 
 	private DB db;
 	private String tablename;
@@ -197,12 +43,12 @@ public enum MapperList {
 	private Map<String, String> fields;
 	private int nextid = 0;
 
-	private MapperList(Map<String, String> fields, Mapper mapper) {
-		this("", fields, mapper);
+	private MapperList(Mapper mapper) {
+		this("", mapper);
 		this.tablename = name();
 	}
 
-	private MapperList(String name, Map<String, String> fields, Mapper mapper) {
+	private MapperList(String name, Mapper mapper) {
 		try {
 			this.db = PersistenceController.getInstance().getDB();
 		} catch (DBConnectException e) {
@@ -211,12 +57,14 @@ public enum MapperList {
 		}
 		this.mapper = mapper;
 		this.tablename = name;
-		this.fields = fields;
+		this.fields = mapper.getFields();
 	}
 
 	/**
+	 * Saves an {@link domain.savable} object to the database.
+	 * 
 	 * @param obj
-	 * @return
+	 *            object to save.
 	 * @throws SQLException
 	 * @see persistence.Mapper#save(domain.Savable)
 	 */

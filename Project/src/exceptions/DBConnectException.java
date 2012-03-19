@@ -1,8 +1,7 @@
 package exceptions;
 
-import java.sql.SQLException;
-
-public class DBConnectException extends SQLException {
+@SuppressWarnings("serial")
+public class DBConnectException extends DBException {
 	private String dbname;
 
 	public DBConnectException(String name) {
