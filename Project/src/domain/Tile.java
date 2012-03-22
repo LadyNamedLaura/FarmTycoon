@@ -1,6 +1,7 @@
 package domain;
 
 import domain.tiles.StateList;
+import domain.tiles.TileAction;
 
 public class Tile extends Savable {
 	private int xcoord;
@@ -58,5 +59,34 @@ public class Tile extends Savable {
 			return;
 		this.type = type;
 		this.state = type.getNew();
+	}
+
+	/**
+	 * @return
+	 * @see domain.TileState#getActions()
+	 */
+	public TileAction[] getActions() {
+		return state.getActions();
+	}
+
+	/**
+	 * @param action
+	 * @return
+	 * @see domain.TileState#executeAction(domain.tiles.TileAction)
+	 */
+	public boolean executeAction(TileAction action) {
+		try {
+			TileState tmp = state.executeAction(action);
+			if(tmp == null)
+				return false;
+			System.out.println("all good now");
+			Controller.getInstance().getGame().setCash(Controller.getInstance().getGame().getCash()-action.getCost());
+			this.state = tmp;
+			this.type = this.state.getStateType();
+			return true;
+		}catch(Exception e){
+			e.printStackTrace();
+			return false;
+		}
 	}
 }

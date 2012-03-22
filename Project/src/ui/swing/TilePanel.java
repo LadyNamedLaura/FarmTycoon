@@ -2,8 +2,6 @@ package ui.swing;
 
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 
 /**
  * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI
@@ -17,58 +15,45 @@ import java.awt.event.ComponentEvent;
  */
 @SuppressWarnings("serial")
 public class TilePanel extends javax.swing.JPanel {
-	public domain.Tile tile;
+	private domain.Game game;
+	private int[] coords = new int[2];
 	private Image bgimage;
 	private static Image cursor;
 	public boolean selected = false;
 
-	//just to prevent jigloo from craching
+	// just to prevent jigloo from craching
 	public TilePanel() {
 		super();
 		initGUI();
 	}
-	public TilePanel(domain.Tile tile) {
+
+	TilePanel(domain.Game game, int x, int y) {
 		super();
-		this.tile = tile;
+		this.game = game;
+		this.coords[0] = x;
+		this.coords[1] = y;
 		initGUI();
 		update();
 	}
 
 	private void initGUI() {
-		try {
-			this.addComponentListener(new ComponentAdapter() {
-				public void componentResized(ComponentEvent evt) {
-					thisComponentResized(evt);
-				}
-			});
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		try {
-			bgimage = Images.getImage(tile.getType().name(),this.getSize());
-		} catch (IllegalArgumentException e) {
-			bgimage = null;
-		}
-		try {
-			if (cursor != null)
-				cursor = Images.getImage("SELECTED",this.getSize());
-		} catch (IllegalArgumentException e) {
-			cursor = null;
-		}
 	}
 
 	public void update() {
+		this.repaint();
 	}
-    public void paintComponent(Graphics g) {
-    	if(bgimage != null)
-    		g.drawImage(bgimage, 0, 0, null);
-    	if(selected && cursor != null)
-    		g.drawImage(cursor, 0, 0, null);
-    }
-    
-    private void thisComponentResized(ComponentEvent evt) {
-		bgimage = Images.getImage(tile.getType().name(),this.getSize());
-		cursor = Images.getImage("SELECTED",this.getSize());
-    }
-    
+
+	public void paintComponent(Graphics g) {
+		bgimage = Images.getImage(game.getTileType(coords[0], coords[1]),
+				this.getSize());
+		cursor = Images.getImage("SELECTED", this.getSize());
+		if (bgimage != null)
+			g.drawImage(bgimage, 0, 0, null);
+		if (selected && cursor != null)
+			g.drawImage(cursor, 0, 0, null);
+	}
+
+	public int[] getCoords() {
+		return coords;
+	}
 }

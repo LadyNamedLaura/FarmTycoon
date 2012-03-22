@@ -24,4 +24,14 @@ public class Market implements TileState {
 		return StateList.MARKET;
 	}
 
+	@Override
+	public TileAction[] getActions() {
+		return null;
+	}
+
+	@Override
+	public TileState executeAction(TileAction action) {
+		return null;
+	}
+
 }

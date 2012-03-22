@@ -80,7 +80,11 @@ public class Translator {
 	 * @throws MissingResourceException
 	 */
 	public static String getString(String key) throws MissingResourceException {
-		return getBundle().getString(key);
+		try {
+			return getBundle().getString(key);
+		} catch (MissingResourceException e) {
+			return key;
+		}
 	}
 
 	/**

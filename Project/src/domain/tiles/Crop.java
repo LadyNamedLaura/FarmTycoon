@@ -88,4 +88,16 @@ public class Crop extends Savable implements TileState {
 	public StateList getStateType() {
 		return StateList.CROP;
 	}
+
+	@Override
+	public TileAction[] getActions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TileState executeAction(TileAction action) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -81,7 +81,6 @@ public class Farm extends Savable {
 
 	public Farm(int cash) {
 		this(cash, false);
-
 	}
 
 	/**
@@ -104,12 +103,19 @@ public class Farm extends Savable {
 	public int getCash() {
 		return cash;
 	}
-
+	
+	public void setCash(int cash){
+		this.cash = cash;
+	}
 	/**
 	 * @return the tiles
 	 */
 	public ArrayList<ArrayList<Tile>> getTiles() {
 		return tiles;
+	}
+	
+	public Tile getTile(int x, int y) {
+		return tiles.get(x).get(y);
 	}
 
 	/**

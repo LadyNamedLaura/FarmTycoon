@@ -69,4 +69,16 @@ public class Building extends Savable implements TileState {
 		return StateList.BUILDING;
 	}
 
+	@Override
+	public TileAction[] getActions() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TileState executeAction(TileAction action) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
