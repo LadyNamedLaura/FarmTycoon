@@ -37,7 +37,6 @@ public class SideBar extends javax.swing.JPanel {
 		}
 
 		private void execute() {
-			System.out.println("executing action :" + action.toString());
 			game.executeAction(oldselected, action);
 			gameScreen.drawn();
 		}

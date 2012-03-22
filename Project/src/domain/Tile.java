@@ -79,7 +79,6 @@ public class Tile extends Savable {
 			TileState tmp = state.executeAction(action);
 			if(tmp == null)
 				return false;
-			System.out.println("all good now");
 			Controller.getInstance().getGame().setCash(Controller.getInstance().getGame().getCash()-action.getCost());
 			this.state = tmp;
 			this.type = this.state.getStateType();

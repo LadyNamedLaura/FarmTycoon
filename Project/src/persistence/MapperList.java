@@ -77,12 +77,10 @@ public enum MapperList {
 		java.sql.Statement st = db.getConnection().createStatement();
 		ResultSet rs;
 		String update = "";
-		System.err.println("saving " + this.tablename + " with id = "
-				+ obj.getId());
-		Map<String, Object> values;
 		rs = st.executeQuery(String.format(
 				"SELECT COUNT(*) AS count FROM %s WHERE id = %d",
 				this.tablename, obj.getId()));
+		Map<String, Object> values;
 		values = mapper.save(obj);
 		if (rs.getInt("count") > 0) {
 			// ugly format black magic
@@ -114,8 +112,6 @@ public enum MapperList {
 	public void initIfNeed() throws SQLException {
 		java.sql.Statement st = db.getConnection().createStatement();
 		String update = "id INTEGER PRIMARY KEY";
-		System.err.println(this.name());
-		System.err.println(fields);
 		for (Map.Entry<String, String> e : this.fields.entrySet())
 			update += ", " + e.getKey() + " " + e.getValue();
 		st.executeUpdate(String.format("CREATE TABLE IF NOT EXISTS %s (%s)",
@@ -135,10 +131,8 @@ public enum MapperList {
 
 		Map<String, Object> data = new HashMap<String, Object>();
 		int count = meta.getColumnCount();
-		for (int i = 1; i <= count; i++) {
-			System.err.println(meta.getColumnName(i) + " : " + rs.getObject(i));
+		for (int i = 1; i <= count; i++)
 			data.put(meta.getColumnName(i), rs.getObject(i));
-		}
 		return mapper.load(data);
 	}
 

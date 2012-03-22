@@ -19,7 +19,6 @@ public class Images {
 		try {
 			img = ImageIO.read(Images.class.getClassLoader().getResource(
 					"ui/swing/images/tiles/" + name + ".png"));
-			System.out.println("image " + name + ".png loaded");
 		} catch (Exception e) {
 			try {
 				img = ImageIO.read(Images.class.getClassLoader().getResource(
