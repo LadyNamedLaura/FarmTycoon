@@ -10,7 +10,7 @@ import domain.tiles.StateList;
 public class Farm extends Savable {
 	public static final int width = 4;
 	public static final int height = 4;
-	private static final int STARTCASH = 100000;
+	private static final int STARTCASH = 1000;
 
 	private int cash;// EUR x 100
 	private ArrayList<ArrayList<Tile>> tiles = new ArrayList<ArrayList<Tile>>();

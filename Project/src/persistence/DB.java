@@ -9,9 +9,10 @@ public class DB {
 	/**
 	 * 
 	 * @throws DBConnectException
+	 * @throws SystemDBException 
 	 */
 	// constructor connects to database
-	public DB() throws DBConnectException {
+	public DB() throws DBConnectException, SystemDBException {
 		this("farmsave");
 	}
 
@@ -19,8 +20,9 @@ public class DB {
 	 * 
 	 * @param name
 	 * @throws DBConnectException
+	 * @throws SystemDBException 
 	 */
-	public DB(String name) throws DBConnectException {
+	public DB(String name) throws DBConnectException, SystemDBException {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			connection = java.sql.DriverManager.getConnection(String.format(
@@ -30,9 +32,9 @@ public class DB {
 			e.setDBName(name);
 			throw e;
 		}
-		// detect problems loading database driver
+		// detect problems loading database driver'
 		catch (ClassNotFoundException classNotFound) {
-			new SystemDBException();
+			throw new SystemDBException();
 		}
 	}
 

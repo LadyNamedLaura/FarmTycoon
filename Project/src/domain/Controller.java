@@ -2,7 +2,7 @@ package domain;
 
 import java.sql.SQLException;
 
-import exceptions.DBConnectException;
+import exceptions.*;
 
 public class Controller {
 	private static Controller instance;
@@ -19,18 +19,17 @@ public class Controller {
 			return persistence.PersistenceController.getInstance().saveExists();
 		} catch (DBConnectException e) {
 			e.printStackTrace();
+		} catch (SystemDBException e) {
+			e.printStackTrace();
 		}
 		return false;
 	}
 
 	public void loadGame() {
-		System.out.println("loading game...");
 		setGame(new Game(true));
-		System.out.println();
 	}
 
 	public void newGame() {
-		System.out.println("initializing new game");
 		setGame(new Game(false));
 		try {
 			game.save();
@@ -44,10 +43,27 @@ public class Controller {
 	}
 
 	public Clock getClock() {
-		return getGame().getClock();
+		try{
+			return getGame().getClock();
+		} catch (NullPointerException e){
+			throw new NoSuchGameException();
+		}
 	}
 
 	public void setGame(Game newgame) {
 		this.game = newgame;
+	}
+	public int[] getFarmSize(){
+		int [] ret = new int[2];
+		ret[0] = Farm.width;
+		ret[1] = Farm.height;
+		return ret;
+	}
+	public int getCash() throws NoSuchGameException{
+		try{
+			return this.game.getFarm().getCash();
+		} catch (NullPointerException e){
+			throw new NoSuchGameException();
+		}
 	}
 }

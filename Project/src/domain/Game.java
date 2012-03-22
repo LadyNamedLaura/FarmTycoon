@@ -1,6 +1,7 @@
 package domain;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class Game {
 	private Farm farm;
@@ -27,6 +28,20 @@ public class Game {
 
 	public Clock getClock() {
 		return clock;
+	}
+	
+	public int getCash() {
+		return farm.getCash();
+	}
+	public String[][] getTiles() {
+		String[][] tiles = new String[Farm.width][Farm.height];
+		ArrayList<ArrayList<Tile>> list = farm.getTiles();
+		for(int i=0; i< Farm.width;i++)
+			for(int j=0; j< Farm.height;j++) {
+				tiles[i][j] = list.get(i).get(j).getType().name();
+			}
+		
+		return tiles;
 	}
 
 	public void save() throws SQLException {

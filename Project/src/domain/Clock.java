@@ -19,8 +19,8 @@ import java.util.Date;
  * 
  */
 public class Clock extends Savable {
-	private static final long STARTTIME = 1325397600L; // 1 jan. 2012 6:00
-	public static final long SECONDSADAY = 86400;
+	private static final long STARTTIME = 1325419200000L; // 1 jan. 2012 6:00
+	public static final long MSECONDSADAY = 8640000L;
 	private double multiplier;
 	private long offset;
 
@@ -53,7 +53,7 @@ public class Clock extends Savable {
 	 * @param multiplier
 	 *            the multiplier to use in this clock.
 	 * @param offset
-	 *            the time this clock was started in seconds since unix epoch.
+	 *            the time this clock was started in milliseconds since unix epoch.
 	 */
 	public Clock(double multiplier, long offset) {
 		this.multiplier = multiplier;
@@ -79,11 +79,11 @@ public class Clock extends Savable {
 	/**
 	 * Gets the current game time.
 	 * 
-	 * @return the current game time in seconds since unix epoch.
+	 * @return the current game time in milliseconds since unix epoch.
 	 */
 	public long getTime() {
 		long delta = new Date().getTime() - offset;
-		return (long) (delta * multiplier) + STARTTIME;
+		return ((long) ((double) delta * multiplier)) + STARTTIME;
 	}
 
 	/**
@@ -129,12 +129,16 @@ public class Clock extends Savable {
 	public void setTime(Date date) {
 		setTime(date.getTime());
 	}
+	
+	public void skipDay() {
+		this.setOffset(this.getOffset()-MSECONDSADAY);
+	}
 
 	/**
 	 * set the current in game time to the date passed
 	 * 
 	 * @param date
-	 *            the new in game time in seconds since unix epoch
+	 *            the new in game time in milliseconds since unix epoch
 	 */
 	public void setTime(long time) {
 		this.offset = new Date().getTime()

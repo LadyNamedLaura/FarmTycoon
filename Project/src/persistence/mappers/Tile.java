@@ -5,16 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Tile implements persistence.Mapper {
-	@SuppressWarnings("serial")
-	private static final Map<String, String> fields = new HashMap<String, String>() {
-		{
-			put("x", "INT");
-			put("y", "INT");
-			put("state", "TEXT");
-			put("stateid", "INT");
-		}
-	};
-
 	public domain.Tile load(Map<String, Object> data) {
 		domain.TileState state;
 		if ((Integer) data.get("stateid") == -1) {
@@ -50,6 +40,11 @@ public class Tile implements persistence.Mapper {
 	}
 
 	public Map<String, String> getFields() {
+		Map<String, String> fields = new HashMap<String, String>();
+		fields.put("x", "INT");
+		fields.put("y", "INT");
+		fields.put("state", "TEXT");
+		fields.put("stateid", "INT");
 		return fields;
 	}
 }

@@ -73,7 +73,7 @@ public class Crop extends Savable implements TileState {
 	}
 
 	public boolean isReady() {
-		return ((planted.getTime() + (Clock.SECONDSADAY * crop.growdays)) < Controller
+		return ((planted.getTime() + (Clock.MSECONDSADAY * crop.growdays)) < Controller
 				.getInstance().getClock().getTime());
 	}
 

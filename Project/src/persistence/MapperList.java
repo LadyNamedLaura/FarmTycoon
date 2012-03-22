@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import exceptions.DBConnectException;
+import exceptions.SystemDBException;
 
 /**
  * Enum containing all information needed to save Savable objects to the
@@ -52,6 +53,9 @@ public enum MapperList {
 		try {
 			this.db = PersistenceController.getInstance().getDB();
 		} catch (DBConnectException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SystemDBException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -102,7 +106,7 @@ public enum MapperList {
 
 	public void init() throws SQLException {
 		java.sql.Statement st = db.getConnection().createStatement();
-		st.executeUpdate(String.format("DROP RABLE IF EXISTS %s",
+		st.executeUpdate(String.format("DROP TABLE IF EXISTS %s",
 				this.tablename));
 		this.initIfNeed();
 	}

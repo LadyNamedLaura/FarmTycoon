@@ -4,13 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Farm implements persistence.Mapper {
-	@SuppressWarnings("serial")
-	private static final Map<String, String> fields = new HashMap<String, String>() {
-		{
-			put("cash", "INT");
-		}
-	};
-
 	public domain.Farm load(Map<String, Object> data) {
 		return new domain.Farm((Integer) data.get("cash"), true);
 	}
@@ -23,6 +16,8 @@ public class Farm implements persistence.Mapper {
 	}
 
 	public Map<String, String> getFields() {
+		Map<String, String> fields = new HashMap<String, String>();
+		fields.put("cash", "INT");
 		return fields;
 	}
 }
