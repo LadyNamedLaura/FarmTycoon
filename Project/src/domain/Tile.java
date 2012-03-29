@@ -1,28 +1,19 @@
 package domain;
 
+import java.util.Map;
+import java.util.TreeMap;
+
 import domain.tiles.StateList;
 import domain.tiles.TileAction;
 
 public class Tile extends Savable {
+	private static TreeMap<Long,Tile> expiryMap = new TreeMap<Long,Tile>();
+
+	private long expiryTime;
 	private int xcoord;
 	private int ycoord;
 	private TileState state;
 	private StateList type;
-
-	/**
-	 * @return the state
-	 */
-	public TileState getState() {
-		return state;
-	}
-
-	/**
-	 * @param state
-	 *            the state to set
-	 */
-	public void setState(TileState state) {
-		this.state = state;
-	}
 
 	public Tile(int x, int y) {
 		this(x, y, StateList.NONE.getNew());
@@ -33,9 +24,27 @@ public class Tile extends Savable {
 	}
 
 	public Tile(int x, int y, TileState state) {
+		this(x, y, state, state.getExpiryTime());
+	}
+
+	public Tile(int x, int y, TileState state, long expiryTime) {
 		xcoord = x;
 		ycoord = y;
 		this.type = state.getStateType();
+		this.state = state;
+		this.expiryTime = expiryTime;
+		if (expiryTime > 0) {
+			while(expiryMap.get(expiryTime) != null) //almost imposible
+				expiryTime++;
+			expiryMap.put(expiryTime, this);
+		}
+	}
+
+	/**
+	 * @param state
+	 *            the state to set
+	 */
+	public void setState(TileState state) {
 		this.state = state;
 	}
 
@@ -70,6 +79,22 @@ public class Tile extends Savable {
 	}
 
 	/**
+	 * Gets the expireyTime for this instance.
+	 *
+	 * @return The expireyTime.
+	 */
+	public long getExpiryTime() {
+		return this.expiryTime;
+	}
+
+	/**
+	 * @return the state
+	 */
+	public TileState getState() {
+		return state;
+	}
+
+	/**
 	 * @param action
 	 * @return
 	 * @see domain.TileState#executeAction(domain.tiles.TileAction)
@@ -82,10 +107,25 @@ public class Tile extends Savable {
 			Controller.getInstance().getGame().setCash(Controller.getInstance().getGame().getCash()-action.getCost());
 			this.state = tmp;
 			this.type = this.state.getStateType();
+			this.expiryTime = state.getExpiryTime();
+			if (expiryTime > 0) {
+				while(expiryMap.get(expiryTime) != null) //almost imposible
+					expiryTime++;
+				expiryMap.put(expiryTime, this);
+			}
 			return true;
 		}catch(Exception e){
 			e.printStackTrace();
 			return false;
 		}
 	}
+
+	public static void update() {
+		Map<Long,Tile> expiredMap = expiryMap.headMap(
+				domain.Game.getGame().getClock().getTime());
+		for (Map.Entry<Long, Tile> entry : expiredMap.entrySet()) {
+			expiryMap.remove(entry.getKey());
+			entry.getValue().executeAction(TileAction.Defaults.EXPIRE);
+		}
+	} 
 }
