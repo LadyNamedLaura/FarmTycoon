@@ -77,6 +77,18 @@ public class Game {
 		return farm.getTile(x,y).executeAction(action);
 	}
 
+	public void skipDay() {
+		clock.skipDay();
+	}
+
+	public void speedUp() {
+		clock.setMultiplier(clock.getMultiplier()*2);
+	}
+
+	public void slowDown() {
+		clock.setMultiplier(clock.getMultiplier()/2);
+	}
+
 	public static Game getGame() {
 		return current;
 	}

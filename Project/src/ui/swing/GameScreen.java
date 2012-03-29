@@ -1,5 +1,7 @@
 package ui.swing;
 
+import java.awt.FlowLayout;
+
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -38,6 +40,10 @@ public class GameScreen extends javax.swing.JFrame {
 	private JButton saveButton;
 	private JLabel moneyLabel;
 	private JPanel toolBarPanel;
+	private JLabel timeSkip;
+	private JLabel timeSlowDown;
+	private JLabel timeSpeedUp;
+	private JPanel timeController;
 	private JPanel contentPanel;
 	private JLabel timeLabel;
 	private JToolBar toolBar;
@@ -80,8 +86,8 @@ public class GameScreen extends javax.swing.JFrame {
 					toolBar.add(toolBarPanel);
 					toolBarPanel.setPreferredSize(new java.awt.Dimension(104,
 							27));
-					toolBarPanelLayout.rowWeights = new double[] { 0.1 };
-					toolBarPanelLayout.rowHeights = new int[] { 7 };
+					toolBarPanelLayout.rowWeights = new double[] { 0.1, 0.1 };
+					toolBarPanelLayout.rowHeights = new int[] { 7, 7 };
 					toolBarPanelLayout.columnWeights = new double[] { 0.1, 0.1,
 							0.1 };
 					toolBarPanelLayout.columnWidths = new int[] { 7, 7, 7 };
@@ -89,10 +95,7 @@ public class GameScreen extends javax.swing.JFrame {
 					toolBarPanel.setOpaque(false);
 					{
 						saveButton = new JButton();
-						toolBarPanel.add(saveButton, new GridBagConstraints(0,
-								0, 1, 1, 0.0, 0.0, GridBagConstraints.WEST,
-								GridBagConstraints.VERTICAL, new Insets(0, 0,
-										0, 0), 0, 0));
+						toolBarPanel.add(saveButton, new GridBagConstraints(0, 0, 1, 2, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.VERTICAL, new Insets(0, 0, 0, 0), 0, 0));
 						saveButton.setText("Save");
 						saveButton.setPreferredSize(new java.awt.Dimension(50,
 								40));
@@ -109,19 +112,51 @@ public class GameScreen extends javax.swing.JFrame {
 					}
 					{
 						timeLabel = new JLabel();
-						toolBarPanel.add(timeLabel, new GridBagConstraints(1,
-								0, 1, 1, 0.0, 0.0, GridBagConstraints.CENTER,
-								GridBagConstraints.VERTICAL, new Insets(0, 0,
-										0, 0), 0, 0));
+						toolBarPanel.add(timeLabel, new GridBagConstraints(0, 0, 3, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.VERTICAL, new Insets(0, 0, 0, 0), 0, 0));
 						timeLabel.setText("time");
 					}
 					{
 						moneyLabel = new JLabel();
-						toolBarPanel.add(moneyLabel, new GridBagConstraints(2,
-								0, 1, 1, 0.0, 0.0, GridBagConstraints.EAST,
-								GridBagConstraints.VERTICAL, new Insets(0, 0,
-										0, 0), 0, 0));
-						moneyLabel.setText("tile02");
+						toolBarPanel.add(moneyLabel, new GridBagConstraints(2, 0, 1, 2, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.VERTICAL, new Insets(0, 0, 0, 0), 0, 0));
+						moneyLabel.setText("€ ??");
+					}
+					{
+						timeController = new JPanel();
+						FlowLayout timeControllerLayout = new FlowLayout();
+						timeControllerLayout.setHgap(10);
+						toolBarPanel.add(timeController, new GridBagConstraints(0, 1, 3, 1, 0.0, 0.0, GridBagConstraints.SOUTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
+						timeController.setLayout(timeControllerLayout);
+						timeController.setOpaque(false);
+						{
+							timeSlowDown = new JLabel();
+							timeController.add(timeSlowDown);
+							timeSlowDown.setText(" << ");
+							timeSlowDown.addMouseListener(new MouseAdapter() {
+								public void mouseClicked(MouseEvent evt) {
+									game.slowDown();
+								}
+							});
+						}
+						{
+							timeSkip = new JLabel();
+							timeController.add(timeSkip);
+							timeSkip.setText(" >>| ");
+							timeSkip.addMouseListener(new MouseAdapter() {
+								public void mouseClicked(MouseEvent evt) {
+									game.skipDay();
+								}
+							});
+						}
+						{
+							timeSpeedUp = new JLabel();
+							timeController.add(timeSpeedUp);
+							timeSpeedUp.setText(" >> ");
+							timeSpeedUp.addMouseListener(new MouseAdapter() {
+								public void mouseClicked(MouseEvent evt) {
+									game.speedUp();
+								}
+							});
+						}
 					}
 				}
 			}

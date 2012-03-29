@@ -29,7 +29,7 @@ public class Clock extends Savable {
 	 * starting at January 1st 2012 at 6:00 The multiplier is set to 1
 	 */
 	public Clock() {
-		this(144);
+		this(1);
 	}
 
 	/**
