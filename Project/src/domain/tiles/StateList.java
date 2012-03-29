@@ -3,11 +3,13 @@ package domain.tiles;
 import domain.TileState;
 
 public enum StateList {
-	NONE(None.class), PLOWING(Plowing.class),
-	// PLOWED(null),
+	NONE(None.class),
+	PLOWING(Plowing.class),
+	PLOWED(Plowed.class),
 	CROP(Crop.class),
 	// ANIMAL(Animal.class),
-	BUILDING(Building.class), MARKET(Market.class);
+	BUILDING(Building.class),
+	MARKET(Market.class);
 
 	Class<? extends TileState> type;
 

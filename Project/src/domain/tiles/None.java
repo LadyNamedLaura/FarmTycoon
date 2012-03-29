@@ -45,4 +45,9 @@ public class None implements TileState {
 		}
 		return null;
 	}
+
+	@Override
+	public long getExpiryTime() {
+		return 0;
+	}
 }

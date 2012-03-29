@@ -81,4 +81,8 @@ public class Building extends Savable implements TileState {
 		return null;
 	}
 
+	public long getExpiryTime() {
+		return 0;
+	}
+
 }

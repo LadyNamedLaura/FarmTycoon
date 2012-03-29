@@ -34,4 +34,9 @@ public class Market implements TileState {
 		return null;
 	}
 
+	@Override
+	public long getExpiryTime() {
+		return 0;
+	}
+
 }

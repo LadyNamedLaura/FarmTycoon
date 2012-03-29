@@ -7,8 +7,10 @@ import domain.tiles.TileAction;
 public class Game {
 	private Farm farm;
 	private Clock clock;
+	private static Game current;
 
 	public Game(boolean load) {
+		current=this;
 		if (load) {
 			try {
 				clock = (Clock) Clock.load(Clock.class, 0);
@@ -73,5 +75,9 @@ public class Game {
 	}
 	public boolean executeAction(int x,int y, TileAction action) {
 		return farm.getTile(x,y).executeAction(action);
+	}
+
+	public static Game getGame() {
+		return current;
 	}
 }

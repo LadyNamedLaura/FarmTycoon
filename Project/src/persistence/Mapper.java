@@ -18,13 +18,6 @@ public interface Mapper {
 	 *            a Map containing the database data of the object to load.
 	 * @return the Savable object generated from the database data.
 	 * @throws SQLException
-	 * @throws IllegalArgumentException
-	 * @throws SecurityException
-	 * @throws InstantiationException
-	 * @throws IllegalAccessException
-	 * @throws NoSuchMethodException
-	 * @throws ClassNotFoundException
-	 * @throws InvocationTargetException
 	 */
 	public abstract domain.Savable load(Map<String, Object> data)
 			throws SQLException;
@@ -42,5 +35,13 @@ public interface Mapper {
 	public abstract Map<String, Object> save(domain.Savable obj)
 			throws SQLException;
 
+	/**
+	 * Method which returns which database fields are needed for the given type.
+	 * Returns a {@code <"columnname","sqltype">} Map containing an entry for
+	 * every database field needed, except for the id, which is always implicitly
+	 * created
+	 *
+	 * @return a <"columnname","sqltype"> Map containing the fields.
+	 */
 	public abstract Map<String, String> getFields();
 }

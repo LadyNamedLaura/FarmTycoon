@@ -64,7 +64,7 @@ public class Crop extends Savable implements TileState {
 	}
 
 	public Crop(String type, Date planted) {
-		crop = CropList.valueOf(type);
+		this.crop = CropList.valueOf(type);
 		this.planted = planted;
 	}
 
@@ -100,4 +100,10 @@ public class Crop extends Savable implements TileState {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public long getExpiryTime() {
+		return planted.getTime() + (Clock.MSECONDSADAY * crop.growdays);
+	}
+
 }

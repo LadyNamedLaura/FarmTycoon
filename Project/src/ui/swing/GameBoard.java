@@ -49,6 +49,7 @@ public class GameBoard extends javax.swing.JPanel {
 		}
 	}
 	public void update() {
+		domain.Tile.update();
 		for (TilePanel[] list:tiles)
 			for (TilePanel tile:list)
 				tile.update();
