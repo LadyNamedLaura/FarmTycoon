@@ -8,37 +8,27 @@ import domain.Savable;
 import domain.TileState;
 
 public class Crop extends Savable implements TileState {
+	private enum State {
+		GROWING, READY, ROTTEN;
+	}
 	private enum CropList {
-		CARROT(2, 200, 400), RASPBERRY(4, 100, 500);
+		PATATO		(  2,  10,  20),
+		CARROT		(  3,  15,  30),
+		WHEAT		(  4,  20,  40),
+		CORN		(  5,  30,  60),
+		GRAPE		(  6,  40,  80),
+		SALAD		(  7,  50,  90),
+		TOMATO		(  8,  60, 110),
+		STRAWBERRY	(  9,  80, 145),
+		RASPBERRY	( 10, 100, 190),
+		COCOA		( 11, 120, 220),
+		SOY		( 12, 150, 290);
 
-		public final int growdays;
-		public final int seedprice;
+		public final int growdays, seedprice, marketprice;
 
-		/**
-		 * @return the growdays
-		 */
-		@SuppressWarnings("unused")
-		public int getGrowdays() {
-			return growdays;
-		}
-
-		/**
-		 * @return the seedprice
-		 */
-		@SuppressWarnings("unused")
-		public int getSeedprice() {
-			return seedprice;
-		}
-
-		/**
-		 * @return the marketprice
-		 */
-		@SuppressWarnings("unused")
-		public int getMarketprice() {
-			return marketprice;
-		}
-
-		public final int marketprice;
+		public int getGrowdays() 	{return growdays;}
+		public int getSeedprice() 	{return seedprice;}
+		public int getMarketprice()	{return marketprice;}
 
 		private CropList(int growdays, int seedprice, int marketprice) {
 			this.growdays = growdays;
@@ -47,7 +37,23 @@ public class Crop extends Savable implements TileState {
 		}
 	}
 
+	private enum Actions implements TileAction {
+		CLEAR(0, 20), 
+		HARVEST(0, 0);
+
+		private int time, cost;
+
+		public int getCost() {return cost;}
+		public int getTime() {return time;}
+
+		Actions(int time, int cost) {
+			this.time = time;
+			this.cost = cost;
+		}
+	}
+
 	private CropList crop;
+	private State state;
 	private Date planted;
 
 	public Crop(String type) {
@@ -91,19 +97,42 @@ public class Crop extends Savable implements TileState {
 
 	@Override
 	public TileAction[] getActions() {
-		// TODO Auto-generated method stub
-		return null;
+		switch(state) {
+		case READY:	return new TileAction[]{Actions.CLEAR, Actions.HARVEST};
+		case GROWING:
+		case ROTTEN:	return new TileAction[]{Actions.CLEAR};
+		default:	return null;
+		}
 	}
 
 	@Override
 	public TileState executeAction(TileAction action) {
-		// TODO Auto-generated method stub
+		if((TileAction.Defaults) action == TileAction.Defaults.EXPIRE) {
+			switch(state) {
+			case GROWING:	this.state=State.READY;  break;
+			case READY:	this.state=State.ROTTEN; break;
+			default:	return null;
+			}
+			return this;
+		}
+		if((Actions) action == Actions.CLEAR) {
+			return new None();
+		}
+		if( this.state == State.READY && (Actions) action == Actions.HARVEST) {
+			domain.Game.getGame().setCash(
+					domain.Game.getGame().getCash()+crop.getMarketprice());
+			return new None();
+		}
 		return null;
 	}
 
 	@Override
 	public long getExpiryTime() {
-		return planted.getTime() + (Clock.MSECONDSADAY * crop.growdays);
+		switch(state) {
+		case GROWING:	return planted.getTime() + (Clock.MSECONDSADAY * crop.growdays);
+		case READY:	return planted.getTime() + (Clock.MSECONDSADAY * crop.growdays * 3 / 2);
+		default:	return 0;
+		}
 	}
 
 }

@@ -20,7 +20,7 @@ import java.util.Date;
  */
 public class Clock extends Savable {
 	private static final long STARTTIME = 1325419200000L; // 1 jan. 2012 6:00
-	public static final long MSECONDSADAY = 8640000L;
+	public static final long MSECONDSADAY = 86400000L;
 	private double multiplier;
 	private long offset;
 
