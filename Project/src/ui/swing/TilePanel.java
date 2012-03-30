@@ -3,6 +3,8 @@ package ui.swing;
 import java.awt.Graphics;
 import java.awt.Image;
 
+import domain.Coordinate;
+
 /**
  * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI
  * Builder, which is free for non-commercial use. If Jigloo is being used
@@ -16,7 +18,7 @@ import java.awt.Image;
 @SuppressWarnings("serial")
 public class TilePanel extends javax.swing.JPanel {
 	private domain.Game game;
-	private int[] coords = new int[2];
+	private Coordinate coords;
 	private Image bgimage;
 	private static Image cursor;
 	public boolean selected = false;
@@ -30,8 +32,7 @@ public class TilePanel extends javax.swing.JPanel {
 	TilePanel(domain.Game game, int x, int y) {
 		super();
 		this.game = game;
-		this.coords[0] = x;
-		this.coords[1] = y;
+		this.coords = new Coordinate(x,y);
 		initGUI();
 		update();
 	}
@@ -44,7 +45,7 @@ public class TilePanel extends javax.swing.JPanel {
 	}
 
 	public void paintComponent(Graphics g) {
-		bgimage = Images.getImage(game.getTileType(coords[0], coords[1]),
+		bgimage = Images.getImage(game.getTileType(coords),
 				this.getSize());
 		cursor = Images.getImage("SELECTED", this.getSize());
 		if (bgimage != null)
@@ -53,7 +54,7 @@ public class TilePanel extends javax.swing.JPanel {
 			g.drawImage(cursor, 0, 0, null);
 	}
 
-	public int[] getCoords() {
+	public Coordinate getCoords() {
 		return coords;
 	}
 }

@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 import ui.Translator;
 
+import domain.Coordinate;
 import domain.Game;
 
 public class SideBar extends javax.swing.JPanel {
@@ -20,7 +21,7 @@ public class SideBar extends javax.swing.JPanel {
 	private JLabel selectedName;
 	private Game game;
 	private GameScreen gameScreen;
-	private int[] oldselected;
+	private Coordinate oldselected;
 	private JPanel actionsPanel;
 
 	private class ActionButton extends JLabel {

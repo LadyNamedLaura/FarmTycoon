@@ -115,7 +115,10 @@ public class Farm extends Savable {
 	}
 	
 	public Tile getTile(int x, int y) {
-		return tiles.get(x).get(y);
+		return getTile(new Coordinate(x,y));
+	}
+	public Tile getTile(Coordinate coord) {
+		return tiles.get(coord.getX()).get(coord.getY());
 	}
 
 	/**

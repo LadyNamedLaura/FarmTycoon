@@ -231,6 +231,6 @@ public class GameScreen extends javax.swing.JFrame {
 	}
 
 	public String getSelectedType() {
-		return game.getTileType(selectedPanel.getCoords()[0],selectedPanel.getCoords()[1]);
+		return game.getTileType(selectedPanel.getCoords());
 	}
 }
