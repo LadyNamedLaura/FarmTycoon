@@ -28,8 +28,11 @@ public class Tile extends Savable {
 	}
 
 	public Tile(int x, int y, TileState state, long expiryTime) {
-		xcoord = x;
-		ycoord = y;
+		this(new Coordinate(x,y), state, expiryTime);
+	}
+	public Tile(Coordinate coord, TileState state, long expiryTime) {
+		xcoord = coord.getX();
+		ycoord = coord.getY();
 		this.type = state.getStateType();
 		this.state = state;
 		this.expiryTime = expiryTime;
