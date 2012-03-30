@@ -129,7 +129,7 @@ public class Crop extends Savable implements TileState {
 	@Override
 	public long getExpiryTime() {
 		switch(state) {
-		case GROWING:	return planted.getTime() + (Clock.MSECONDSADAY * crop.growdays);
+		case GROWING:	return planted.getTime() + (Clock.MSECONDSADAY * crop.getGrowdays());
 		case READY:	return planted.getTime() + (Clock.MSECONDSADAY * crop.growdays * 3 / 2);
 		default:	return 0;
 		}
