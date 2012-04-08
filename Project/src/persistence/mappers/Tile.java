@@ -31,8 +31,8 @@ public class Tile implements persistence.Mapper {
 	public Map<String, Object> save(domain.Savable obj) throws SQLException {
 		domain.Tile tile = (domain.Tile) obj;
 		Map<String, Object> ret = new HashMap<String, Object>();
-		ret.put("x", tile.getCoords()[0]);
-		ret.put("y", tile.getCoords()[1]);
+		ret.put("x", tile.getCoordinate().getX());
+		ret.put("y", tile.getCoordinate().getY());
 		ret.put("expiryTime", (Long) tile.getExpiryTime());
 		ret.put("state", "'" + tile.getState().getStateType().name() + "'");
 		if (tile.getState() instanceof domain.Savable) {

@@ -42,10 +42,9 @@ public class Game {
 	}
 
 	public String[][] getTiles() {
-		String[][] tiles = new String[Farm.width][Farm.height];
-		for (int i = 0; i < Farm.width; i++)
-			for (int j = 0; j < Farm.height; j++)
-				tiles[i][j] = getTileType(i, j);
+		String[][] tiles = new String[farm.getWidth()][farm.getHeight()];
+		for (Coordinate i :Coordinate.getCoordSet(new Coordinate(0, 0),Farm.size))
+			tiles[i.getX()][i.getY()] = getTileType(i);
 
 		return tiles;
 	}

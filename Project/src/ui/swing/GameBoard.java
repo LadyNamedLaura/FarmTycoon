@@ -6,11 +6,15 @@ import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import domain.Game;
+import domain.Coordinate;
 
 public class GameBoard extends javax.swing.JPanel {
 	private Game game;
-	private TilePanel[][] tiles;
+	private Map<Coordinate,TilePanel> tiles = new HashMap<Coordinate,TilePanel>();
 	private GameScreen gameScreen;
 
 	public GameBoard(domain.Game game, GameScreen gameScreen) {
@@ -28,20 +32,18 @@ public class GameBoard extends javax.swing.JPanel {
 			layout.columnWeights = new double[] { 0.1, 0.1, 0.1, 0.1 };
 			layout.columnWidths = new int[] { 7, 7, 7, 7 };
 			this.setLayout(layout);
-			tiles = new TilePanel[domain.Farm.width][domain.Farm.height];
-			for (int i = 0; i < domain.Farm.width; i++) {
-				for (int j = 0; j < domain.Farm.height; j++) {
-					TilePanel tile = new TilePanel(game,i,j);
-					this.add(tile, new GridBagConstraints(i, j, 1, 1, 0.0, 0.0,
-							GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-							new Insets(0, 0, 0, 0), 0, 0));
-					tile.addMouseListener(new MouseAdapter() {
-						public void mouseClicked(MouseEvent evt) {
-							gameScreen.select((TilePanel) evt.getComponent());
-						}
-					});
-					tiles[i][j] = tile;
-				}
+			for (Coordinate i : Coordinate.getCoordSet(new Coordinate(0,0),
+						domain.Farm.size)) {
+				TilePanel tile = new TilePanel(game,i);
+				this.add(tile, new GridBagConstraints(i.getX(), i.getY(), 1, 1, 0.0, 0.0,
+						GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+						new Insets(0, 0, 0, 0), 0, 0));
+				tile.addMouseListener(new MouseAdapter() {
+					public void mouseClicked(MouseEvent evt) {
+						gameScreen.select((TilePanel) evt.getComponent());
+					}
+				});
+				tiles.put(i,tile);
 			}
 
 		} catch (Exception e) {
@@ -50,9 +52,8 @@ public class GameBoard extends javax.swing.JPanel {
 	}
 	public void update() {
 		domain.Tile.update();
-		for (TilePanel[] list:tiles)
-			for (TilePanel tile:list)
-				tile.update();
+		for (TilePanel tile : tiles.values())
+			tile.update();
 	}
 
 }

@@ -104,8 +104,9 @@ public class Clock extends Savable {
 	 */
 	public void setMultiplier(double multiplier) {
 		// recalculate offset
-		this.offset = (long) (((new Date().getTime() * (multiplier - this.multiplier)) + this.offset
-				* this.multiplier) / multiplier);
+		this.offset = (long) ((
+				( new Date().getTime() * (multiplier - this.multiplier))
+				+ this.offset * this.multiplier) / multiplier);
 		this.multiplier = multiplier;
 	}
 
@@ -129,11 +130,6 @@ public class Clock extends Savable {
 	public void setTime(Date date) {
 		setTime(date.getTime());
 	}
-	
-	public void skipDay() {
-		this.setOffset(this.getOffset()-MSECONDSADAY);
-	}
-
 	/**
 	 * set the current in game time to the date passed
 	 * 
@@ -143,5 +139,9 @@ public class Clock extends Savable {
 	public void setTime(long time) {
 		this.offset = new Date().getTime()
 				- (long) ((time - STARTTIME) / multiplier);
+	}
+	
+	public void skipDay() {
+		this.setTime(this.getTime()+MSECONDSADAY);
 	}
 }

@@ -1,30 +1,74 @@
 package domain;
 
+import java.util.ArrayList;
+import java.util.Collection;
 
+/**
+ * Type for defining Coordinates.
+ *
+ * @author Rigès De Witte
+ * @author Simon Peeters
+ * @author Barny Pieters
+ * @author Laurens Van Damme
+ * 
+ */
 
 public class Coordinate {
-	private int x;
-	private int y;
+	private short x;
+	private short y;
 
+	/**
+	 * Create a new coordinate object with coordinates x and y
+	 */
 	public Coordinate(int x, int y) {
+		this((short) x,(short) y); }
+	public Coordinate(short x, short y) {
 		setX(x);
-		setY(y);
+		setY(y); }
+
+	/**
+	 * Set the X value for this coordinate object.
+	 */
+	public void setX(short x) { this.x = x; }
+	/**
+	 * Set the y value for this coordinate object.
+	 */
+	public void setY(short y) { this.y = y; }
+	/**
+	 * Get the X value for this coordinate object.
+	 */
+	public short getX() { return x; }
+	/**
+	 * Get the y value for this coordinate object.
+	 */
+	public short getY() { return y; }
+
+	@Override
+	public int hashCode() {
+		return ( getY() << 16 ) | ( getX() & 0xFFFF );
 	}
 
-	public void setX(int x) {
-		this.x = x;
+	@Override
+	public boolean equals(Object obj) {
+		return obj.hashCode() == hashCode();
 	}
 
-	public int getX() {
-		return x;
+	/**
+	 * Reconstruct a coordinate from a given hash
+	 */
+	public static Coordinate forHash(int hash) {
+		short x = (short) (hash >> 16);
+		short y = (short) (hash & 0xFFFF);
+		return new Coordinate(x,y);
 	}
-
-	public void setY(int y) {
-		this.y = y;
+	/**
+	 * Get a collection containing Coordinates from 'from' to 'to' in a rectangle
+	 */
+	public static Collection<Coordinate> getCoordSet(Coordinate from, Coordinate to) {
+		ArrayList<Coordinate> ret = new ArrayList<Coordinate>();
+		for (short i = from.getX(); i < to.getX(); i++)
+			for (short j = from.getY(); j < to.getY(); j++)
+				ret.add(new Coordinate(i, j));
+		return ret;
 	}
-
-	public int getY() {
-		return y;
-	}
-
 }

@@ -3,11 +3,13 @@ package domain.tiles;
 import java.util.Date;
 
 import domain.Clock;
-import domain.Controller;
+import domain.Game;
 import domain.Savable;
 import domain.TileState;
 
 public class Crop extends Savable implements TileState {
+	public StateList getStateType() {return StateList.CROP;	}
+
 	private enum State {
 		GROWING, READY, ROTTEN;
 	}
@@ -57,7 +59,7 @@ public class Crop extends Savable implements TileState {
 	private Date planted;
 
 	public Crop(String type) {
-		this(type, Controller.getInstance().getClock().getDate());
+		this(type, Game.getGame().getClock().getDate());
 	}
 
 	public Crop(String type, long planted) {
@@ -78,11 +80,6 @@ public class Crop extends Savable implements TileState {
 		return CropList.values();
 	}
 
-	public boolean isReady() {
-		return ((planted.getTime() + (Clock.MSECONDSADAY * crop.growdays)) < Controller
-				.getInstance().getClock().getTime());
-	}
-
 	public String getType() {
 		return crop.name();
 	}
@@ -91,9 +88,7 @@ public class Crop extends Savable implements TileState {
 		return this.planted;
 	}
 
-	public StateList getStateType() {
-		return StateList.CROP;
-	}
+
 
 	@Override
 	public TileAction[] getActions() {
@@ -134,5 +129,4 @@ public class Crop extends Savable implements TileState {
 		default:	return 0;
 		}
 	}
-
 }

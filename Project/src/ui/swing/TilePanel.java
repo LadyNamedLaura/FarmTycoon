@@ -30,9 +30,12 @@ public class TilePanel extends javax.swing.JPanel {
 	}
 
 	TilePanel(domain.Game game, int x, int y) {
+		this(game, new Coordinate(x,y));
+	}
+	TilePanel(domain.Game game, Coordinate coord) {
 		super();
 		this.game = game;
-		this.coords = new Coordinate(x,y);
+		this.coords = coord;
 		initGUI();
 		update();
 	}

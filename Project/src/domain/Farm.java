@@ -3,17 +3,18 @@ package domain;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Map;
+import java.util.HashMap;
 
 import domain.tiles.Market;
 import domain.tiles.StateList;
 
 public class Farm extends Savable {
-	public static final int width = 4;
-	public static final int height = 4;
+	public static final Coordinate size = new Coordinate(4,4);
 	private static final int STARTCASH = 1000;
 
-	private int cash;// EUR x 100
-	private ArrayList<ArrayList<Tile>> tiles = new ArrayList<ArrayList<Tile>>();
+	private int cash;
+	private Map<Coordinate,Tile> tileMap = new HashMap<Coordinate,Tile>();
 	private Market market = null;
 	private ArrayList<Creature> creatures;
 	private Farmer farmer;
@@ -22,52 +23,38 @@ public class Farm extends Savable {
 		this(STARTCASH);
 	}
 
+	public Farm(int cash) {
+		this(cash, false);
+	}
+
 	public Farm(int cash, boolean loadTiles) {
-		tiles.ensureCapacity(width);
-		for (int i = 0; i < width; i++) {
-			tiles.add(i, new ArrayList<Tile>());
-			tiles.get(i).ensureCapacity(height);
-			for (int j = 0; j < height; j++) {
-				if (loadTiles)
-					try {
-						tiles.get(i).add(j,
-								(Tile) Tile.load(Tile.class, (i * 10) + j));
-						TileState state = tiles.get(i).get(j).getState();
-						if (state instanceof Market)
-							this.market = (Market) state;
-					} catch (Exception e) {
-						e.printStackTrace();
-						tiles.get(i).add(j, new Tile(i, j));
-					}
-				else
-					tiles.get(i).add(j, new Tile(i, j));
-			}
+		for (Coordinate i : Coordinate.getCoordSet(new Coordinate(0,0),size)) {
+			if (loadTiles)
+				try {
+					tileMap.put(i, (Tile) Tile.load(
+						Tile.class, (i.hashCode())));
+					TileState state = tileMap.get(i).getState();
+					if (state instanceof Market)
+						this.market = (Market) state;
+				} catch (Exception e) {
+					e.printStackTrace();
+					tileMap.put(i, new Tile(i));
+				}
+			else
+				tileMap.put(i, new Tile(i));
 		}
 		this.cash = cash;
 		this.farmer = new Farmer();
 		if (this.market == null) {
-			switch (new Random().nextInt(4)) {
-			case 0:
-				this.tiles.get(0).get(0).setType(StateList.MARKET);
-				this.market = (Market) this.tiles.get(0).get(0).getState();
-				break;
-			case 1:
-				this.tiles.get(width - 1).get(0).setType(StateList.MARKET);
-				this.market = (Market) this.tiles.get(width - 1).get(0)
-						.getState();
-				break;
-			case 2:
-				this.tiles.get(width - 1).get(height - 1)
-						.setType(StateList.MARKET);
-				this.market = (Market) this.tiles.get(width - 1)
-						.get(height - 1).getState();
-				break;
-			case 3:
-				this.tiles.get(0).get(height - 1).setType(StateList.MARKET);
-				this.market = (Market) this.tiles.get(0).get(height - 1)
-						.getState();
-				break;
-			}
+			Coordinate[] mcoord = {
+				new Coordinate(0,0),
+				new Coordinate(0,size.getY()-1),
+				new Coordinate(size.getX()-1,0),
+				new Coordinate(size.getX()-1,size.getY()-1)};
+			int i = new Random().nextInt(4);
+
+			this.tileMap.get(mcoord[i]).setType(StateList.MARKET);
+			this.market = (Market) this.tileMap.get(mcoord[i]).getState();
 			if (this.market == null) {
 				throw new java.lang.NullPointerException(
 						"failed to create market");
@@ -79,22 +66,18 @@ public class Farm extends Savable {
 
 	}
 
-	public Farm(int cash) {
-		this(cash, false);
-	}
-
 	/**
 	 * @return the width
 	 */
-	public static int getWidth() {
-		return width;
+	public int getWidth() {
+		return size.getX();
 	}
 
 	/**
 	 * @return the height
 	 */
-	public static int getHeight() {
-		return height;
+	public int getHeight() {
+		return size.getY();
 	}
 
 	/**
@@ -110,15 +93,15 @@ public class Farm extends Savable {
 	/**
 	 * @return the tiles
 	 */
-	public ArrayList<ArrayList<Tile>> getTiles() {
-		return tiles;
+	public Map<Coordinate,Tile> getTiles() {
+		return tileMap;
 	}
 	
 	public Tile getTile(int x, int y) {
 		return getTile(new Coordinate(x,y));
 	}
 	public Tile getTile(Coordinate coord) {
-		return tiles.get(coord.getX()).get(coord.getY());
+		return tileMap.get(coord);
 	}
 
 	/**
@@ -149,8 +132,7 @@ public class Farm extends Savable {
 
 	public void save() throws SQLException {
 		super.save();
-		for (ArrayList<Tile> row : tiles)
-			for (Tile tile : row)
-				tile.save();
+		for (Tile tile : tileMap.values())
+			tile.save();
 	}
 }

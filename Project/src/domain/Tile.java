@@ -10,29 +10,23 @@ public class Tile extends Savable {
 	private static TreeMap<Long,Tile> expiryMap = new TreeMap<Long,Tile>();
 
 	private long expiryTime;
-	private int xcoord;
-	private int ycoord;
+	private Coordinate coord;
 	private TileState state;
 	private StateList type;
 
-	public Tile(int x, int y) {
-		this(x, y, StateList.NONE.getNew());
+	public Tile(Coordinate coord) {
+		this(coord, StateList.NONE.getNew(), 0);
 	}
 
-	public Tile(int x, int y, StateList type) {
-		this(x, y, type.getNew());
+	public Tile(Coordinate coord, StateList type) {
+		this(coord, type.getNew());
 	}
 
-	public Tile(int x, int y, TileState state) {
-		this(x, y, state, state.getExpiryTime());
-	}
-
-	public Tile(int x, int y, TileState state, long expiryTime) {
-		this(new Coordinate(x,y), state, expiryTime);
+	public Tile(Coordinate coord, TileState state) {
+		this(coord, state, state.getExpiryTime());
 	}
 	public Tile(Coordinate coord, TileState state, long expiryTime) {
-		xcoord = coord.getX();
-		ycoord = coord.getY();
+		this.coord = coord;
 		this.type = state.getStateType();
 		this.state = state;
 		this.expiryTime = expiryTime;
@@ -51,15 +45,12 @@ public class Tile extends Savable {
 		this.state = state;
 	}
 
-	public int[] getCoords() {
-		int[] coords = new int[2];
-		coords[0] = xcoord;
-		coords[1] = ycoord;
-		return coords;
+	public Coordinate getCoordinate() {
+		return coord;
 	}
 
 	public int getId() {
-		return (xcoord * 10) + ycoord;
+		return coord.hashCode();
 	}
 
 	public StateList getType() {

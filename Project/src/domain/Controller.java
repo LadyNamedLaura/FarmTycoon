@@ -4,16 +4,39 @@ import java.sql.SQLException;
 
 import exceptions.*;
 
+/**
+ * Domain Controlling class for non game-specefic-methods.
+ * 
+ * This class implements delegation methods needed to start or load a game,
+ * together with other methods which do no apply to a specific game.
+ *
+ * @author Rigès De Witte
+ * @author Simon Peeters
+ * @author Barny Pieters
+ * @author Laurens Van Damme
+ * 
+ */
+
 public class Controller {
 	private static Controller instance;
 	private Game game;
 
+	/**
+	 * Gets an instance of the controller. If no instance exists, create a new one.
+	 *
+	 * @return an instance of the domain controller.
+	 */
 	public static Controller getInstance() {
 		if (instance == null)
 			instance = new Controller();
 		return instance;
 	}
 
+	/**
+	 * Checks wether an existing savegame exists in the database.
+	 *
+	 * @return True if an existing game is found, false otherwise
+	 */
 	public boolean saveExists() {
 		try {
 			return persistence.PersistenceController.getInstance().saveExists();
@@ -25,12 +48,18 @@ public class Controller {
 		return false;
 	}
 
+	/**
+	 * Loads a prviously saved game from the database
+	 */
 	public void loadGame() {
-		setGame(new Game(true));
+		game = new Game(true);
 	}
 
+	/**
+	 * Create a new game from scratch
+	 */
 	public void newGame() {
-		setGame(new Game(false));
+		game = new Game(false);
 		try {
 			game.save();
 		} catch (SQLException e) {
@@ -38,32 +67,10 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * get the current game
+	 */
 	public Game getGame() {
 		return this.game;
-	}
-
-	public Clock getClock() {
-		try{
-			return getGame().getClock();
-		} catch (NullPointerException e){
-			throw new NoSuchGameException();
-		}
-	}
-
-	public void setGame(Game newgame) {
-		this.game = newgame;
-	}
-	public int[] getFarmSize(){
-		int [] ret = new int[2];
-		ret[0] = Farm.width;
-		ret[1] = Farm.height;
-		return ret;
-	}
-	public int getCash() throws NoSuchGameException{
-		try{
-			return this.game.getFarm().getCash();
-		} catch (NullPointerException e){
-			throw new NoSuchGameException();
-		}
 	}
 }
