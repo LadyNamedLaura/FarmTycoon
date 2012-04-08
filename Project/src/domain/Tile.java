@@ -1,13 +1,16 @@
 package domain;
 
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedMap;
 import java.util.TreeMap;
 
 import domain.tiles.StateList;
 import domain.tiles.TileAction;
 
 public class Tile extends Savable {
-	private static TreeMap<Long,Tile> expiryMap = new TreeMap<Long,Tile>();
+	private static SortedMap<Long,Tile> expiryMap = Collections.synchronizedSortedMap(new TreeMap<Long,Tile>());
 
 	private long expiryTime;
 	private Coordinate coord;
@@ -31,9 +34,11 @@ public class Tile extends Savable {
 		this.state = state;
 		this.expiryTime = expiryTime;
 		if (expiryTime > 0) {
-			while(expiryMap.get(expiryTime) != null) //almost imposible
-				expiryTime++;
-			expiryMap.put(expiryTime, this);
+			synchronized (expiryMap) {
+				while(expiryMap.get(expiryTime) != null) //almost imposible
+					expiryTime++;
+				expiryMap.put(expiryTime, this);
+			}
 		}
 	}
 
@@ -103,9 +108,11 @@ public class Tile extends Savable {
 			this.type = this.state.getStateType();
 			this.expiryTime = state.getExpiryTime();
 			if (expiryTime > 0) {
-				while(expiryMap.get(expiryTime) != null) //almost imposible
-					expiryTime++;
-				expiryMap.put(expiryTime, this);
+				synchronized (expiryMap) {
+					while(expiryMap.get(expiryTime) != null) //almost imposible
+						expiryTime++;
+					expiryMap.put(expiryTime, this);
+				}
 			}
 			return true;
 		}catch(Exception e){
@@ -115,11 +122,12 @@ public class Tile extends Savable {
 	}
 
 	public static void update() {
-		Map<Long,Tile> expiredMap = expiryMap.headMap(
-				domain.Game.getGame().getClock().getTime());
+		Map<Long,Tile> expiredMap;
+		expiredMap = new HashMap<Long,Tile>(expiryMap.headMap(
+				domain.Game.getGame().getClock().getTime()));
 		for (Map.Entry<Long, Tile> entry : expiredMap.entrySet()) {
 			expiryMap.remove(entry.getKey());
 			entry.getValue().executeAction(TileAction.Defaults.EXPIRE);
 		}
-	} 
+	}
 }

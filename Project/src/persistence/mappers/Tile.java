@@ -4,6 +4,8 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import domain.Coordinate;
+
 public class Tile implements persistence.Mapper {
 	public domain.Tile load(Map<String, Object> data) {
 		domain.TileState state;
@@ -24,8 +26,8 @@ public class Tile implements persistence.Mapper {
 			expiryTime = (Long) data.get("expiryTime");
 		else
 			expiryTime = (Integer) data.get("expiryTime");
-		return new domain.Tile((Integer) data.get("x"),
-				(Integer) data.get("y"), state, expiryTime);
+		return new domain.Tile(new Coordinate((Integer) data.get("x"),
+				(Integer) data.get("y")), state, expiryTime);
 	}
 
 	public Map<String, Object> save(domain.Savable obj) throws SQLException {
