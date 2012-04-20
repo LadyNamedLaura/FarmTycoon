@@ -96,10 +96,7 @@ public class Farm extends Savable {
 	public Map<Coordinate,Tile> getTiles() {
 		return tileMap;
 	}
-	
-	public Tile getTile(int x, int y) {
-		return getTile(new Coordinate(x,y));
-	}
+
 	public Tile getTile(Coordinate coord) {
 		return tileMap.get(coord);
 	}

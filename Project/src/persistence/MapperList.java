@@ -4,7 +4,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import exceptions.DBConnectException;
 import exceptions.SystemDBException;
@@ -24,19 +26,23 @@ public enum MapperList {
 	/**
 	 * @see domain.Tile
 	 */
-	Tile(new persistence.mappers.Tile()),
+	TILE(new persistence.mappers.Tile()),
 	/**
 	 * @see domain.Crop
 	 */
-	Crop(new persistence.mappers.Crop()),
+	CROP(new persistence.mappers.Crop()),
 	/**
 	 * @see domain.Clock
 	 */
-	Clock(new persistence.mappers.Clock()),
+	CLOCK(new persistence.mappers.Clock()),
 	/**
 	 * @see domain.Farm
 	 */
-	Farm(new persistence.mappers.Farm());
+	FARM(new persistence.mappers.Farm()),
+	/**
+	 * @see domain.Inventory.InvItem
+	 */
+	INVITEM(new persistence.mappers.InvItem());
 
 	private DB db;
 	private String tablename;
@@ -119,11 +125,7 @@ public enum MapperList {
 
 	}
 
-	public domain.Savable loadById(int id) throws SQLException,
-			IllegalArgumentException, SecurityException,
-			InstantiationException, IllegalAccessException,
-			NoSuchMethodException, ClassNotFoundException,
-			InvocationTargetException {
+	public domain.Savable loadById(int id) throws SQLException {
 		java.sql.Statement st = db.getConnection().createStatement();
 		java.sql.ResultSet rs = st.executeQuery(String.format(
 				"SELECT * FROM %s WHERE id = %d", this.tablename, id));
@@ -134,6 +136,21 @@ public enum MapperList {
 		for (int i = 1; i <= count; i++)
 			data.put(meta.getColumnName(i), rs.getObject(i));
 		return mapper.load(data);
+	}
+	public Set<domain.Savable> loadAll() throws SQLException {
+		Set<domain.Savable> set = new HashSet<domain.Savable>();
+		java.sql.Statement st = db.getConnection().createStatement();
+		java.sql.ResultSet rs = st.executeQuery(String.format(
+				"SELECT * FROM %s", this.tablename));
+		while(rs.next()) {
+			java.sql.ResultSetMetaData meta = rs.getMetaData();
+			Map<String, Object> data = new HashMap<String, Object>();
+			int count = meta.getColumnCount();
+			for (int i = 1; i <= count; i++)
+				data.put(meta.getColumnName(i), rs.getObject(i));
+			set.add(mapper.load(data));
+		}
+		return set;
 	}
 
 	public int getNextID() {

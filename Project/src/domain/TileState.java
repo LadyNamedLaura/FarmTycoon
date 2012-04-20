@@ -7,4 +7,5 @@ public interface TileState {
 	public domain.tiles.TileAction[] getActions();
 	public TileState executeAction(domain.tiles.TileAction action);
 	public long getExpiryTime();
+	public String stateInfo();
 }

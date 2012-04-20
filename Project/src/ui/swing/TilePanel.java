@@ -29,9 +29,6 @@ public class TilePanel extends javax.swing.JPanel {
 		initGUI();
 	}
 
-	TilePanel(domain.Game game, int x, int y) {
-		this(game, new Coordinate(x,y));
-	}
 	TilePanel(domain.Game game, Coordinate coord) {
 		super();
 		this.game = game;
@@ -48,7 +45,7 @@ public class TilePanel extends javax.swing.JPanel {
 	}
 
 	public void paintComponent(Graphics g) {
-		bgimage = Images.getImage(game.getTileType(coords),
+		bgimage = Images.getImage(game.getTileInfo(coords),
 				this.getSize());
 		cursor = Images.getImage("SELECTED", this.getSize());
 		if (bgimage != null)

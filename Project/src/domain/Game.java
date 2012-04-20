@@ -8,6 +8,7 @@ public class Game {
 	private Farm farm;
 	private Clock clock;
 	private static Game current;
+	private Inventory inv;
 
 	public Game(boolean load) {
 		current=this;
@@ -15,6 +16,7 @@ public class Game {
 			try {
 				clock = (Clock) Clock.load(Clock.class, 0);
 				farm = (Farm) Farm.load(Farm.class, 0);
+				inv = Inventory.load();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -22,6 +24,7 @@ public class Game {
 		} else {
 			clock = new Clock();
 			farm = new Farm();
+			inv = new Inventory();
 		}
 	}
 
@@ -52,12 +55,8 @@ public class Game {
 	public void save() throws SQLException {
 		farm.save();
 		clock.save();
+		inv.save();
 	}
-
-	public String getTileType(int[] coords) {
-		return getTileType(coords[0], coords[1]);
-	}
-	
 
 	public String getTileType(int x, int y) {
 		return getTileType(new Coordinate(x, y));
@@ -65,10 +64,10 @@ public class Game {
 	public String getTileType(Coordinate coord){
 		return farm.getTile(coord).getType().name();
 	}
-
-	public domain.tiles.TileAction[] getTileActions(int[] coords) {
-		return getTileActions(coords[0],coords[1]);
+	public String getTileInfo(Coordinate coord){
+		return farm.getTile(coord).getState().stateInfo();
 	}
+
 	public domain.tiles.TileAction[] getTileActions(int x, int y) {
 		return getTileActions(new Coordinate(x,y));
 	}
@@ -76,9 +75,6 @@ public class Game {
 		return farm.getTile(coord).getActions();
 	}
 
-	public boolean executeAction(int[] coords, TileAction action) {
-		return executeAction(coords[0],coords[1],action);
-	}
 	public boolean executeAction(int x,int y, TileAction action) {
 		return executeAction(new Coordinate(x,y), action);
 	}
@@ -102,4 +98,9 @@ public class Game {
 	public static Game getGame() {
 		return current;
 	}
+
+	public Inventory getInv() {
+		return inv;
+	}
+
 }

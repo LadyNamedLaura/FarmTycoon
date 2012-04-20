@@ -24,15 +24,23 @@ public class None implements TileState {
 	}
 
 	public TileState executeAction(TileAction action) {
-		switch((Actions) action){
-		case PLOW:	return new Plowing();
-		case BUILDBARN:	return new Building("barn");
-		default:	return null;
+		if(action instanceof Actions){
+			switch((Actions) action){
+			case PLOW:	return new Plowing();
+			case BUILDBARN:	return new Building("barn");
+			default:	return null;
+			}
 		}
+		return null;
 	}
 
 	@Override
 	public long getExpiryTime() {
 		return 0;
+	}
+
+	@Override
+	public String stateInfo() {
+		return "NONE";
 	}
 }

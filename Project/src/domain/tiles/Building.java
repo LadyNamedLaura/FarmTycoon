@@ -85,4 +85,9 @@ public class Building extends Savable implements TileState {
 		return 0;
 	}
 
+	@Override
+	public String stateInfo() {
+		return "BUILDING";
+	}
+
 }

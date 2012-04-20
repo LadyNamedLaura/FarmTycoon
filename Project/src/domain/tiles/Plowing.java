@@ -28,4 +28,8 @@ public class Plowing implements TileState {
 	public long getExpiryTime() {
 		return starttime + PLOWTIME;
 	}
+	@Override
+	public String stateInfo() {
+		return "PLOWING";
+	}
 }

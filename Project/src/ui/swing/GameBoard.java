@@ -27,10 +27,18 @@ public class GameBoard extends javax.swing.JPanel {
 	private void initGUI() {
 		try {
 			GridBagLayout layout = new GridBagLayout();
-			layout.rowWeights = new double[] { 0.1, 0.1, 0.1, 0.1 };
-			layout.rowHeights = new int[] { 7, 7, 7, 7 };
-			layout.columnWeights = new double[] { 0.1, 0.1, 0.1, 0.1 };
-			layout.columnWidths = new int[] { 7, 7, 7, 7 };
+			layout.rowWeights = new double[domain.Farm.size.getY()];
+			layout.rowHeights = new int[domain.Farm.size.getY()];
+			layout.columnWeights = new double[domain.Farm.size.getX()];
+			layout.columnWidths = new int[domain.Farm.size.getX()];
+			for (int i=0; i<domain.Farm.size.getY(); i++) {
+				layout.rowHeights[i] = 7;
+				layout.rowWeights[i] = 0.1;
+			}
+			for (int i=0; i<domain.Farm.size.getX(); i++) {
+				layout.columnWidths[i] = 7;
+				layout.columnWeights[i] = 0.1;
+			}
 			this.setLayout(layout);
 			for (Coordinate i : Coordinate.getCoordSet(new Coordinate(0,0),
 						domain.Farm.size)) {

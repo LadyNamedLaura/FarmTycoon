@@ -38,19 +38,6 @@ public class DB {
 		}
 	}
 
-	public void init() throws DBUpdateException {
-
-		try {
-			MapperList[] list = MapperList.values();
-			for (MapperList info : list) {
-				info.init();
-			}
-		} catch (SQLException e) {
-			throw (DBUpdateException) e;
-		}
-
-	}
-
 	public void close() throws DBCloseException {
 		try {
 			connection.close();

@@ -18,6 +18,7 @@ public class Tile implements persistence.Mapper {
 						(String) data.get("state")).loadById(
 						(Integer) data.get("stateid"));
 			} catch (Exception e) {
+				e.printStackTrace();
 				state = null;
 			}
 		}

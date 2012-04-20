@@ -39,4 +39,9 @@ public class Market implements TileState {
 		return 0;
 	}
 
+	@Override
+	public String stateInfo() {
+		return "MARKET";
+	}
+
 }

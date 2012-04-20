@@ -13,32 +13,6 @@ public class Crop extends Savable implements TileState {
 	private enum State {
 		GROWING, READY, ROTTEN;
 	}
-	private enum CropList {
-		PATATO		(  2,  10,  20),
-		CARROT		(  3,  15,  30),
-		WHEAT		(  4,  20,  40),
-		CORN		(  5,  30,  60),
-		GRAPE		(  6,  40,  80),
-		LETTUCE		(  7,  50,  90),
-		TOMATO		(  8,  60, 110),
-		STRAWBERRY	(  9,  80, 145),
-		RASPBERRY	( 10, 100, 190),
-		COCOA		( 11, 120, 220),
-		SOY		( 12, 150, 290);
-
-		public final int growdays, seedprice, marketprice;
-
-		public int getGrowdays() 	{return growdays;}
-		public int getSeedprice() 	{return seedprice;}
-		public int getMarketprice()	{return marketprice;}
-
-		private CropList(int growdays, int seedprice, int marketprice) {
-			this.growdays = growdays;
-			this.seedprice = seedprice;
-			this.marketprice = marketprice;
-		}
-	}
-
 	private enum Actions implements TileAction {
 		CLEAR(0, 20), 
 		HARVEST(0, 0);
@@ -54,7 +28,7 @@ public class Crop extends Savable implements TileState {
 		}
 	}
 
-	private CropList crop;
+	private Crops crop;
 	private State state;
 	private Date planted;
 
@@ -72,12 +46,21 @@ public class Crop extends Savable implements TileState {
 	}
 
 	public Crop(String type, Date planted) {
-		this.crop = CropList.valueOf(type);
-		this.planted = planted;
+		this(Crops.valueOf(type), planted);
 	}
 
-	public static CropList[] getTypes() {
-		return CropList.values();
+	public Crop(Crops crop) {
+		this(crop,  Game.getGame().getClock().getDate());
+	}
+
+	public Crop(Crops crop, Date date) {
+		this.crop = crop;
+		this.planted = date;
+		this.state = State.GROWING;
+	}
+
+	public static Crops[] getTypes() {
+		return Crops.values();
 	}
 
 	public String getType() {
@@ -102,7 +85,7 @@ public class Crop extends Savable implements TileState {
 
 	@Override
 	public TileState executeAction(TileAction action) {
-		if((TileAction.Defaults) action == TileAction.Defaults.EXPIRE) {
+		if(action == TileAction.Defaults.EXPIRE) {
 			switch(state) {
 			case GROWING:	this.state=State.READY;  break;
 			case READY:	this.state=State.ROTTEN; break;
@@ -115,7 +98,7 @@ public class Crop extends Savable implements TileState {
 		}
 		if( this.state == State.READY && (Actions) action == Actions.HARVEST) {
 			domain.Game.getGame().setCash(
-					domain.Game.getGame().getCash()+crop.getMarketprice());
+					domain.Game.getGame().getCash()+crop.getProduct().getPrice());
 			return new None();
 		}
 		return null;
@@ -124,9 +107,13 @@ public class Crop extends Savable implements TileState {
 	@Override
 	public long getExpiryTime() {
 		switch(state) {
-		case GROWING:	return planted.getTime() + (Clock.MSECONDSADAY * crop.getGrowdays());
+		case GROWING:	return planted.getTime() + (Clock.MSECONDSADAY * crop.getTime());
 		case READY:	return planted.getTime() + (Clock.MSECONDSADAY * crop.growdays * 3 / 2);
 		default:	return 0;
 		}
+	}
+	
+	public String stateInfo() {
+		return "CROP_"+crop.name()+"_"+state.name();
 	}
 }

@@ -4,8 +4,8 @@ import java.sql.SQLException;
 import java.util.Map;
 
 /**
- * Abstract class defining the interface between the database and
- * {@link MappeList} items
+ * The interface between the database and
+ * {@link persistence.MappeList} items
  * 
  */
 public interface Mapper {
