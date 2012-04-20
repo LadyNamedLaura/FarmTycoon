@@ -24,6 +24,8 @@ import javax.swing.JToolBar;
 
 import javax.swing.WindowConstants;
 
+import ui.Translator;
+
 /**
  * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI
  * Builder, which is free for non-commercial use. If Jigloo is being used
@@ -96,7 +98,7 @@ public class GameScreen extends javax.swing.JFrame {
 					{
 						saveButton = new JButton();
 						toolBarPanel.add(saveButton, new GridBagConstraints(0, 0, 1, 2, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.VERTICAL, new Insets(0, 0, 0, 0), 0, 0));
-						saveButton.setText("Save");
+						saveButton.setText(Translator.getString("SAVE"));
 						saveButton.setPreferredSize(new java.awt.Dimension(50,
 								40));
 						saveButton.addMouseListener(new MouseAdapter() {
