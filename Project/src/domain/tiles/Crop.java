@@ -19,7 +19,7 @@ public class Crop extends Savable implements TileState {
 		WHEAT		(  4,  20,  40),
 		CORN		(  5,  30,  60),
 		GRAPE		(  6,  40,  80),
-		SALAD		(  7,  50,  90),
+		LETTUCE		(  7,  50,  90),
 		TOMATO		(  8,  60, 110),
 		STRAWBERRY	(  9,  80, 145),
 		RASPBERRY	( 10, 100, 190),
