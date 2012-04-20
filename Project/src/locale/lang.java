@@ -21,5 +21,16 @@ public class lang extends ListResourceBundle {
 			{ "SAVEFOUND", "a previously saved game was found." },
 			{ "ASKLOADGAME", "do you want to load this game? (yes/no)" },
 			{ "yes", new String[] { "y", "yes" } },
-			{ "no", new String[] { "n", "no" } }, };
-}
+			{ "no", new String[] { "n", "no" } },
+			{ "PATATO" , "patato"},
+			{ "CARROT", "carrot"},
+			{ "WHEAT", "wheat"},		
+			{ "CORN","corn"},		
+			{ "GRAPE","grape"},		
+			{ "LETTUCE","lettuce"},		
+			{ "TOMATO","tomato"},		
+			{ "STRAWBERRY","strawberry"},	
+			{ "RASPBERRY","raspberry"},	
+			{ "COCOA","cocoa"},		
+			{ "SOY","soy"}};
+	}
