@@ -2,6 +2,13 @@ package locale;
 
 import java.util.ListResourceBundle;
 
+import domain.tiles.Building;
+import domain.tiles.Crop;
+import domain.tiles.Market;
+import domain.tiles.None;
+import domain.tiles.Plowed;
+import domain.tiles.Plowing;
+
 public class lang extends ListResourceBundle {
 
 	@Override
@@ -32,5 +39,17 @@ public class lang extends ListResourceBundle {
 			{ "STRAWBERRY","strawberry"},	
 			{ "RASPBERRY","raspberry"},	
 			{ "COCOA","cocoa"},		
-			{ "SOY","soy"}};
-	}
+			{ "SOY","soy"},
+			{ "PLOW","plow field"},
+			{ "BUILDBARN","build barn"},
+			{ "COWS","cows"},
+			{ "CHICKENS","chickens"},
+			{ "NONE","empty field"},
+			{ "PLOWING","plowing"},
+			{ "PLOWED","plowed"},
+			{ "CROP","crop"},
+			{ "BUILDING","building"},
+			{ "MARKET","market"}};
+			
+			
+}

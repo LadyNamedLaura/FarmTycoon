@@ -32,5 +32,15 @@ public class lang_nl extends ListResourceBundle {
 			{ "STRAWBERRY","aardbei"},	
 			{ "RASPBERRY","framboos"},	
 			{ "COCOA","cacaoboon"},		
-			{ "SOY","sojaboon"}};
+			{ "SOY","sojaboon"},
+			{ "PLOW","ploeg veld"},
+			{ "BUILDBARN","bouw schuur"},
+			{ "COWS","koeien"},
+			{ "CHICKENS","kippen"},
+			{ "NONE","Leeg veld"},
+			{ "PLOWING","bezig met ploegen"},
+			{ "PLOWED","klaar met ploegen"},
+			{ "CROP","gewas"},
+			{ "BUILDING","bezig met bouwen"},
+			{ "MARKET","markt"}};
 }

@@ -32,5 +32,15 @@ public class lang_fr extends ListResourceBundle {
 			{ "STRAWBERRY","fraise"},	
 			{ "RASPBERRY","framboise"},	
 			{ "COCOA","les fèves de cacao"},		
-			{ "SOY","le soja"}};
+			{ "SOY","le soja"},
+			{ "PLOW","labourer"},
+			{ "BUILDBARN","bâtir une grange"},
+			{ "COWS","des vaches"},
+			{ "CHICKENS","des poules"},
+			{ "NONE","case vide"},
+			{ "PLOWING","en train de labourer"},
+			{ "PLOWED","plowed"},
+			{ "CROP","gewas"},
+			{ "BUILDING","bezig met bouwen"},
+			{ "MARKET","markt"}};
 }
