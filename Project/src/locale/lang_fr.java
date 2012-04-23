@@ -39,8 +39,8 @@ public class lang_fr extends ListResourceBundle {
 			{ "CHICKENS","des poules"},
 			{ "NONE","case vide"},
 			{ "PLOWING","en train de labourer"},
-			{ "PLOWED","plowed"},
-			{ "CROP","gewas"},
-			{ "BUILDING","bezig met bouwen"},
-			{ "MARKET","markt"}};
+			{ "PLOWED","est labouré"},
+			{ "CROP","culture"},
+			{ "BUILDING","en train de bâtir"},
+			{ "MARKET","marché"}};
 }
