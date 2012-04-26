@@ -1,80 +1,123 @@
 package domain;
 
-import java.sql.SQLException;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
+import java.util.NoSuchElementException;
 
-public class Inventory extends HashMap<Product, Integer>{
-	public static class InvItem extends Savable implements Map.Entry<Product, Integer> {
-		Product key;
-		Integer val;
-		
-		public InvItem(Map.Entry<Product, Integer> entry){
-			this(entry.getKey(), entry.getValue());
-		}
-		public InvItem(Product key, Integer val){
-			this.key = key;
-			this.val = val;
-			this.id = key.name().hashCode();
-		}
-		@Override
-		public Product getKey() {
-			return key;
-		}
+public class Inventory extends java.util.AbstractMap<Product, Integer> {
+	private final Product[] keys = Product.values();
+	private final int size = Product.values().length;
 
-		@Override
-		public Integer getValue() {
-			return val;
-		}
+	private final int[] vals = new int[Product.values().length];
 
-		@Override
-		public Integer setValue(Integer value) {
-			Integer old = val;
-			val = value;
-			return old;
-		}
-	}
-	
-	public Set<InvItem> itemSet(){
-		HashSet<InvItem> set=new HashSet<InvItem>();
-		for (Map.Entry<Product,Integer> entry : entrySet())
-			set.add(new InvItem(entry));
-		return set;
-	}
-	public Integer get(Product key) {
-		Integer val = super.get(key);
-		if(val==null)
-			val=0;
-		return val;
-	}
-	
-	public Integer put(Map.Entry<Product, Integer> entry) {
-		return put(entry.getKey(),entry.getValue());
-	}
 	public Integer add(Product key) {
 		return add(key,1);
 	}
 	public Integer add(Product key, int amount) {
-		super.put(key, get(key)+amount);
+		put(key, get(key)+amount);
 		return get(key);
 	}
 	
-	public void save() throws SQLException{
-		//persistence.MapperList.InvItem.init();
-		for (InvItem item : itemSet())
-			item.save();
+	public void save() throws java.sql.SQLException{
+		for (Entry<Product, Integer> e : entrySet())
+			((InvItem) e).save();
+	}
+
+	public void load() throws java.sql.SQLException {
+		InvItem.loadAll(InvItem.class);
+	}
+
+	public Integer put(Product key, Integer value) {
+		int index = key.ordinal();
+		int oldValue = vals[index];
+		vals[index] = value;
+		return oldValue;
+	}
+
+	public void clear() {
+		java.util.Arrays.fill(vals, 0);
 	}
 	
-	public static Inventory load(Class<? extends Savable> type, int id) throws SQLException{
-		return load();
+	public java.util.Set<Product> keySet() {
+		return new KeySet();
 	}
-	public static Inventory load() throws SQLException {
-		Inventory inv = new Inventory();
-		for (Savable obj : InvItem.loadAll(InvItem.class))
-			inv.put((InvItem) obj);
-		return inv;
+	public java.util.Collection<Integer> values() {
+		return new Values();
 	}
-	
+	public java.util.Set<Map.Entry<Product, Integer>> entrySet() {
+		return new EntrySet();
+	}
+
+	private class KeySet extends java.util.AbstractSet<Product> {
+		public java.util.Iterator<Product> iterator() {
+			return new InventoryIterator<Product>() {
+				protected Product get(int i) {
+					return keys[i];
+				}
+			};
+		}
+		public int size() {
+			return size;
+		}
+	}
+
+	private class Values extends java.util.AbstractCollection<Integer> {
+		public java.util.Iterator<Integer> iterator() {
+			return new InventoryIterator<Integer>(){
+				protected Integer get(int i) {
+					return vals[i];
+				}
+			};
+		}
+		public int size() {
+			return size;
+		}
+	}
+
+	private class EntrySet extends java.util.AbstractSet<Map.Entry<Product, Integer>> {
+		public java.util.Iterator<Map.Entry<Product, Integer>> iterator() {
+			return new InventoryIterator<Entry<Product, Integer>>() {
+				public Entry<Product, Integer> get(int i) {
+					return new InvItem(i);
+				}
+			};
+		}
+		public int size() {
+			return size;
+		}
+	}
+
+	private abstract class InventoryIterator<T> implements java.util.Iterator<T> {
+		int index = 0;
+
+		public boolean hasNext() {
+			return index != size;
+		}
+		public void remove() {
+			throw new UnsupportedOperationException();
+		}
+		public T next() {
+			if (!hasNext())
+				throw new NoSuchElementException();
+			return get(index++);
+		}
+		protected abstract T get(int i);
+	}
+
+	public class InvItem extends Savable implements Map.Entry<Product, Integer> {
+		public InvItem(int index) {
+			if (index >= size || index < 0)
+				throw new NoSuchElementException();
+			this.id = index;
+		}
+
+		public Product	getKey()	{ return keys[id]; }
+		public Integer	getValue()	{ return vals[id]; }
+		public String	toString()	{ return getKey() + "=" + getValue(); }
+
+		public Integer setValue(Integer value) {
+			Integer oldValue = vals[id];
+			vals[id] = value;
+			return oldValue;
+		}
+	}
 }

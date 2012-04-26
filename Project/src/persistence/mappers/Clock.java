@@ -3,16 +3,17 @@ package persistence.mappers;
 import java.util.HashMap;
 import java.util.Map;
 
+import persistence.DBmap;
+
 import domain.Savable;
 
 public class Clock implements persistence.Mapper {
-	public domain.Clock load(Map<String, Object> data) {
-		return new domain.Clock((Double) data.get("Multi"),
-				(Long) data.get("Offset"));
+	public domain.Clock load(DBmap map) {
+		return new domain.Clock(map.getDouble("Multi"), map.getLong("Offset"));
 	}
 
-	public Map<String, Object> save(Savable obj) {
-		Map<String, Object> ret = new HashMap<String, Object>();
+	public DBmap save(Savable obj) {
+		DBmap ret = new DBmap(this);
 		domain.Clock clock = (domain.Clock) obj;
 		ret.put("Offset", clock.getOffset());
 		ret.put("Multi", clock.getMultiplier());

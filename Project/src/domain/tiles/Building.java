@@ -1,5 +1,7 @@
 package domain.tiles;
 
+import api.TileAction;
+import api.TileInfo;
 import domain.Savable;
 import domain.TileState;
 
@@ -61,14 +63,6 @@ public class Building extends Savable implements TileState {
 		return building.name();
 	}
 
-	/**
-	 * @return the StateList item for this class
-	 */
-	@Override
-	public StateList getStateType() {
-		return StateList.BUILDING;
-	}
-
 	@Override
 	public TileAction[] getActions() {
 		// TODO Auto-generated method stub
@@ -86,8 +80,8 @@ public class Building extends Savable implements TileState {
 	}
 
 	@Override
-	public String stateInfo() {
-		return "BUILDING";
+	public TileInfo getInfo() {
+		return new TileInfo(getClass().getSimpleName(), building.name(), null);
 	}
 
 }

@@ -1,4 +1,4 @@
-package domain;
+package api;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -14,26 +14,16 @@ import java.util.Collection;
  */
 
 public class Coordinate {
-	private short x;
-	private short y;
+	private final short x;
+	private final short y;
 
 	/**
 	 * Create a new coordinate object with coordinates x and y
 	 */
 	public Coordinate(int x, int y) {
-		this((short) x,(short) y); }
-	public Coordinate(short x, short y) {
-		setX(x);
-		setY(y); }
+		this.x=(short) x;
+		this.y=(short) y; }
 
-	/**
-	 * Set the X value for this coordinate object.
-	 */
-	public void setX(short x) { this.x = x; }
-	/**
-	 * Set the y value for this coordinate object.
-	 */
-	public void setY(short y) { this.y = y; }
 	/**
 	 * Get the X value for this coordinate object.
 	 */

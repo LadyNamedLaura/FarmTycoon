@@ -3,13 +3,15 @@ package persistence.mappers;
 import java.util.HashMap;
 import java.util.Map;
 
+import persistence.DBmap;
+
 public class Farm implements persistence.Mapper {
-	public domain.Farm load(Map<String, Object> data) {
-		return new domain.Farm((Integer) data.get("cash"), true);
+	public domain.Farm load(DBmap map) {
+		return new domain.Farm(map.getInt("cash"), true);
 	}
 
-	public Map<String, Object> save(domain.Savable obj) {
-		Map<String, Object> ret = new HashMap<String, Object>();
+	public DBmap save(domain.Savable obj) {
+		DBmap ret = new DBmap(this);
 		domain.Farm farm = (domain.Farm) obj;
 		ret.put("cash", farm.getCash());
 		return ret;

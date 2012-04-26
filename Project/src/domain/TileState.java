@@ -1,11 +1,10 @@
 package domain;
 
-import domain.tiles.StateList;
+import api.TileInfo;
 
 public interface TileState {
-	public StateList getStateType();
-	public domain.tiles.TileAction[] getActions();
-	public TileState executeAction(domain.tiles.TileAction action);
+	public api.TileAction[] getActions();
+	public TileState executeAction(api.TileAction action);
 	public long getExpiryTime();
-	public String stateInfo();
+	public TileInfo getInfo();
 }

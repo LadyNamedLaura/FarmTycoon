@@ -1,14 +1,11 @@
 package domain.tiles;
 
+import api.TileAction;
+import api.TileInfo;
 import domain.TileState;
 
 public class Plowed implements TileState
 {
-	private static final StateList stateType = StateList.PLOWED;
-
-	public StateList getStateType() {
-		return stateType;
-	}
 
 	public TileAction[] getActions() {
 		return Crops.values();
@@ -28,7 +25,7 @@ public class Plowed implements TileState
 	}
 
 	@Override
-	public String stateInfo() {
-		return "PLOWING";
+	public TileInfo getInfo() {
+		return new TileInfo(getClass().getSimpleName(), null, null);
 	}
 }

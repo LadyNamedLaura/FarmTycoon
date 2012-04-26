@@ -1,9 +1,10 @@
 package domain.tiles;
 
+import api.TileAction;
+import api.TileInfo;
 import domain.TileState;
 
 public class None implements TileState {
-	public StateList getStateType() {return StateList.NONE;}
 
 	private enum Actions implements TileAction {
 		PLOW(1, 50), BUILDBARN(0, 500), COWS(0, 250), CHICKENS(0, 100);
@@ -40,7 +41,7 @@ public class None implements TileState {
 	}
 
 	@Override
-	public String stateInfo() {
-		return "NONE";
+	public TileInfo getInfo() {
+		return new TileInfo(getClass().getSimpleName(), null, null);
 	}
 }

@@ -1,18 +1,16 @@
 package domain.tiles;
 
+import api.TileAction;
+import api.TileInfo;
 import domain.TileState;
 
 public class Plowing implements TileState {
-	private static final StateList stateType = StateList.PLOWING;
 	private static final long PLOWTIME = domain.Clock.MSECONDSADAY;
 
 	private long starttime;
 
 	public Plowing() {
 		this.starttime = domain.Game.getGame().getClock().getTime();
-	}
-	public StateList getStateType() {
-		return stateType;
 	}
 
 	public TileAction[] getActions() {
@@ -29,7 +27,7 @@ public class Plowing implements TileState {
 		return starttime + PLOWTIME;
 	}
 	@Override
-	public String stateInfo() {
-		return "PLOWING";
+	public TileInfo getInfo() {
+		return new TileInfo(getClass().getSimpleName(), null, null);
 	}
 }

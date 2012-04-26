@@ -231,8 +231,4 @@ public class GameScreen extends javax.swing.JFrame {
 	private void jPanel3ComponentResized(ComponentEvent evt) {
 		sidebar.setSize(150, evt.getComponent().getSize().height);
 	}
-
-	public String getSelectedType() {
-		return game.getTileType(selectedPanel.getCoords());
-	}
 }

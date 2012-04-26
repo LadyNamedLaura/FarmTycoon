@@ -2,7 +2,10 @@ package domain;
 
 import java.sql.SQLException;
 
-import domain.tiles.TileAction;
+import api.Coordinate;
+import api.TileAction;
+import api.TileInfo;
+
 
 public class Game {
 	private Farm farm;
@@ -16,7 +19,8 @@ public class Game {
 			try {
 				clock = (Clock) Clock.load(Clock.class, 0);
 				farm = (Farm) Farm.load(Farm.class, 0);
-				inv = Inventory.load();
+				inv = new Inventory();
+				inv.load();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -40,16 +44,8 @@ public class Game {
 		return farm.getCash();
 	}
 
-	public void setCash(int cash) {
-		farm.setCash(cash);
-	}
-
-	public String[][] getTiles() {
-		String[][] tiles = new String[farm.getWidth()][farm.getHeight()];
-		for (Coordinate i :Coordinate.getCoordSet(new Coordinate(0, 0),Farm.size))
-			tiles[i.getX()][i.getY()] = getTileType(i);
-
-		return tiles;
+	int adjustCash(int adj) {
+		return farm.adjustCash(adj);
 	}
 
 	public void save() throws SQLException {
@@ -58,25 +54,15 @@ public class Game {
 		inv.save();
 	}
 
-	public String getTileType(int x, int y) {
-		return getTileType(new Coordinate(x, y));
-	}
-	public String getTileType(Coordinate coord){
-		return farm.getTile(coord).getType().name();
-	}
-	public String getTileInfo(Coordinate coord){
-		return farm.getTile(coord).getState().stateInfo();
+/*	public String getTileType(Coordinate coord){
+		return farm.getTile(coord).getState().getClass().getSimpleName();
+	}*/
+	public TileInfo getTileInfo(Coordinate coord){
+		return farm.getTile(coord).getInfo();
 	}
 
-	public domain.tiles.TileAction[] getTileActions(int x, int y) {
-		return getTileActions(new Coordinate(x,y));
-	}
-	public domain.tiles.TileAction[] getTileActions(Coordinate coord) {
+	public api.TileAction[] getTileActions(Coordinate coord) {
 		return farm.getTile(coord).getActions();
-	}
-
-	public boolean executeAction(int x,int y, TileAction action) {
-		return executeAction(new Coordinate(x,y), action);
 	}
 	
 	public boolean executeAction(Coordinate coord, TileAction action){

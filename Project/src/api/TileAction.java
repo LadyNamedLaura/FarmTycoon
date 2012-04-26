@@ -1,4 +1,4 @@
-package domain.tiles;
+package api;
 
 public interface TileAction {
 	public enum Defaults implements TileAction {

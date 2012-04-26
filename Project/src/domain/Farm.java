@@ -6,8 +6,9 @@ import java.util.Random;
 import java.util.Map;
 import java.util.HashMap;
 
+import api.Coordinate;
+
 import domain.tiles.Market;
-import domain.tiles.StateList;
 
 public class Farm extends Savable {
 	public static final Coordinate size = new Coordinate(4,4);
@@ -53,7 +54,7 @@ public class Farm extends Savable {
 				new Coordinate(size.getX()-1,size.getY()-1)};
 			int i = new Random().nextInt(4);
 
-			this.tileMap.get(mcoord[i]).setType(StateList.MARKET);
+			this.tileMap.get(mcoord[i]).setState(new Market());
 			this.market = (Market) this.tileMap.get(mcoord[i]).getState();
 			if (this.market == null) {
 				throw new java.lang.NullPointerException(
@@ -87,14 +88,9 @@ public class Farm extends Savable {
 		return cash;
 	}
 	
-	public void setCash(int cash){
-		this.cash = cash;
-	}
-	/**
-	 * @return the tiles
-	 */
-	public Map<Coordinate,Tile> getTiles() {
-		return tileMap;
+	int adjustCash(int adj) {
+		this.cash += adj;
+		return this.cash;
 	}
 
 	public Tile getTile(Coordinate coord) {
@@ -122,7 +118,6 @@ public class Farm extends Savable {
 		return farmer;
 	}
 
-	// Farm has always id==0
 	public int getId() {
 		return 0;
 	}

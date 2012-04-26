@@ -1,5 +1,7 @@
 package domain.tiles;
 
+import api.TileAction;
+import api.TileInfo;
 import domain.TileState;
 
 /**
@@ -20,13 +22,11 @@ public class Market implements TileState {
 	}
 
 	@Override
-	public StateList getStateType() {
-		return StateList.MARKET;
-	}
-
-	@Override
 	public TileAction[] getActions() {
-		return null;
+		return new TileAction[]{new TileAction(){
+			public String name() { return "ENTER"; }
+			public int getCost() { return 0; }
+			public int getTime() { return 0; }}};
 	}
 
 	@Override
@@ -40,8 +40,7 @@ public class Market implements TileState {
 	}
 
 	@Override
-	public String stateInfo() {
-		return "MARKET";
+	public TileInfo getInfo() {
+		return new TileInfo(getClass().getSimpleName(), null, null);
 	}
-
 }

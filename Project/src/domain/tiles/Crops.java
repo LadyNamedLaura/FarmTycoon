@@ -1,9 +1,10 @@
 package domain.tiles;
 
+import api.TileAction;
 import domain.Product;
 
 enum Crops implements TileAction {
-	PATATO		(  2,  10, Product.PATATO),
+	POTATO		(  2,  10, Product.POTATO),
 	CARROT		(  3,  15, Product.CARROT),
 	WHEAT		(  4,  20, Product.WHEAT),
 	CORN		(  5,  30, Product.CORN),
@@ -15,8 +16,8 @@ enum Crops implements TileAction {
 	COCOA		( 11, 120, Product.COCOA),
 	SOY		( 12, 150, Product.SOY);
 
-	public final int growdays, seedprice;
-	public final Product prod;
+	private final int growdays, seedprice;
+	private final Product prod;
 
 	public int getTime() 	{return growdays;}
 	public int getCost() 	{return seedprice;}

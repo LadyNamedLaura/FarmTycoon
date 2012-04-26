@@ -111,17 +111,6 @@ public class Clock extends Savable {
 	}
 
 	/**
-	 * Set the current clock to a different offset, making the clock jump
-	 * {@literal newoffset - oldoffset}
-	 * 
-	 * @param offset
-	 *            the new offset to apply.
-	 */
-	public void setOffset(long offset) {
-		this.offset = offset;
-	}
-
-	/**
 	 * set the current in game time to the date passed
 	 * 
 	 * @param date

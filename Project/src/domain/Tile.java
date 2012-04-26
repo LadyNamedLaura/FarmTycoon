@@ -6,31 +6,24 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import domain.tiles.StateList;
-import domain.tiles.TileAction;
+import api.Coordinate;
+import api.TileAction;
+import api.TileInfo;
+
 
 public class Tile extends Savable {
-	private static SortedMap<Long,Tile> expiryMap = Collections.synchronizedSortedMap(new TreeMap<Long,Tile>());
+	private final static SortedMap<Long,Tile> expiryMap = Collections.synchronizedSortedMap(new TreeMap<Long,Tile>());
 
 	private long expiryTime;
-	private Coordinate coord;
+	private final Coordinate coord;
 	private TileState state;
-	private StateList type;
 
 	public Tile(Coordinate coord) {
-		this(coord, StateList.NONE.getNew(), 0);
+		this(coord, new domain.tiles.None(), 0);
 	}
 
-	public Tile(Coordinate coord, StateList type) {
-		this(coord, type.getNew());
-	}
-
-	public Tile(Coordinate coord, TileState state) {
-		this(coord, state, state.getExpiryTime());
-	}
 	public Tile(Coordinate coord, TileState state, long expiryTime) {
 		this.coord = coord;
-		this.type = state.getStateType();
 		this.state = state;
 		this.expiryTime = expiryTime;
 		if (expiryTime > 0) {
@@ -56,17 +49,6 @@ public class Tile extends Savable {
 
 	public int getId() {
 		return coord.hashCode();
-	}
-
-	public StateList getType() {
-		return type;
-	}
-
-	public void setType(StateList type) {
-		if (type == this.type)
-			return;
-		this.type = type;
-		this.state = type.getNew();
 	}
 
 	/**
@@ -96,20 +78,20 @@ public class Tile extends Savable {
 	/**
 	 * @param action
 	 * @return
-	 * @see domain.TileState#executeAction(domain.tiles.TileAction)
+	 * @see domain.TileState#executeAction(api.TileAction)
 	 */
 	public boolean executeAction(TileAction action) {
 		try {
 			TileState tmp = state.executeAction(action);
 			if(tmp == null)
 				return false;
-			Controller.getInstance().getGame().setCash(Controller.getInstance().getGame().getCash()-action.getCost());
+			Controller.getInstance().getGame().adjustCash(-action.getCost());
 			this.state = tmp;
-			this.type = this.state.getStateType();
+//			this.type = this.state.getStateType();
 			this.expiryTime = state.getExpiryTime();
 			if (expiryTime > 0) {
 				synchronized (expiryMap) {
-					while(expiryMap.get(expiryTime) != null) //almost imposible
+					while(expiryMap.get(expiryTime) != null) //almost impossible
 						expiryTime++;
 					expiryMap.put(expiryTime, this);
 				}
@@ -129,5 +111,9 @@ public class Tile extends Savable {
 			expiryMap.remove(entry.getKey());
 			entry.getValue().executeAction(TileAction.Defaults.EXPIRE);
 		}
+	}
+	
+	public TileInfo getInfo() {
+		return state.getInfo();
 	}
 }

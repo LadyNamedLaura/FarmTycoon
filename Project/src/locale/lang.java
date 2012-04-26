@@ -2,13 +2,6 @@ package locale;
 
 import java.util.ListResourceBundle;
 
-import domain.tiles.Building;
-import domain.tiles.Crop;
-import domain.tiles.Market;
-import domain.tiles.None;
-import domain.tiles.Plowed;
-import domain.tiles.Plowing;
-
 public class lang extends ListResourceBundle {
 
 	@Override

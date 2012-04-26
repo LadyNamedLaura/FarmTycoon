@@ -9,8 +9,9 @@ import java.awt.event.MouseEvent;
 import java.util.HashMap;
 import java.util.Map;
 
+import api.Coordinate;
+
 import domain.Game;
-import domain.Coordinate;
 
 public class GameBoard extends javax.swing.JPanel {
 	private Game game;

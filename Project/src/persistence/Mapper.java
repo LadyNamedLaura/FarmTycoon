@@ -19,7 +19,7 @@ public interface Mapper {
 	 * @return the Savable object generated from the database data.
 	 * @throws SQLException
 	 */
-	public abstract domain.Savable load(Map<String, Object> data)
+	public abstract domain.Savable load(DBmap data)
 			throws SQLException;
 
 	/**
@@ -32,7 +32,7 @@ public interface Mapper {
 	 *         reconstruct the object.
 	 * @throws SQLException
 	 */
-	public abstract Map<String, Object> save(domain.Savable obj)
+	public abstract DBmap save(domain.Savable obj)
 			throws SQLException;
 
 	/**

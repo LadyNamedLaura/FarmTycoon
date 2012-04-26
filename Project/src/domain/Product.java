@@ -1,7 +1,7 @@
 package domain;
 
 public enum Product {
-	PATATO		( 20),
+	POTATO		( 20),
 	CARROT		( 30),
 	WHEAT		( 40),
 	CORN		( 60),

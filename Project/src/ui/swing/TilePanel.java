@@ -3,7 +3,8 @@ package ui.swing;
 import java.awt.Graphics;
 import java.awt.Image;
 
-import domain.Coordinate;
+import api.Coordinate;
+
 
 /**
  * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI
@@ -45,7 +46,7 @@ public class TilePanel extends javax.swing.JPanel {
 	}
 
 	public void paintComponent(Graphics g) {
-		bgimage = Images.getImage(game.getTileInfo(coords),
+		bgimage = Images.getImage(game.getTileInfo(coords).toString().toUpperCase(),
 				this.getSize());
 		cursor = Images.getImage("SELECTED", this.getSize());
 		if (bgimage != null)

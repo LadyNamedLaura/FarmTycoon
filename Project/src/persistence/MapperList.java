@@ -1,6 +1,5 @@
 package persistence;
 
-import java.lang.reflect.InvocationTargetException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -46,8 +45,8 @@ public enum MapperList {
 
 	private DB db;
 	private String tablename;
-	private Mapper mapper;
-	private Map<String, String> fields;
+	private final Mapper mapper;
+	private final Map<String, String> fields;
 	private int nextid = 0;
 
 	private MapperList(Mapper mapper) {
@@ -86,26 +85,13 @@ public enum MapperList {
 		rs = st.executeQuery(String.format(
 				"SELECT COUNT(*) AS count FROM %s WHERE id = %d",
 				this.tablename, obj.getId()));
-		Map<String, Object> values;
-		values = mapper.save(obj);
-		if (rs.getInt("count") > 0) {
-			// ugly format black magic
-			update = String.format("UPDATE %s SET %s WHERE id = %d",
-					this.tablename, "%s%s%s%4$s", obj.getId());
-			for (Map.Entry<String, Object> e : values.entrySet())
-				update = String.format(update, e.getKey(), " = ", e.getValue()
-						.toString(), "%5$s %s%s%s%4$s", ",");
-			update = String.format(update, "", "", "", "", "");
-		} else {
-			update = String.format(
-					"INSERT INTO %s (%s%%s%%s%%s) VALUES(%s%%s%%s%%s)",
-					this.tablename, "id", obj.getId());
-			for (Map.Entry<String, Object> e : values.entrySet())
-				update = String.format(update, ", ", e.getKey(), "%s%s%s", ",",
-						e.getValue().toString(), "%s%s%s");
-			update = String.format(update, "", "", "", "", "", "");
-		}
-		st.executeUpdate(update);
+		mapper.save(obj);
+		if (rs.getInt("count") > 0)
+			st.executeUpdate(
+					mapper.save(obj).getUpdateSql(tablename, obj.getId()));
+		else
+			st.executeUpdate(
+					mapper.save(obj).getInsertSql(tablename, obj.getId()));
 	}
 
 	public void init() throws SQLException {
@@ -129,27 +115,16 @@ public enum MapperList {
 		java.sql.Statement st = db.getConnection().createStatement();
 		java.sql.ResultSet rs = st.executeQuery(String.format(
 				"SELECT * FROM %s WHERE id = %d", this.tablename, id));
-		java.sql.ResultSetMetaData meta = rs.getMetaData();
-
-		Map<String, Object> data = new HashMap<String, Object>();
-		int count = meta.getColumnCount();
-		for (int i = 1; i <= count; i++)
-			data.put(meta.getColumnName(i), rs.getObject(i));
-		return mapper.load(data);
+		return mapper.load(new DBmap(mapper, rs));
 	}
+
 	public Set<domain.Savable> loadAll() throws SQLException {
 		Set<domain.Savable> set = new HashSet<domain.Savable>();
 		java.sql.Statement st = db.getConnection().createStatement();
 		java.sql.ResultSet rs = st.executeQuery(String.format(
 				"SELECT * FROM %s", this.tablename));
-		while(rs.next()) {
-			java.sql.ResultSetMetaData meta = rs.getMetaData();
-			Map<String, Object> data = new HashMap<String, Object>();
-			int count = meta.getColumnCount();
-			for (int i = 1; i <= count; i++)
-				data.put(meta.getColumnName(i), rs.getObject(i));
-			set.add(mapper.load(data));
-		}
+		while (rs.next())
+			set.add(mapper.load(new DBmap(mapper, rs)));
 		return set;
 	}
 

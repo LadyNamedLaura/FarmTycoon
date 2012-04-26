@@ -10,9 +10,10 @@ import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import api.TileInfo;
+
 import ui.Translator;
 
-import domain.Coordinate;
 import domain.Game;
 
 public class SideBar extends javax.swing.JPanel {
@@ -21,13 +22,13 @@ public class SideBar extends javax.swing.JPanel {
 	private JLabel selectedName;
 	private Game game;
 	private GameScreen gameScreen;
-	private Coordinate oldselected;
 	private JPanel actionsPanel;
+	private TileInfo info;
 
 	private class ActionButton extends JLabel {
-		private domain.tiles.TileAction action;
+		private api.TileAction action;
 
-		ActionButton(domain.tiles.TileAction action) {
+		ActionButton(api.TileAction action) {
 			super(Translator.getString(action.name()));
 			this.action = action;
 			this.addMouseListener(new MouseAdapter() {
@@ -38,7 +39,11 @@ public class SideBar extends javax.swing.JPanel {
 		}
 
 		private void execute() {
-			game.executeAction(oldselected, action);
+			if(action.name()=="ENTER")
+				switch(info.getField()){
+				case "Market": new MarketWindow(game);
+				}
+			game.executeAction(gameScreen.getSelected().getCoords(), action);
 			gameScreen.drawn();
 		}
 	}
@@ -61,9 +66,12 @@ public class SideBar extends javax.swing.JPanel {
 
 					public void paintComponent(Graphics g) {
 						try {
-							img = Images.getImage(gameScreen.getSelectedType())
-									.getScaledInstance(150, 150,
-											Image.SCALE_DEFAULT);
+							img = Images.getImage(
+									game.getTileInfo(
+											gameScreen.getSelected()
+													.getCoords()).toString()
+											.toUpperCase()).getScaledInstance(
+									150, 150, Image.SCALE_DEFAULT);
 						} catch (Exception e) {
 							img = null;
 						}
@@ -80,6 +88,7 @@ public class SideBar extends javax.swing.JPanel {
 			this.add(selectedName);
 			actionsPanel = new JPanel();
 			this.add(actionsPanel);
+			actionsPanel.setLayout(new BoxLayout(actionsPanel, BoxLayout.Y_AXIS));
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -89,14 +98,16 @@ public class SideBar extends javax.swing.JPanel {
 	public void update() {
 		this.selectedImage.repaint();
 		if (gameScreen.getSelected() != null) {
-			if (gameScreen.getSelected().getCoords() != oldselected) {
-				this.oldselected = gameScreen.getSelected().getCoords();
-				this.selectedName.setText(Translator.getString(game
-						.getTileType(oldselected)));
+			if (info==null || !game.getTileInfo(gameScreen.getSelected().getCoords())
+					.toString().equals(info.toString())) {
+				this.info = game.getTileInfo(gameScreen.getSelected()
+						.getCoords());
+				this.selectedName
+						.setText(Translator.getString(info.toString()));
 				actionsPanel.removeAll();
 				try {
-					for (domain.tiles.TileAction action : game
-							.getTileActions(oldselected)) {
+					for (api.TileAction action : game.getTileActions(gameScreen
+							.getSelected().getCoords())) {
 						ActionButton button = new ActionButton(action);
 						actionsPanel.add(button);
 					}

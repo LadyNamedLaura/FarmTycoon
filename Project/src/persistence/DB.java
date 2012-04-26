@@ -1,6 +1,5 @@
 package persistence;
 
-import java.sql.SQLException;
 import exceptions.*;
 
 public class DB {

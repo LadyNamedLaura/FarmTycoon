@@ -2,13 +2,15 @@ package domain.tiles;
 
 import java.util.Date;
 
+import api.TileAction;
+import api.TileInfo;
+
 import domain.Clock;
 import domain.Game;
 import domain.Savable;
 import domain.TileState;
 
 public class Crop extends Savable implements TileState {
-	public StateList getStateType() {return StateList.CROP;	}
 
 	private enum State {
 		GROWING, READY, ROTTEN;
@@ -32,17 +34,8 @@ public class Crop extends Savable implements TileState {
 	private State state;
 	private Date planted;
 
-	public Crop(String type) {
-		this(type, Game.getGame().getClock().getDate());
-	}
-
 	public Crop(String type, long planted) {
 		this(type, new Date(planted));
-	}
-
-	public Crop(int id, String type, Date planted) {
-		this(type, planted);
-		this.id = id;
 	}
 
 	public Crop(String type, Date planted) {
@@ -57,10 +50,6 @@ public class Crop extends Savable implements TileState {
 		this.crop = crop;
 		this.planted = date;
 		this.state = State.GROWING;
-	}
-
-	public static Crops[] getTypes() {
-		return Crops.values();
 	}
 
 	public String getType() {
@@ -97,8 +86,7 @@ public class Crop extends Savable implements TileState {
 			return new None();
 		}
 		if( this.state == State.READY && (Actions) action == Actions.HARVEST) {
-			domain.Game.getGame().setCash(
-					domain.Game.getGame().getCash()+crop.getProduct().getPrice());
+			domain.Game.getGame().getInv().add(crop.getProduct());
 			return new None();
 		}
 		return null;
@@ -108,12 +96,12 @@ public class Crop extends Savable implements TileState {
 	public long getExpiryTime() {
 		switch(state) {
 		case GROWING:	return planted.getTime() + (Clock.MSECONDSADAY * crop.getTime());
-		case READY:	return planted.getTime() + (Clock.MSECONDSADAY * crop.growdays * 3 / 2);
+		case READY:	return planted.getTime() + (Clock.MSECONDSADAY * crop.getTime() * 3 / 2);
 		default:	return 0;
 		}
 	}
 	
-	public String stateInfo() {
-		return "CROP_"+crop.name()+"_"+state.name();
+	public TileInfo getInfo() {
+		return new TileInfo(getClass().getSimpleName(), crop.name(), state.name());
 	}
 }

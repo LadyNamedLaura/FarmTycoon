@@ -4,40 +4,42 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-import domain.Coordinate;
+import persistence.DBmap;
+
+import api.Coordinate;
+
+import domain.Savable;
+import domain.TileState;
 
 public class Tile implements persistence.Mapper {
-	public domain.Tile load(Map<String, Object> data) {
+	@SuppressWarnings("unchecked")
+	public domain.Tile load(DBmap map) {
 		domain.TileState state;
-		if ((Integer) data.get("stateid") == -1) {
-			state = domain.tiles.StateList.valueOf((String) data.get("state"))
-					.getNew();
-		} else {
-			try {
-				state = (domain.TileState) persistence.MapperList.valueOf(
-						(String) data.get("state")).loadById(
-						(Integer) data.get("stateid"));
-			} catch (Exception e) {
-				e.printStackTrace();
-				state = null;
+		try {
+			Class<? extends domain.TileState> stateClass = (Class<? extends TileState>) Class
+					.forName("domain.tiles." + map.getStr("state"));
+			if (map.getInt("stateid") == -1) {
+				state = stateClass.newInstance();
+			} else {
+				state = (TileState) domain.Savable.load(
+						(Class<? extends Savable>) stateClass,
+						map.getInt("stateid"));
 			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			state = null;
 		}
-		long expiryTime;
-		if (data.get("expiryTime") instanceof Long)
-			expiryTime = (Long) data.get("expiryTime");
-		else
-			expiryTime = (Integer) data.get("expiryTime");
-		return new domain.Tile(new Coordinate((Integer) data.get("x"),
-				(Integer) data.get("y")), state, expiryTime);
+		return new domain.Tile(new Coordinate(map.getInt("x"),
+				map.getInt("y")), state, map.getLong("expiryTime"));
 	}
 
-	public Map<String, Object> save(domain.Savable obj) throws SQLException {
+	public DBmap save(domain.Savable obj) throws SQLException {
 		domain.Tile tile = (domain.Tile) obj;
-		Map<String, Object> ret = new HashMap<String, Object>();
+		DBmap ret = new DBmap(this);
 		ret.put("x", tile.getCoordinate().getX());
 		ret.put("y", tile.getCoordinate().getY());
 		ret.put("expiryTime", (Long) tile.getExpiryTime());
-		ret.put("state", "'" + tile.getState().getStateType().name() + "'");
+		ret.put("state", tile.getState().getClass().getSimpleName());
 		if (tile.getState() instanceof domain.Savable) {
 			domain.Savable state = (domain.Savable) tile.getState();
 			ret.put("stateid", state.getId());
