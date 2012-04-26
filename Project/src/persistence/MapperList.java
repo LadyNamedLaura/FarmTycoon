@@ -2,7 +2,6 @@ package persistence;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -50,11 +49,6 @@ public enum MapperList {
 	private int nextid = 0;
 
 	private MapperList(Mapper mapper) {
-		this("", mapper);
-		this.tablename = name();
-	}
-
-	private MapperList(String name, Mapper mapper) {
 		try {
 			this.db = PersistenceController.getInstance().getDB();
 		} catch (DBConnectException e) {
@@ -65,7 +59,7 @@ public enum MapperList {
 			e.printStackTrace();
 		}
 		this.mapper = mapper;
-		this.tablename = name;
+		this.tablename = mapper.getClass().getSimpleName();
 		this.fields = mapper.getFields();
 	}
 
@@ -81,17 +75,16 @@ public enum MapperList {
 		this.initIfNeed();
 		java.sql.Statement st = db.getConnection().createStatement();
 		ResultSet rs;
-		String update = "";
 		rs = st.executeQuery(String.format(
 				"SELECT COUNT(*) AS count FROM %s WHERE id = %d",
 				this.tablename, obj.getId()));
 		mapper.save(obj);
 		if (rs.getInt("count") > 0)
 			st.executeUpdate(
-					mapper.save(obj).getUpdateSql(tablename, obj.getId()));
+					mapper.save(obj).getUpdateSql(obj.getId()));
 		else
 			st.executeUpdate(
-					mapper.save(obj).getInsertSql(tablename, obj.getId()));
+					mapper.save(obj).getInsertSql(obj.getId()));
 	}
 
 	public void init() throws SQLException {
@@ -108,7 +101,6 @@ public enum MapperList {
 			update += ", " + e.getKey() + " " + e.getValue();
 		st.executeUpdate(String.format("CREATE TABLE IF NOT EXISTS %s (%s)",
 				this.tablename, update));
-
 	}
 
 	public domain.Savable loadById(int id) throws SQLException {

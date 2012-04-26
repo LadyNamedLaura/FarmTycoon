@@ -4,8 +4,10 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import api.StringJoiner;
+
 public class DBmap extends HashMap<String, Object> {
-	final Map<String, String> fields;
+	private final Mapper mapper;
 
 	public DBmap(Mapper mapper, java.sql.ResultSet rs) throws SQLException {
 		this(mapper);
@@ -16,7 +18,7 @@ public class DBmap extends HashMap<String, Object> {
 	}
 
 	public DBmap(Mapper mapper) {
-		fields = mapper.getFields();
+		this.mapper = mapper;
 	}
 
 	public DBmap(Mapper mapper, String[] keys, Object[] vals) {
@@ -28,9 +30,11 @@ public class DBmap extends HashMap<String, Object> {
 	public int getInt(String key) {
 		return (Integer) get(key);
 	}
+
 	public double getDouble(String key) {
 		return (Double) get(key);
 	}
+
 	public String getStr(String key) {
 		return (String) get(key);
 	}
@@ -41,23 +45,34 @@ public class DBmap extends HashMap<String, Object> {
 		return (Integer) get(key);
 	}
 
-	public String getUpdateSql(String tablename, int id) {
-		String update = String.format("UPDATE %s SET %s WHERE id = %d",
-				tablename, "%s%s%s%4$s", id);
+	public String getUpdateSql() {
+		if(get("id")==null)
+			return null;
+		return getUpdateSql(getInt("id"));
+	}
+	public String getUpdateSql(int id) {
+		StringJoiner pairs = new StringJoiner(",");
 		for (Map.Entry<String, Object> e : entrySet())
-			update = String.format(update, e.getKey(), " = ",
-					format(e.getValue()), "%5$s %s%s%s%4$s", ",");
-		return String.format(update, "", "", "", "", "");
+			pairs.add(e.getKey() + " = " + format(e.getValue()));
+		return String.format("UPDATE %s SET %s WHERE id = %d", mapper
+				.getClass().getSimpleName(), pairs.toString(), id);
 	}
 
-	public String getInsertSql(String tablename, int id) {
-		String update = String.format(
-				"INSERT INTO %s (%s%%s%%s%%s) VALUES(%s%%s%%s%%s)", tablename,
-				"id", id);
-		for (Map.Entry<String, Object> e : entrySet())
-			update = String.format(update, ", ", e.getKey(), "%s%s%s", ",",
-					format(e.getValue()), "%s%s%s");
-		return String.format(update, "", "", "", "", "", "");
+	public String getInsertSql() {
+		if(get("id")==null)
+			return null;
+		return getInsertSql(getInt("id"));
+	}
+	public String getInsertSql(int id) {
+		StringJoiner names = new StringJoiner(",", "id");
+		StringJoiner values = new StringJoiner(",", id);
+		for (Map.Entry<String, Object> e : entrySet()) {
+			names.add(e.getKey());
+			values.add(format(e.getValue()));
+		}
+		return String.format("INSERT INTO %s (%s) VALUES(%s);", mapper
+				.getClass().getSimpleName(), names.toString(), values
+				.toString());
 	}
 
 	private String format(Object obj) {
