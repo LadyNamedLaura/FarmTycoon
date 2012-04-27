@@ -95,10 +95,10 @@ public class TitleScreen extends javax.swing.JFrame {
 		}
 
 		public void mouseClicked(MouseEvent evt) {
-			switch (action){
-			case "newGame":		StartUp.newGame();	break;
-			case "loadGame":	StartUp.loadGame();	break;
-			}
+			if(action == "newGame")
+				StartUp.newGame();
+			if(action == "loadGame")
+				StartUp.loadGame();
 		}
 	}
 	
