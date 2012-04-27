@@ -40,8 +40,8 @@ public class SideBar extends javax.swing.JPanel {
 
 		private void execute() {
 			if(action.name()=="ENTER")
-				switch(info.getField()){
-				case "Market": new MarketWindow(game);
+				if(info.getField() == "Market"){
+				new MarketWindow(game);
 				}
 			game.executeAction(gameScreen.getSelected().getCoords(), action);
 			gameScreen.drawn();
