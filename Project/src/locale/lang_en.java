@@ -53,7 +53,19 @@ public class lang_en extends ListResourceBundle {
 			{ "Crop_STRAWBERRY_GROWING","growing strawberries"},
 			{ "Crop_RASPBERRY_GROWING","growing raspberries"},
 			{ "Crop_COCAO_GROWING","growing cacao"},
-			{ "Crop_SOY_GROWING","growing soy"},	
+			{ "Crop_SOY_GROWING","growing soy"},
+			{ "Crop_POTATO_READY","potatoes are ready"},
+			{ "Crop_CARROT_READY","carrots are ready"},
+			{ "Crop_WHEAT_READY","wheat is ready"},
+			{ "Crop_CORN_READY","corn is ready"},
+			{ "Crop_GRAPE_READY","grapes are ready"},
+			{ "Crop_LETTUCE_READY","lettuce is ready"},
+			{ "Crop_TOMATO_READY","tomatoes are ready"},
+			{ "Crop_STRAWBERRY_READY","strawberries are ready"},
+			{ "Crop_RASPBERRY_READY","raspberries are ready"},
+			{ "Crop_COCAO_READY","cacao is ready"},
+			{ "Crop_SOY_READY","soy is ready"},
+			{ "HARVEST", "harvest"},
 			{ "CLEAR", "clear"}};
 			
 			
