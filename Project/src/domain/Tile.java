@@ -90,11 +90,10 @@ public class Tile extends Savable {
 				return false;
 			Controller.getInstance().getGame().adjustCash(-action.getCost());
 			this.state = tmp;
-//			this.type = this.state.getStateType();
 			this.expiryTime = state.getExpiryTime();
 			if (expiryTime > 0) {
-				if (expiryTime < Game.getGame().getClock().getTime())
-					return executeAction(TileAction.Defaults.EXPIRE);
+//				if (expiryTime < Game.getGame().getClock().getTime())
+//					return executeAction(TileAction.Defaults.EXPIRE);
 				synchronized (expiryMap) {
 					while(expiryMap.get(expiryTime) != null) //almost impossible
 						expiryTime++;
