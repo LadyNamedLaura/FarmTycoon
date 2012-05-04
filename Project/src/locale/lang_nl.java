@@ -65,6 +65,17 @@ public class lang_nl extends ListResourceBundle {
 			{ "Crop_RASPBERRY_READY","frambozen zijn klaar"},
 			{ "Crop_COCAO_READY","cacaobonen zijn klaar"},
 			{ "Crop_SOY_READY","sojabonen zijn klaar"},
+			{ "Animal_Chicken_NORMAL", "kippen"},
+			{ "Animal_Cow_NORMAL", "koeien"},
+			{ "Animal_Chicken_READY", "kippen hebben eieren gelegd"},
+			{ "Animal_Cow_READY", "koeien moeten gemolken worden"},
+			{ "Animal_Chicken_DEATH", "de kippen zijn dood"},
+			{ "Animal_Cow_DEATH", "de koeien zijn dood"},
 			{ "HARVEST", "oogsten"},
-			{ "CLEAR", "vrijmaken"}};
+			{ "CLEAR", "vrijmaken"},
+			{ "ANIMALS", "dieren"},
+			{ "Animal", "dier"},
+			{ "Chicken", "kippen"},
+			{ "Cow", "koeien"},
+			{ "COLLECT", "inzamelen"}};
 }

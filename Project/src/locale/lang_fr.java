@@ -65,6 +65,18 @@ public class lang_fr extends ListResourceBundle {
 			{ "Crop_RASPBERRY_READY","les framboises sont prêt"},
 			{ "Crop_COCAO_READY","les fèves de cacao sont prêt"},
 			{ "Crop_SOY_READY","les fèves de soja sont prêt"},
+			{ "Animal_Chicken_NORMAL", "des poules"},
+			{ "Animal_Cow_NORMAL", "des vaches"},
+			{ "Animal_Chicken_READY", "les poules ont pondu des oeufs"},
+			{ "Animal_Cow_READY", "les vaches doivent être traites"},
+			{ "Animal_Chicken_DEATH", "les poules sont morts"},
+			{ "Animal_Cow_DEATH", "les vaches sont mortes"},
 			{ "HARVEST", "recueillir"},
-			{ "CLEAR", "dégager"}};
+			{ "CLEAR", "dégager"},
+			{ "HARVEST", "recueillir"},
+			{ "ANIMALS", "des animaux"},
+			{ "Animal", "animal"},
+			{ "Chicken", "des poules"},
+			{ "Cow", "des vaches"},
+			{ "COLLECT", "collecter"}};
 }
