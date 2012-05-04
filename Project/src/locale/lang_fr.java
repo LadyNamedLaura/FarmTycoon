@@ -52,7 +52,7 @@ public class lang_fr extends ListResourceBundle {
 			{ "Crop_TOMATO_GROWING","cultiver des tomates"},
 			{ "Crop_STRAWBERRY_GROWING","cultiver des fraises"},
 			{ "Crop_RASPBERRY_GROWING","cultiver des framboises"},
-			{ "Crop_COCAO_GROWING","cultiver des fèves de cacao"},
+			{ "Crop_COCOA_GROWING","cultiver des fèves de cacao"},
 			{ "Crop_SOY_GROWING","cultiver des fèves de soja"},	
 			{ "Crop_POTATO_READY","les pommes de terre sont prêt"},
 			{ "Crop_CARROT_READY","les carottes sont prêt"},
@@ -63,7 +63,7 @@ public class lang_fr extends ListResourceBundle {
 			{ "Crop_TOMATO_READY","les tomates sont prêt"},
 			{ "Crop_STRAWBERRY_READY","les fraises sont prêt"},
 			{ "Crop_RASPBERRY_READY","les framboises sont prêt"},
-			{ "Crop_COCAO_READY","les fèves de cacao sont prêt"},
+			{ "Crop_COCOA_READY","les fèves de cacao sont prêt"},
 			{ "Crop_SOY_READY","les fèves de soja sont prêt"},
 			{ "Animal_Chicken_NORMAL", "des poules"},
 			{ "Animal_Cow_NORMAL", "des vaches"},
@@ -78,5 +78,8 @@ public class lang_fr extends ListResourceBundle {
 			{ "Animal", "animal"},
 			{ "Chicken", "des poules"},
 			{ "Cow", "des vaches"},
-			{ "COLLECT", "collecter"}};
+			{ "EGGS", "des œufs"},
+			{ "MILK", "du lait"},
+			{ "COLLECT", "collecter"},
+			{ "ENTER", "entrer"}};
 }

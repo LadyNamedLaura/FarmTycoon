@@ -43,7 +43,7 @@ public class MarketWindow extends JFrame {
 			for(Entry<Product, Integer> item : game.getInv().entrySet()) {
 				if(item.getValue()>0) {
 					i++;
-					getContentPane().add(new JLabel(item.getKey().name()));
+					getContentPane().add(new JLabel(Translator.getString(item.getKey().name())));
 					getContentPane().add(new JLabel(item.getValue().toString()));
 					getContentPane().add(new JButton("verkoop aan "+String.format(Translator.getString("moneystring"), item.getKey().getPrice())));
 				}

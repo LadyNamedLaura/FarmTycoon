@@ -52,7 +52,7 @@ public class lang_nl extends ListResourceBundle {
 			{ "Crop_TOMATO_GROWING","tomaten aan het groeien"},
 			{ "Crop_STRAWBERRY_GROWING","aardbeien aan het groeien"},
 			{ "Crop_RASPBERRY_GROWING","frambozen aan het groeien"},
-			{ "Crop_COCAO_GROWING","cacaobonen aan het groeien"},
+			{ "Crop_COCOA_GROWING","cacaobonen aan het groeien"},
 			{ "Crop_SOY_GROWING","sojabonen aan het groeien"},	
 			{ "Crop_POTATO_READY","aardappelen zijn klaar"},
 			{ "Crop_CARROT_READY","wortelen zijn klaar"},
@@ -63,7 +63,7 @@ public class lang_nl extends ListResourceBundle {
 			{ "Crop_TOMATO_READY","tomaten zijn klaar"},
 			{ "Crop_STRAWBERRY_READY","aardbeien zijn klaar"},
 			{ "Crop_RASPBERRY_READY","frambozen zijn klaar"},
-			{ "Crop_COCAO_READY","cacaobonen zijn klaar"},
+			{ "Crop_COCOA_READY","cacaobonen zijn klaar"},
 			{ "Crop_SOY_READY","sojabonen zijn klaar"},
 			{ "Animal_Chicken_NORMAL", "kippen"},
 			{ "Animal_Cow_NORMAL", "koeien"},
@@ -77,5 +77,8 @@ public class lang_nl extends ListResourceBundle {
 			{ "Animal", "dier"},
 			{ "Chicken", "kippen"},
 			{ "Cow", "koeien"},
-			{ "COLLECT", "inzamelen"}};
+			{ "EGGS", "eieren"},
+			{ "MILK", "melk"},
+			{ "COLLECT", "inzamelen"},
+			{ "ENTER", "binnengaan"}};
 }

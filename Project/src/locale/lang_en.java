@@ -52,7 +52,7 @@ public class lang_en extends ListResourceBundle {
 			{ "Crop_TOMATO_GROWING","growing tomatoes"},
 			{ "Crop_STRAWBERRY_GROWING","growing strawberries"},
 			{ "Crop_RASPBERRY_GROWING","growing raspberries"},
-			{ "Crop_COCAO_GROWING","growing cacao"},
+			{ "Crop_COCOA_GROWING","growing cacao"},
 			{ "Crop_SOY_GROWING","growing soy"},
 			{ "Crop_POTATO_READY","potatoes are ready"},
 			{ "Crop_CARROT_READY","carrots are ready"},
@@ -63,8 +63,19 @@ public class lang_en extends ListResourceBundle {
 			{ "Crop_TOMATO_READY","tomatoes are ready"},
 			{ "Crop_STRAWBERRY_READY","strawberries are ready"},
 			{ "Crop_RASPBERRY_READY","raspberries are ready"},
-			{ "Crop_COCAO_READY","cacao is ready"},
+			{ "Crop_COCOA_READY","cacao is ready"},
 			{ "Crop_SOY_READY","soy is ready"},
+			{ "Crop_POTATO_ROTTEN","potatoes are rotten"},
+			{ "Crop_CARROT_ROTTEN","carrots are rotten"},
+			{ "Crop_WHEAT_ROTTEN","wheat is rotten"},
+			{ "Crop_CORN_ROTTEN","corn is rotten"},
+			{ "Crop_GRAPE_ROTTEN","grapes are rotten"},
+			{ "Crop_LETTUCE_ROTTEN","lettuce is rotten"},
+			{ "Crop_TOMATO_ROTTEN","tomatoes rotten"},
+			{ "Crop_STRAWBERRY_ROTTEN","strawberries are rotten"},
+			{ "Crop_RASPBERRY_ROTTEN","raspberries are rotten"},
+			{ "Crop_COCOA_ROTTEN","cocoabeans are rotten"},
+			{ "Crop_SOY_ROTTEN","soy beans are rotten"},
 			{ "Animal_Chicken_NORMAL", "chickens"},
 			{ "Animal_Cow_NORMAL", "cows"},
 			{ "Animal_Chicken_READY", "chickens laid eggs"},
@@ -77,7 +88,10 @@ public class lang_en extends ListResourceBundle {
 			{ "Animal", "animal"},
 			{ "Chicken", "chicken"},
 			{ "Cow", "cow"},
-			{ "COLLECT", "collect"}};
+			{ "EGGS", "eggs"},
+			{ "MILK", "milk"},
+			{ "COLLECT", "collect"},
+			{ "ENTER", "enter"}};
 			
 			
 			
