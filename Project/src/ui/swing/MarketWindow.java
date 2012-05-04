@@ -51,7 +51,7 @@ public class MarketWindow extends JFrame {
 			GridLayout thisLayout = new GridLayout(i, 3);
 			getContentPane().setLayout(thisLayout);
 			this.setVisible(true);
-			this.setSize(400, i*50);
+			this.setSize(400, 30 + (i*50));
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
