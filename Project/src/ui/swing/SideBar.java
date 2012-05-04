@@ -40,10 +40,13 @@ public class SideBar extends javax.swing.JPanel {
 		}
 
 		private void execute() {
-			if(action.name()=="ENTER")
-				if(info.getField() == "Market"){
-				new MarketWindow(game);
+			if(action.name()=="ENTER") {
+				System.out.println("opening "+info.getField());
+				if(info.getField().equals("Market")) {
+					System.out.println("opening market");
+					new MarketWindow(game);
 				}
+			}
 			game.executeAction(gameScreen.getSelected().getCoords(), action);
 			gameScreen.drawn();
 		}
