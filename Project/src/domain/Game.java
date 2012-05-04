@@ -2,6 +2,8 @@ package domain;
 
 import java.sql.SQLException;
 
+import exceptions.InvalidStateException;
+
 import api.Coordinate;
 import api.TileAction;
 import api.TileInfo;
@@ -54,14 +56,11 @@ public class Game {
 		inv.save();
 	}
 
-/*	public String getTileType(Coordinate coord){
-		return farm.getTile(coord).getState().getClass().getSimpleName();
-	}*/
 	public TileInfo getTileInfo(Coordinate coord){
 		return farm.getTile(coord).getInfo();
 	}
 
-	public api.TileAction[] getTileActions(Coordinate coord) {
+	public api.TileAction[] getTileActions(Coordinate coord) throws InvalidStateException {
 		return farm.getTile(coord).getActions();
 	}
 	

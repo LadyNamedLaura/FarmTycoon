@@ -7,7 +7,7 @@ import domain.TileState;
 public class None implements TileState {
 
 	private enum Actions implements TileAction {
-		PLOW(1, 50), BUILDBARN(0, 500), COWS(0, 250), CHICKENS(0, 100);
+		PLOW(1, 50), BUILDBARN(0, 500), ANIMALS(0, 50);
 
 		private int time, cost;
 
@@ -29,6 +29,7 @@ public class None implements TileState {
 			switch((Actions) action){
 			case PLOW:	return new Plowing();
 			case BUILDBARN:	return new Building("barn");
+			case ANIMALS: return new Animal();
 			default:	return null;
 			}
 		}

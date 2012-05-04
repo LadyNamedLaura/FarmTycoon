@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import exceptions.InvalidStateException;
+
 import api.Coordinate;
 import api.TileAction;
 import api.TileInfo;
@@ -53,9 +55,10 @@ public class Tile extends Savable {
 
 	/**
 	 * @return
+	 * @throws InvalidStateException 
 	 * @see domain.TileState#getActions()
 	 */
-	public TileAction[] getActions() {
+	public TileAction[] getActions() throws InvalidStateException {
 		return state.getActions();
 	}
 
@@ -90,6 +93,8 @@ public class Tile extends Savable {
 //			this.type = this.state.getStateType();
 			this.expiryTime = state.getExpiryTime();
 			if (expiryTime > 0) {
+				if (expiryTime < Game.getGame().getClock().getTime())
+					return executeAction(TileAction.Defaults.EXPIRE);
 				synchronized (expiryMap) {
 					while(expiryMap.get(expiryTime) != null) //almost impossible
 						expiryTime++;

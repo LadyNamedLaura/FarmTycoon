@@ -11,7 +11,9 @@ public enum Product {
 	STRAWBERRY	(145),
 	RASPBERRY	(190),
 	COCOA		(220),
-	SOY		(290);
+	SOY			(290),
+	EGGS		(30),
+	MILK		(70);
 	
 	final int price;
 	

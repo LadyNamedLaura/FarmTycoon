@@ -15,6 +15,7 @@ import api.TileInfo;
 import ui.Translator;
 
 import domain.Game;
+import exceptions.InvalidStateException;
 
 public class SideBar extends javax.swing.JPanel {
 
@@ -113,6 +114,8 @@ public class SideBar extends javax.swing.JPanel {
 					}
 				} catch (NullPointerException e) {
 
+				} catch (InvalidStateException e) {
+					
 				}
 			}
 		}

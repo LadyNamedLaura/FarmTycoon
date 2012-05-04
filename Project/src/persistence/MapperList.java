@@ -29,6 +29,7 @@ public enum MapperList {
 	 * @see domain.Crop
 	 */
 	CROP(new persistence.mappers.Crop()),
+	ANIMAL(new persistence.mappers.Animal()),
 	/**
 	 * @see domain.Clock
 	 */
