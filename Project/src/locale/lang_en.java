@@ -91,8 +91,7 @@ public class lang_en extends ListResourceBundle {
 			{ "EGGS", "eggs"},
 			{ "MILK", "milk"},
 			{ "COLLECT", "collect"},
-			{ "ENTER", "enter"}};
-			
-			
-			
+			{ "ENTER", "enter"},
+			{ "sellstring", "sell at: "}
+	};
 }

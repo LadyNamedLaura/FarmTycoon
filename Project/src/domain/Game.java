@@ -88,4 +88,9 @@ public class Game {
 		return inv;
 	}
 
+	public void sell(Product product) {
+		inv.remove(product, 1);
+		adjustCash(product.getPrice());
+	}
+
 }

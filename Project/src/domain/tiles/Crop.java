@@ -87,7 +87,7 @@ public class Crop extends Savable implements TileState {
 		}
 		if( this.state == State.READY && (Actions) action == Actions.HARVEST) {
 			domain.Game.getGame().getInv().add(crop.getProduct());
-			return new None();
+			return new Plowed();
 		}
 		return null;
 	}

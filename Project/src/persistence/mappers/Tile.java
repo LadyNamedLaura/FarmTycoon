@@ -15,7 +15,7 @@ public class Tile implements persistence.Mapper {
 	@SuppressWarnings("unchecked")
 	public domain.Tile load(DBmap map) {
 		domain.TileState state;
-		try {System.out.println(map.getStr("state"));
+		try {
 			Class<? extends domain.TileState> stateClass = (Class<? extends TileState>) Class
 					.forName("domain.tiles." + map.getStr("state"));
 			if (map.getInt("stateid") == -1) {

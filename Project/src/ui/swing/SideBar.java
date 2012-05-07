@@ -1,6 +1,5 @@
 package ui.swing;
 
-import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
@@ -41,14 +40,11 @@ public class SideBar extends javax.swing.JPanel {
 
 		private void execute() {
 			if(action.name()=="ENTER") {
-				System.out.println("opening "+info.getField());
 				if(info.getField().equals("Market")) {
-					System.out.println("opening market");
 					new MarketWindow(game);
 				}
 			}
 			game.executeAction(gameScreen.getSelected().getCoords(), action);
-			gameScreen.drawn();
 		}
 	}
 
@@ -63,7 +59,7 @@ public class SideBar extends javax.swing.JPanel {
 		try {
 			BoxLayout layout = new BoxLayout(this, javax.swing.BoxLayout.Y_AXIS);
 			this.setLayout(layout);
-			this.setPreferredSize(new java.awt.Dimension(150, 570));
+			this.setPreferredSize(new java.awt.Dimension(200, 570));
 			{
 				selectedImage = new JPanel() {
 					public Image img;
@@ -75,7 +71,7 @@ public class SideBar extends javax.swing.JPanel {
 											gameScreen.getSelected()
 													.getCoords()).toString()
 											.toUpperCase()).getScaledInstance(
-									150, 150, Image.SCALE_DEFAULT);
+									200, 200, Image.SCALE_DEFAULT);
 						} catch (Exception e) {
 							img = null;
 						}
@@ -85,8 +81,7 @@ public class SideBar extends javax.swing.JPanel {
 
 				};
 				this.add(selectedImage);
-				selectedImage.setSize(150, 150);
-				selectedImage.setPreferredSize(new Dimension(150, 150));
+				selectedImage.setSize(200, 200);
 			}
 			selectedName = new JLabel();
 			this.add(selectedName);

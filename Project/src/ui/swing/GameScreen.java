@@ -1,18 +1,16 @@
 package ui.swing;
 
 import java.awt.FlowLayout;
-
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -22,72 +20,47 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
-import javax.swing.WindowConstants;
-
 import ui.Translator;
 
-/**
- * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI
- * Builder, which is free for non-commercial use. If Jigloo is being used
- * commercially (ie, by a corporation, company or business for any purpose
- * whatever) then you should purchase a license for each developer using Jigloo.
- * Please visit www.cloudgarden.com for details. Use of Jigloo implies
- * acceptance of these licensing terms. A COMMERCIAL LICENSE HAS NOT BEEN
- * PURCHASED FOR THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED LEGALLY FOR
- * ANY CORPORATE OR COMMERCIAL PURPOSE.
- */
 @SuppressWarnings("serial")
-public class GameScreen extends javax.swing.JFrame {
+public class GameScreen extends javax.swing.JFrame implements ComponentListener, WindowListener {
+	private static final int FASTUPDATE = 200;
+	private static final int MEDIUMUPDATE = 1000;
+	private static final int SLOWUPDATE = 2500;
 	private GameBoard gameBoard;
 	private JButton saveButton;
-	private JLabel moneyLabel;
-	private JPanel toolBarPanel;
-	private JLabel timeSkip;
-	private JLabel timeSlowDown;
-	private JLabel timeSpeedUp;
-	private JPanel timeController;
-	private JPanel contentPanel;
-	private JLabel timeLabel;
+	private JLabel moneyLabel, timeSkip, timeSlowDown, timeSpeedUp, timeLabel;
+	private JPanel toolBarPanel, timeController, contentPanel;
 	private JToolBar toolBar;
 	private SideBar sidebar;
-	private domain.Game game;
-	public TilePanel selectedPanel = null;
-	Timer timer = new Timer();
+	private final domain.Game game;
+	private TilePanel selectedPanel = null;
+	private final Timer timer = new Timer();
+	private TimerTask timertask;
 
-	/**
-	 * Auto-generated main method to display this JFrame
-	 */
-
-	public GameScreen(domain.Game game) {
-		super();
-		this.game = game;
-		initGUI();
-
-		timer.scheduleAtFixedRate(new TimerTask() {
-			public void run() {
-				drawn();
-			}
-		}, 0, 200); // 5 updates/sec
+	private class UpdateTask extends TimerTask{
+		public void run() {
+			moneyLabel.setText(String.format(
+					ui.Translator.getString("moneystring"), game.getCash()));
+			timeLabel.setText(game.getClock().getDate().toString());
+			gameBoard.update();
+			sidebar.update();
+		}
 	}
+	
+	public GameScreen(domain.Game thegame) {
+		super();
+		game = thegame;
 
-	private void initGUI() {
 		try {
-			setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-			BoxLayout layout = new BoxLayout(getContentPane(),
-					javax.swing.BoxLayout.Y_AXIS);
-			getContentPane().setLayout(layout);
-			this.setPreferredSize(new java.awt.Dimension(790, 570));
+			getContentPane().setLayout(new BoxLayout(getContentPane(),
+					javax.swing.BoxLayout.Y_AXIS));
 			{
 				toolBar = new JToolBar();
-				getContentPane().add(toolBar);
 				toolBar.setFloatable(false);
-				toolBar.setPreferredSize(new java.awt.Dimension(50, 40));
 				{
 					toolBarPanel = new JPanel();
 					GridBagLayout toolBarPanelLayout = new GridBagLayout();
-					toolBar.add(toolBarPanel);
-					toolBarPanel.setPreferredSize(new java.awt.Dimension(104,
-							27));
 					toolBarPanelLayout.rowWeights = new double[] { 0.1, 0.1 };
 					toolBarPanelLayout.rowHeights = new int[] { 7, 7 };
 					toolBarPanelLayout.columnWeights = new double[] { 0.1, 0.1,
@@ -96,11 +69,7 @@ public class GameScreen extends javax.swing.JFrame {
 					toolBarPanel.setLayout(toolBarPanelLayout);
 					toolBarPanel.setOpaque(false);
 					{
-						saveButton = new JButton();
-						toolBarPanel.add(saveButton, new GridBagConstraints(0, 0, 1, 2, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.VERTICAL, new Insets(0, 0, 0, 0), 0, 0));
-						saveButton.setText(Translator.getString("SAVE"));
-						saveButton.setPreferredSize(new java.awt.Dimension(50,
-								40));
+						saveButton = new JButton(Translator.getString("SAVE"));
 						saveButton.addMouseListener(new MouseAdapter() {
 							public void mouseClicked(MouseEvent evt) {
 								try {
@@ -108,108 +77,59 @@ public class GameScreen extends javax.swing.JFrame {
 								} catch (SQLException e) {
 									e.printStackTrace();
 								}
-
 							}
 						});
-					}
-					{
 						timeLabel = new JLabel();
-						toolBarPanel.add(timeLabel, new GridBagConstraints(0, 0, 3, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.VERTICAL, new Insets(0, 0, 0, 0), 0, 0));
-						timeLabel.setText("time");
-					}
-					{
 						moneyLabel = new JLabel();
-						toolBarPanel.add(moneyLabel, new GridBagConstraints(2, 0, 1, 2, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.VERTICAL, new Insets(0, 0, 0, 0), 0, 0));
-						moneyLabel.setText("€ ??");
-					}
-					{
-						timeController = new JPanel();
-						FlowLayout timeControllerLayout = new FlowLayout();
-						timeControllerLayout.setHgap(10);
-						toolBarPanel.add(timeController, new GridBagConstraints(0, 1, 3, 1, 0.0, 0.0, GridBagConstraints.SOUTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
-						timeController.setLayout(timeControllerLayout);
+						timeController = new JPanel(new FlowLayout(FlowLayout.CENTER,10,5));
 						timeController.setOpaque(false);
 						{
-							timeSlowDown = new JLabel();
+							timeSlowDown = new JLabel(" << ");
+							timeSkip	 = new JLabel(" >>| ");
+							timeSpeedUp  = new JLabel(" >> ");
 							timeController.add(timeSlowDown);
-							timeSlowDown.setText(" << ");
+							timeController.add(timeSkip);
+							timeController.add(timeSpeedUp);
 							timeSlowDown.addMouseListener(new MouseAdapter() {
 								public void mouseClicked(MouseEvent evt) {
 									game.slowDown();
-								}
-							});
-						}
-						{
-							timeSkip = new JLabel();
-							timeController.add(timeSkip);
-							timeSkip.setText(" >>| ");
+								}});
 							timeSkip.addMouseListener(new MouseAdapter() {
 								public void mouseClicked(MouseEvent evt) {
 									game.skipDay();
-								}
-							});
-						}
-						{
-							timeSpeedUp = new JLabel();
-							timeController.add(timeSpeedUp);
-							timeSpeedUp.setText(" >> ");
+								}});
 							timeSpeedUp.addMouseListener(new MouseAdapter() {
 								public void mouseClicked(MouseEvent evt) {
 									game.speedUp();
-								}
-							});
+								}});
 						}
+						toolBarPanel.add(saveButton, new GridBagConstraints(0, 0, 1, 2, 0.0, 0.0, GridBagConstraints.WEST, GridBagConstraints.VERTICAL, new Insets(0, 0, 0, 0), 0, 0));
+						toolBarPanel.add(timeLabel, new GridBagConstraints(0, 0, 3, 1, 0.0, 0.0, GridBagConstraints.CENTER, GridBagConstraints.VERTICAL, new Insets(0, 0, 0, 0), 0, 0));
+						toolBarPanel.add(moneyLabel, new GridBagConstraints(2, 0, 1, 2, 0.0, 0.0, GridBagConstraints.EAST, GridBagConstraints.VERTICAL, new Insets(0, 0, 0, 0), 0, 0));
+						toolBarPanel.add(timeController, new GridBagConstraints(0, 1, 3, 1, 0.0, 0.0, GridBagConstraints.SOUTH, GridBagConstraints.HORIZONTAL, new Insets(0, 0, 0, 0), 0, 0));
 					}
 				}
-			}
-			{
-				contentPanel = new JPanel();
-				getContentPane().add(contentPanel);
-				BoxLayout jPanel3Layout = new BoxLayout(contentPanel,
-						javax.swing.BoxLayout.X_AXIS);
-				contentPanel.setLayout(jPanel3Layout);
-				contentPanel.addComponentListener(new ComponentAdapter() {
-					public void componentResized(ComponentEvent evt) {
-						jPanel3ComponentResized(evt);
-					}
-				});
-				{
-					gameBoard = new GameBoard(game, this);
-					contentPanel.add(gameBoard);
-				}
-				{
-					sidebar = new SideBar(game, this);
-					contentPanel.add(sidebar);
-				}
-			}
+				toolBar.add(toolBarPanel);
 
-			this.addWindowListener(new WindowAdapter() {
-				public void windowClosed(WindowEvent evt) {
-					timer.cancel();
-				}
-			});
-			// pack();
-			this.setSize(800, 600);
+				contentPanel = new JPanel();
+				contentPanel.setLayout(new BoxLayout(contentPanel,
+						javax.swing.BoxLayout.X_AXIS));
+				gameBoard = new GameBoard(game, this);
+				sidebar = new SideBar(game, this);
+				contentPanel.add(gameBoard);
+				contentPanel.add(sidebar);
+			}
+			getContentPane().add(toolBar);
+			getContentPane().add(contentPanel);
+
+			addWindowListener(this);
+			addComponentListener(this);
+
+			setSize(800, 600);
 		} catch (Exception e) {
 			// add your error handling code here
 			e.printStackTrace();
 		}
-	}
-
-	public void drawn() {
-		drawnMoney(game.getCash());
-		drawnClock(game.getClock().getDate());
-		gameBoard.update();
-		sidebar.update();
-	}
-
-	private void drawnMoney(int money) {
-		moneyLabel.setText(String.format(
-				ui.Translator.getString("moneystring"), money));
-	}
-
-	private void drawnClock(Date time) {
-		timeLabel.setText(time.toString());
 	}
 
 	public void select(TilePanel tile) {
@@ -220,15 +140,66 @@ public class GameScreen extends javax.swing.JFrame {
 		this.selectedPanel = tile;
 		this.selectedPanel.selected = true;
 		this.selectedPanel.repaint();
-
-		this.sidebar.update();
 	}
 
 	TilePanel getSelected() {
 		return selectedPanel;
 	}
+	
+	private void setUpdate(int ms){
+		if(timertask != null)
+			timertask.cancel();
+		if(ms == 0){
+			timer.cancel();
+			return;
+		}
+		timertask=new UpdateTask();
+		try {
+			timer.purge();
+			timer.scheduleAtFixedRate(timertask, 0, ms);
+		} catch ( java.lang.IllegalStateException e) {
+			//we already canceled the timer, leave it like that
+		}
+	}
 
-	private void jPanel3ComponentResized(ComponentEvent evt) {
-		sidebar.setSize(150, evt.getComponent().getSize().height);
+	public void componentResized(ComponentEvent evt) {
+		int height = getContentPane().getHeight();
+		int width = getContentPane().getWidth();
+		toolBar.setSize(width, 40);
+		contentPanel.setSize(width, height - 40);
+		gameBoard.setSize(width - 200, height - 40);
+		sidebar.setSize(150, height - 40);
+	}
+
+	public void componentHidden(ComponentEvent evt) {}
+	public void componentMoved(ComponentEvent evt) {}
+	public void componentShown(ComponentEvent evt) {}
+
+	public void windowActivated(WindowEvent arg0) {
+		setUpdate(FASTUPDATE);
+	}
+	public void windowClosed(WindowEvent arg0) {
+		setUpdate(0);
+	}
+	public void windowClosing(WindowEvent arg0) {
+		try {
+			game.save();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		setUpdate(0);
+		dispose();
+	}
+	public void windowDeactivated(WindowEvent arg0) {
+		setUpdate(MEDIUMUPDATE);
+	}
+	public void windowDeiconified(WindowEvent arg0) {
+		setUpdate(FASTUPDATE);
+	}
+	public void windowIconified(WindowEvent arg0) {
+		setUpdate(SLOWUPDATE);
+	}
+	public void windowOpened(WindowEvent arg0) {
+		setUpdate(FASTUPDATE);
 	}
 }

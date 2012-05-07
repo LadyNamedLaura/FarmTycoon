@@ -5,15 +5,20 @@ import java.util.NoSuchElementException;
 
 public class Inventory extends java.util.AbstractMap<Product, Integer> {
 	private final Product[] keys = Product.values();
-	private final int size = Product.values().length;
+	private final int size = keys.length;
 
-	private final int[] vals = new int[Product.values().length];
+	private final int[] vals = new int[keys.length];
 
 	public Integer add(Product key) {
 		return add(key,1);
 	}
 	public Integer add(Product key, int amount) {
 		put(key, get(key)+amount);
+		return get(key);
+	}
+	
+	public Integer remove(Product key, int amount) {
+		vals[key.ordinal()] -= amount;
 		return get(key);
 	}
 	

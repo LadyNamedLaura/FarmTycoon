@@ -93,6 +93,8 @@ public class Animal extends Savable implements TileState{
 		if(action instanceof Animals)
 			return new Animal((Animals) action);
 		if(action == TileAction.Defaults.EXPIRE) {
+			if(getExpiryTime() > Game.getGame().getClock().getTime())
+				return null;
 			switch(state) {
 			case NORMAL:	this.state=State.READY;  break;
 			case READY:	this.state=State.DEATH; break;

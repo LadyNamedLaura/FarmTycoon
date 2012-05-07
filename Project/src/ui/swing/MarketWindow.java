@@ -1,38 +1,27 @@
 package ui.swing;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-
-import domain.Game;
-import domain.Inventory;
-import domain.Product;
-
-import java.awt.GridLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Map.Entry;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 import ui.Translator;
+import domain.Game;
+import domain.Product;
 
-/**
-* This code was edited or generated using CloudGarden's Jigloo
-* SWT/Swing GUI Builder, which is free for non-commercial
-* use. If Jigloo is being used commercially (ie, by a corporation,
-* company or business for any purpose whatever) then you
-* should purchase a license for each developer using Jigloo.
-* Please visit www.cloudgarden.com for details.
-* Use of Jigloo implies acceptance of these licensing terms.
-* A COMMERCIAL LICENSE HAS NOT BEEN PURCHASED FOR
-* THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED
-* LEGALLY FOR ANY CORPORATE OR COMMERCIAL PURPOSE.
-*/
 public class MarketWindow extends JFrame {
 	private Game game;
-	private JLabel productLabel1;
-	private JButton sellButton1;
-	private JLabel countLabel1;
 
 	public MarketWindow(Game game) {
+		super(Translator.getString("Market"));
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		this.game=game;
 		initGUI();
 	}
@@ -40,20 +29,51 @@ public class MarketWindow extends JFrame {
 	private void initGUI() {
 		try {
 			int i=0;
+			GridBagLayout layout = new GridBagLayout();
+			layout.columnWeights = new double[]{0.1,0.1,0.1};
+			layout.columnWidths = new int[]{10,1,8};
+			
+			getContentPane().setLayout(layout);
+
+			getContentPane().removeAll();
 			for(Entry<Product, Integer> item : game.getInv().entrySet()) {
 				if(item.getValue()>0) {
+					JLabel name  = new JLabel(Translator.getString(item.getKey().name()));
+					JLabel count = new JLabel(item.getValue().toString());
+					JButton button = new SellButton(item.getKey());
+					button.setPreferredSize(new Dimension(200,40));
+					getContentPane().add(name, new GridBagConstraints(0, i, 1, 1, 0.0, 0.0,
+							GridBagConstraints.WEST, GridBagConstraints.BOTH,
+							new Insets(0, 0, 0, 0), 0, 0));
+					getContentPane().add(count, new GridBagConstraints(1, i, 1, 1, 0.0, 0.0,
+							GridBagConstraints.EAST, GridBagConstraints.BOTH,
+							new Insets(0, 0, 0, 0), 0, 0));
+					getContentPane().add(button, new GridBagConstraints(2, i, 1, 1, 0.0, 0.0,
+							GridBagConstraints.EAST, GridBagConstraints.BOTH,
+							new Insets(0, 0, 0, 0), 0, 0));
 					i++;
-					getContentPane().add(new JLabel(Translator.getString(item.getKey().name())));
-					getContentPane().add(new JLabel(item.getValue().toString()));
-					getContentPane().add(new JButton("verkoop aan "+String.format(Translator.getString("moneystring"), item.getKey().getPrice())));
 				}
 			}
-			GridLayout thisLayout = new GridLayout(i, 3);
-			getContentPane().setLayout(thisLayout);
 			this.setVisible(true);
-			this.setSize(400, 30 + (i*50));
+			this.setSize(400, 30 + (i*40));
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	private class SellButton extends JButton implements MouseListener {
+		private Product product;
+		SellButton (Product product){
+			super(Translator.getString("sellstring")+String.format(Translator.getString("moneystring"), product.getPrice()));
+			this.product = product;
+			addMouseListener(this);
+		}
+		public void mouseClicked(MouseEvent arg0) {
+			game.sell(product);
+			initGUI();
+		}
+		public void mouseEntered(MouseEvent arg0) {}
+		public void mouseExited(MouseEvent arg0) {}
+		public void mousePressed(MouseEvent arg0) {}
+		public void mouseReleased(MouseEvent arg0) {}
 	}
 }
