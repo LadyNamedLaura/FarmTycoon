@@ -30,7 +30,7 @@ public class MarketWindow extends JFrame {
 		try {
 			int i=0;
 			GridBagLayout layout = new GridBagLayout();
-			layout.columnWeights = new double[]{0.1,0.1,0.1};
+			layout.columnWeights = new double[]{1.0,0.1,1.0};
 			layout.columnWidths = new int[]{10,1,8};
 			
 			getContentPane().setLayout(layout);
