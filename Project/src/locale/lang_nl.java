@@ -91,5 +91,7 @@ public class lang_nl extends ListResourceBundle {
 			{ "EGGS", "eieren"},
 			{ "MILK", "melk"},
 			{ "COLLECT", "inzamelen"},
-			{ "ENTER", "binnengaan"}};
+			{ "ENTER", "binnengaan"},
+			{ "sellstring", "verkopen voor: "}};
+	
 }
