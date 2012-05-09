@@ -92,6 +92,7 @@ public class lang_no extends ListResourceBundle {
 			{ "MILK", "melk"},
 			{ "COLLECT", "hente"},
 			{ "ENTER", "gå inn"},
-			{ "sellstring", "selge til: "}
+			{ "sellstring", "selge til: "},
+			{ "daystring", "%d dager"}
 };
 }

@@ -93,5 +93,6 @@ public class lang_fr extends ListResourceBundle {
 			{ "MILK", "du lait"},
 			{ "COLLECT", "collecter"},
 			{ "ENTER", "entrer"},
-			{ "sellstring", "vendre pour: "}};
+			{ "sellstring", "vendre pour: "},
+			{ "daystring", "%d jours"}};
 }

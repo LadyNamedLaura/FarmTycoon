@@ -92,6 +92,7 @@ public class lang_nl extends ListResourceBundle {
 			{ "MILK", "melk"},
 			{ "COLLECT", "inzamelen"},
 			{ "ENTER", "binnengaan"},
-			{ "sellstring", "verkopen voor: "}};
+			{ "sellstring", "verkopen voor: "},
+			{ "daystring", "%d dagen"}};
 	
 }
