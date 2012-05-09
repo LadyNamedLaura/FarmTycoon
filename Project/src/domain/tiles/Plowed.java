@@ -11,11 +11,13 @@ public class Plowed implements TileState
 		return Crops.values();
 	}
 
-	public TileState executeAction(TileAction action) {
+	public TileState executeAction(TileAction action, domain.Tile tile, long timestamp) {
 		if(action instanceof Crops) {
 			Crops crop = (Crops) action;
 			return new Crop(crop);
 		}
+		if(action == TileAction.Defaults.DESTROY)
+			return new None();
 		return null;
 	}
 

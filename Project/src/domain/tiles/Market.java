@@ -30,7 +30,7 @@ public class Market implements TileState {
 	}
 
 	@Override
-	public TileState executeAction(TileAction action) {
+	public TileState executeAction(TileAction action, domain.Tile tile, long timestamp) {
 		return null;
 	}
 

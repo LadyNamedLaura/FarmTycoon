@@ -37,7 +37,6 @@ public class SideBar extends javax.swing.JPanel {
 			add(Box.createHorizontalGlue());
 			if (action.getTime()!= 0)
 				add(new JLabel(String.format(Translator.getString("daystring"), action.getTime())));
-//			add(Box.createHorizontalStrut(10));
 			add(Box.createRigidArea(new Dimension(10,2)));
 			if (action.getCost()!= 0)
 				add(new JLabel(String.format(Translator.getString("moneystring"), action.getCost())));
@@ -51,7 +50,7 @@ public class SideBar extends javax.swing.JPanel {
 		}
 
 		private void execute() {
-			if(action.name()=="ENTER") {
+			if(action.name().equals("ENTER")) {
 				if(info.getField().equals("Market")) {
 					new MarketWindow(game);
 				}

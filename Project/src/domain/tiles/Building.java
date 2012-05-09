@@ -2,6 +2,7 @@ package domain.tiles;
 
 import api.TileAction;
 import api.TileInfo;
+import domain.Game;
 import domain.Savable;
 import domain.TileState;
 
@@ -70,7 +71,7 @@ public class Building extends Savable implements TileState {
 	}
 
 	@Override
-	public TileState executeAction(TileAction action) {
+	public TileState executeAction(TileAction action, domain.Tile tile, long timestamp) {
 		// TODO Auto-generated method stub
 		return null;
 	}

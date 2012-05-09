@@ -13,20 +13,22 @@ import exceptions.InvalidStateException;
 public class Animal extends Savable implements TileState{
 
 	private enum Animals implements TileAction {
-		NONE(50,null),
-		Cow(200,Product.MILK),
-		Chicken(50,Product.EGGS);
+		NONE(50,0,null),
+		Cow(200,12,Product.MILK),
+		Chicken(50,10,Product.EGGS);
 
 		private int cost;
 		private Product product;
-		Animals(int cost, Product product){
+		private int time;
+		Animals(int cost, int time, Product product){
 			this.product = product;
 			this.cost = cost;
+			this.time = time;
 		}
 		
 		public Product getProduct() { return product; }
 		public int getCost() { return cost; }
-		public int getTime() { return 0; }
+		public int getTime() { return time; }
 	}
 	private enum State {
 		NORMAL, READY, DEATH;
@@ -53,11 +55,8 @@ public class Animal extends Savable implements TileState{
 	public Animal() {
 		this(Animals.NONE);
 	}
-	public Animal(String type) {
-		this(Animals.valueOf(type));
-	}
-	public Animal(String type, long planted) {
-		this(Animals.valueOf(type), new Date(planted));
+	public Animal(String type, long start) {
+		this(Animals.valueOf(type), new Date(start));
 	}
 
 	public Animal(Animals animal) {
@@ -89,7 +88,7 @@ public class Animal extends Savable implements TileState{
 	}
 
 	@Override
-	public TileState executeAction(TileAction action) {
+	public TileState executeAction(TileAction action, domain.Tile tile, long timestamp) {
 		if(action instanceof Animals)
 			return new Animal((Animals) action);
 		if(action == TileAction.Defaults.EXPIRE) {
@@ -119,8 +118,8 @@ public class Animal extends Savable implements TileState{
 		if(animal== Animals.NONE)
 			return 0;
 		switch(state) {
-		case NORMAL:	return start.getTime() + (Clock.MSECONDSADAY);
-		case READY:	return start.getTime() + (Clock.MSECONDSADAY * 2);
+		case NORMAL:	return start.getTime() + (Clock.MSECONDSADAY * animal.getTime());
+		case READY:	return start.getTime() + (Clock.MSECONDSADAY * animal.getTime() * 2);
 		default:	return 0;
 		}
 	}

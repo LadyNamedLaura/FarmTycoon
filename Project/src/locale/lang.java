@@ -1,8 +1,3 @@
 package locale;
 
-import java.util.ListResourceBundle;
-
-public class lang extends lang_en {
-			
-			
-}
+public class lang extends lang_en {}

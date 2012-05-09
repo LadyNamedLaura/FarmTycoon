@@ -40,6 +40,7 @@ public class GameScreen extends javax.swing.JFrame implements ComponentListener,
 
 	private class UpdateTask extends TimerTask{
 		public void run() {
+			game.update();
 			moneyLabel.setText(String.format(
 					ui.Translator.getString("moneystring"), game.getCash()));
 			timeLabel.setText(game.getClock().getDate().toString());

@@ -14,15 +14,8 @@ public enum Product {
 	SOY			(290),
 	EGGS		(30),
 	MILK		(70);
-	
-	final int price;
-	
-	public int getPrice(){
-		return price;
-	}
-	
-	Product(int price) {
-		this.price = price;
-	}
 
+	final int price;
+	public int getPrice()	{ return price; }
+	Product(int price) 		{ this.price = price; }
 }

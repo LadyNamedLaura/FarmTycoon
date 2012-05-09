@@ -40,6 +40,8 @@ public class Coordinate {
 
 	@Override
 	public boolean equals(Object obj) {
+		if(! (obj instanceof Coordinate))
+			return false; 
 		return obj.hashCode() == hashCode();
 	}
 
@@ -60,5 +62,8 @@ public class Coordinate {
 			for (short j = from.getY(); j < to.getY(); j++)
 				ret.add(new Coordinate(i, j));
 		return ret;
+	}
+	public String toString() {
+		return String.format("X:%d;Y:%d", x,y);
 	}
 }

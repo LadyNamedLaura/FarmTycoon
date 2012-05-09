@@ -1,7 +1,6 @@
 package domain;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Random;
 import java.util.Map;
 import java.util.HashMap;
@@ -9,7 +8,13 @@ import java.util.HashMap;
 import api.Coordinate;
 
 import domain.tiles.Market;
+import exceptions.NoSuchTileException;
 
+/**
+ * The Class which has control over the whole farm. 
+ * @author simon
+ *
+ */
 public class Farm extends Savable {
 	public static final Coordinate size = new Coordinate(4,4);
 	private static final int STARTCASH = 1000;
@@ -17,8 +22,8 @@ public class Farm extends Savable {
 	private int cash;
 	private Map<Coordinate,Tile> tileMap = new HashMap<Coordinate,Tile>();
 	private Market market = null;
-	private ArrayList<Creature> creatures;
-	private Farmer farmer;
+	private Infection infection;
+	private Storm storm;
 
 	public Farm() {
 		this(STARTCASH);
@@ -29,6 +34,9 @@ public class Farm extends Savable {
 	}
 
 	public Farm(int cash, boolean loadTiles) {
+		this(cash, loadTiles, 0, 0);
+	}
+	public Farm(int cash, boolean loadTiles, long infection, long storm) {
 		for (Coordinate i : Coordinate.getCoordSet(new Coordinate(0,0),size)) {
 			if (loadTiles)
 				try {
@@ -44,8 +52,9 @@ public class Farm extends Savable {
 			else
 				tileMap.put(i, new Tile(i));
 		}
+		this.infection = new Infection(infection);
+		this.storm = new Storm(storm);
 		this.cash = cash;
-		this.farmer = new Farmer();
 		if (this.market == null) {
 			Coordinate[] mcoord = {
 				new Coordinate(0,0),
@@ -94,6 +103,8 @@ public class Farm extends Savable {
 	}
 
 	public Tile getTile(Coordinate coord) {
+		if(tileMap.get(coord)==null)
+			throw new NoSuchTileException();
 		return tileMap.get(coord);
 	}
 
@@ -104,20 +115,6 @@ public class Farm extends Savable {
 		return market;
 	}
 
-	/**
-	 * @return the creatures
-	 */
-	public ArrayList<Creature> getCreatures() {
-		return creatures;
-	}
-
-	/**
-	 * @return the farmer
-	 */
-	public Farmer getFarmer() {
-		return farmer;
-	}
-
 	public int getId() {
 		return 0;
 	}
@@ -126,5 +123,22 @@ public class Farm extends Savable {
 		super.save();
 		for (Tile tile : tileMap.values())
 			tile.save();
+	}
+
+	public Map<Coordinate, Tile> getTiles() {
+		return tileMap;
+	}
+
+	public void update() {
+		Tile.update();
+		storm.update();
+		infection.update();
+	}
+
+	public Infection getInfecion() {
+		return infection;
+	}
+	public Infection getStorm() {
+		return infection;
 	}
 }

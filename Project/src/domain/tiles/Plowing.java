@@ -2,10 +2,11 @@ package domain.tiles;
 
 import api.TileAction;
 import api.TileInfo;
+import domain.Game;
 import domain.TileState;
 
 public class Plowing implements TileState {
-	private static final long PLOWTIME = domain.Clock.MSECONDSADAY;
+	private static final long PLOWTIME = 2*domain.Clock.MSECONDSADAY;
 
 	private long starttime;
 
@@ -17,7 +18,9 @@ public class Plowing implements TileState {
 		return null;
 	}
 
-	public TileState executeAction(TileAction action) {
+	public TileState executeAction(TileAction action, domain.Tile tile, long timestamp) {
+		if(action == TileAction.Defaults.DESTROY)
+			return new None();
 		if((TileAction.Defaults) action == TileAction.Defaults.EXPIRE)
 			return new Plowed();
 		return null;

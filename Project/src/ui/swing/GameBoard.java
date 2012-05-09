@@ -60,7 +60,6 @@ public class GameBoard extends javax.swing.JPanel {
 		}
 	}
 	public void update() {
-		domain.Tile.update();
 		for (TilePanel tile : tiles.values())
 			tile.update();
 	}

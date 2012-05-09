@@ -88,13 +88,6 @@ public enum MapperList {
 					mapper.save(obj).getInsertSql(obj.getId()));
 	}
 
-	public void init() throws SQLException {
-		java.sql.Statement st = db.getConnection().createStatement();
-		st.executeUpdate(String.format("DROP TABLE IF EXISTS %s",
-				this.tablename));
-		this.initIfNeed();
-	}
-
 	public void initIfNeed() throws SQLException {
 		java.sql.Statement st = db.getConnection().createStatement();
 		String update = "id INTEGER PRIMARY KEY";

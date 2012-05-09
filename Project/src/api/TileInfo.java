@@ -33,11 +33,11 @@ public class TileInfo {
 	}
 
 	public String toString() {
-		String str= this.field;
+		StringJoiner str = new StringJoiner("_",this.field);
 		if(this.subtype!=null && this.subtype.length()>0)			
-			str += "_" + this.subtype;
+			str.add(this.subtype);
 		if(this.state!=null && this.state.length()>0)			
-			str += "_" + this.state;
-		return str;
+			str.add(this.state);
+		return str.toString();
 	}
 }

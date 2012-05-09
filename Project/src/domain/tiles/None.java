@@ -2,12 +2,13 @@ package domain.tiles;
 
 import api.TileAction;
 import api.TileInfo;
+import domain.Game;
 import domain.TileState;
 
 public class None implements TileState {
 
 	private enum Actions implements TileAction {
-		PLOW(1, 50), BUILDBARN(0, 500), ANIMALS(0, 50);
+		PLOW(2, 50), BUILDBARN(0, 500), ANIMALS(0, 50);
 
 		private int time, cost;
 
@@ -24,7 +25,7 @@ public class None implements TileState {
 		return Actions.values();
 	}
 
-	public TileState executeAction(TileAction action) {
+	public TileState executeAction(TileAction action, domain.Tile tile, long timestamp) {
 		if(action instanceof Actions){
 			switch((Actions) action){
 			case PLOW:	return new Plowing();

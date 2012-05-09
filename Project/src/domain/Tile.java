@@ -78,25 +78,31 @@ public class Tile extends Savable {
 		return state;
 	}
 
+	public boolean executeAction(TileAction action) {
+		return executeAction(action, Game.getGame().getClock().getTime());
+	}
 	/**
 	 * @param action
 	 * @return
 	 * @see domain.TileState#executeAction(api.TileAction)
 	 */
-	public boolean executeAction(TileAction action) {
+	public boolean executeAction(TileAction action, long timestamp) {
 		try {
-			TileState tmp = state.executeAction(action);
-			if(tmp == null)
+			TileState tmp = state.executeAction(action, this, timestamp);
+			if(tmp == null){
+				System.out.println(action.name()+" on "+getCoordinate().toString()+" returned null");
 				return false;
+			}
 			Controller.getInstance().getGame().adjustCash(-action.getCost());
 			this.state = tmp;
 			this.expiryTime = state.getExpiryTime();
 			if (expiryTime > 0) {
-//				if (expiryTime < Game.getGame().getClock().getTime())
-//					return executeAction(TileAction.Defaults.EXPIRE);
+				System.out.println("tile "+getCoordinate()+" expires: "+new java.util.Date(expiryTime).toString());
 				synchronized (expiryMap) {
-					while(expiryMap.get(expiryTime) != null) //almost impossible
+					while(expiryMap.get(expiryTime) != null){ //almost impossible
+						System.out.println("imposible colission");
 						expiryTime++;
+					}
 					expiryMap.put(expiryTime, this);
 				}
 			}
@@ -113,7 +119,10 @@ public class Tile extends Savable {
 				domain.Game.getGame().getClock().getTime()));
 		for (Map.Entry<Long, Tile> entry : expiredMap.entrySet()) {
 			expiryMap.remove(entry.getKey());
-			entry.getValue().executeAction(TileAction.Defaults.EXPIRE);
+			if(entry.getValue().expiryTime == entry.getKey())
+				entry.getValue().executeAction(TileAction.Defaults.EXPIRE, entry.getKey());
+			else
+				System.out.println("bogus expiry time deleted from map");
 		}
 	}
 	

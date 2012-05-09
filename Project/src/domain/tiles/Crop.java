@@ -13,10 +13,11 @@ import domain.TileState;
 public class Crop extends Savable implements TileState {
 
 	private enum State {
-		GROWING, READY, ROTTEN;
+		GROWING, READY, ROTTEN, INFECTED;
 	}
 	private enum Actions implements TileAction {
-		CLEAR(0, 20), 
+		CLEAR(0, 20),
+		DESINFECT(0, 20),
 		HARVEST(0, 0);
 
 		private int time, cost;
@@ -32,60 +33,73 @@ public class Crop extends Savable implements TileState {
 
 	private Crops crop;
 	private State state;
-	private Date planted;
+	private long planted;
+	private long infected;
+	private int infectioncount;
 
-	public Crop(String type, long planted) {
-		this(type, new Date(planted));
-	}
-
-	public Crop(String type, Date planted) {
-		this(Crops.valueOf(type), planted);
+	public Crop(String type, long planted, String state) {
+		this(Crops.valueOf(type), planted, State.valueOf(state));
 	}
 
 	public Crop(Crops crop) {
-		this(crop,  Game.getGame().getClock().getDate());
+		this(crop,  Game.getGame().getClock().getTime(), State.GROWING);
 	}
 
-	public Crop(Crops crop, Date date) {
+	public Crop(Crops crop, long date, State state) {
 		this.crop = crop;
 		this.planted = date;
-		this.state = State.GROWING;
+		this.state = state;
 	}
 
 	public String getType() {
 		return crop.name();
 	}
 
-	public Date getPlanted() {
-		return this.planted;
+	public long getPlanted() {
+		return planted;
 	}
-
-
 
 	@Override
 	public TileAction[] getActions() {
 		switch(state) {
-		case READY:	return new TileAction[]{Actions.CLEAR, Actions.HARVEST};
+		case READY:		return new TileAction[]{Actions.CLEAR, Actions.HARVEST};
 		case GROWING:
 		case ROTTEN:	return new TileAction[]{Actions.CLEAR};
+		case INFECTED:	return new TileAction[]{Actions.CLEAR, Actions.DESINFECT};
 		default:	return null;
 		}
 	}
 
 	@Override
-	public TileState executeAction(TileAction action) {
+	public TileState executeAction(TileAction action, domain.Tile tile, long timestamp) {
+		if(action == TileAction.Defaults.INFECT && state != State.INFECTED) {
+			state=State.INFECTED;
+			infected=timestamp;
+			infectioncount=1;
+			return this;
+		}
 		if(action == TileAction.Defaults.EXPIRE) {
 			switch(state) {
-			case GROWING:	this.state=State.READY;  break;
-			case READY:	this.state=State.ROTTEN; break;
+			case GROWING:	state=State.READY;  break;
+			case READY:		state=State.ROTTEN; break;
+			case INFECTED:	planted += 2*Clock.MSECONDSADAY;
+							if(planted > Game.getGame().getClock().getTime())
+								state=State.ROTTEN;
+							infectioncount++;
+							Game.getGame().getInfection().spreadFrom(tile.getCoordinate(),timestamp);
+							break;
 			default:	return null;
 			}
 			return this;
 		}
-		if((Actions) action == Actions.CLEAR) {
+		if(action == Actions.CLEAR || action == TileAction.Defaults.DESTROY) {
 			return new None();
 		}
-		if( this.state == State.READY && (Actions) action == Actions.HARVEST) {
+		if(action == Actions.DESINFECT) {
+			state=State.GROWING;
+			return this;
+		}
+		if(this.state == State.READY && (Actions) action == Actions.HARVEST) {
 			domain.Game.getGame().getInv().add(crop.getProduct());
 			return new Plowed();
 		}
@@ -95,13 +109,18 @@ public class Crop extends Savable implements TileState {
 	@Override
 	public long getExpiryTime() {
 		switch(state) {
-		case GROWING:	return planted.getTime() + (Clock.MSECONDSADAY * crop.getTime());
-		case READY:	return planted.getTime() + (Clock.MSECONDSADAY * crop.getTime() * 3 / 2);
-		default:	return 0;
+		case GROWING:	return planted + (Clock.MSECONDSADAY * crop.getTime());
+		case READY:		return planted + (Clock.MSECONDSADAY * crop.getTime() * 3 / 2);
+		case INFECTED:	return infected + (Clock.MSECONDSADAY * infectioncount);
+		default:		return 0;
 		}
 	}
 	
 	public TileInfo getInfo() {
 		return new TileInfo(getClass().getSimpleName(), crop.name(), state.name());
+	}
+
+	public String getState() {
+		return state.name();
 	}
 }

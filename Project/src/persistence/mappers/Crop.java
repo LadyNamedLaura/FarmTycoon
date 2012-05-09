@@ -6,15 +6,14 @@ import java.util.Map;
 import persistence.DBmap;
 
 public class Crop implements persistence.Mapper {
-	@SuppressWarnings("serial")
 	public domain.tiles.Crop load(DBmap map) {
-		return new domain.tiles.Crop(map.getStr("type"), map.getLong("planted"));
+		return new domain.tiles.Crop(map.getStr("type"), map.getLong("planted"),map.getStr("state"));
 	}
 
 	public DBmap save(domain.Savable obj) {
 		domain.tiles.Crop crop = (domain.tiles.Crop) obj;
-		return new DBmap(this, new String[] { "type", "planted" },
-				new Object[] { crop.getType(), crop.getPlanted().getTime() });
+		return new DBmap(this, new String[] { "type", "planted", "state" },
+				new Object[] { crop.getType(), crop.getPlanted(), crop.getState() });
 	}
 
 	public Map<String, String> getFields() {
@@ -22,6 +21,7 @@ public class Crop implements persistence.Mapper {
 			{
 				put("type", "TEXT");
 				put("planted", "BIGINT");
+				put("state", "TEXT");
 			}
 		};
 	}

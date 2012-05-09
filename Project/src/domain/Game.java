@@ -93,4 +93,12 @@ public class Game {
 		adjustCash(product.getPrice());
 	}
 
+	public Infection getInfection() {
+		return farm.getInfecion();
+	}
+
+	public void update() {
+		farm.update();
+	}
+
 }
