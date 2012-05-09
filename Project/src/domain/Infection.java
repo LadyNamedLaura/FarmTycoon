@@ -57,6 +57,7 @@ public class Infection {
 	public void update() {
 		if (nextinfection < Game.getGame().getClock().getTime()){
 			doInfect(nextinfection);
+			MsgQue.get().put("MSG_INFECTION", nextinfection);
 			forecastnext();
 		}
 	}

@@ -7,6 +7,7 @@ import api.TileInfo;
 
 import domain.Clock;
 import domain.Game;
+import domain.MsgQue;
 import domain.Savable;
 import domain.TileState;
 
@@ -81,9 +82,11 @@ public class Crop extends Savable implements TileState {
 		if(action == TileAction.Defaults.EXPIRE) {
 			switch(state) {
 			case GROWING:	state=State.READY;  break;
-			case READY:		state=State.ROTTEN; break;
+			case READY:		state=State.ROTTEN; 
+							MsgQue.get().put("MSG_CROP_ROTTEN", timestamp);
+							break;
 			case INFECTED:	planted += 2*Clock.MSECONDSADAY;
-							if(planted > Game.getGame().getClock().getTime())
+							if(planted > timestamp)
 								state=State.ROTTEN;
 							infectioncount++;
 							Game.getGame().getInfection().spreadFrom(tile.getCoordinate(),timestamp);

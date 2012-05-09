@@ -17,8 +17,11 @@ import java.util.TimerTask;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
+
+import api.Message;
 
 import ui.Translator;
 
@@ -46,6 +49,10 @@ public class GameScreen extends javax.swing.JFrame implements ComponentListener,
 			timeLabel.setText(game.getClock().getDate().toString());
 			gameBoard.update();
 			sidebar.update();
+			while(domain.MsgQue.get().hasNext()){
+				Message msg = domain.MsgQue.get().getNext();
+				JOptionPane.showMessageDialog(GameScreen.this, Translator.getString(msg.getMessage()));
+			}
 		}
 	}
 	

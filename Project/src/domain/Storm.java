@@ -50,6 +50,7 @@ public class Storm {
 	public void update() {
 		if (next < Game.getGame().getClock().getTime()){
 			doInfect(next);
+			MsgQue.get().put("MSG_STORM", next);
 			forecastnext();
 		}
 	}

@@ -6,6 +6,7 @@ import api.TileAction;
 import api.TileInfo;
 import domain.Clock;
 import domain.Game;
+import domain.MsgQue;
 import domain.Product;
 import domain.Savable;
 import domain.TileState;
@@ -96,7 +97,9 @@ public class Animal extends Savable implements TileState{
 				return null;
 			switch(state) {
 			case NORMAL:	this.state=State.READY;  break;
-			case READY:	this.state=State.DEATH; break;
+			case READY:		this.state=State.DEATH;
+							MsgQue.get().put("MSG_ANIMAL_DEATH", timestamp);
+							break;
 			default:	return null;
 			}
 			return this;
