@@ -96,7 +96,21 @@ public class lang_en extends ListResourceBundle {
 			{ "ENTER", "enter"},
 			{ "sellstring", "sell at: "},
 			{ "daystring", "%d days"},
-			{"MSG_INFECTION", "the plague has occurred "},
-			{"MSG_STORM", "There's been a storm "}
+			{ "FACTORY", "factory"},
+			{ "FACTORY_START", "the factory started"},
+			{ "BUTTERFACTORY","butterfactory"},
+			{ "CHEESEFACTORY","cheesefactory"},
+			{ "FLOURFACTORY","flourfactory"},
+			{ "JUICEFACTORY","juicefactory"},
+			{ "SALADFACTORY","saladfactory"},
+			{ "OILFACTORY","oilfactory"},
+			{ "CHOCOLATEFACTORY","chocolatefactory"},
+			{ "BREADFACTORY","Breadfactory"},
+			{ "TRUFFLEFACTORY","trufflefactory"},
+			{ "Barn", "barn"},		
+			{ "BARNINUSE","the barn you would like to delete is in use."},
+			{ "MSG_INFECTION", "the plague has occurred "},
+			{ "MSG_STORM", "There's been a storm "},
+			{ "MSG_NOCASH", "There's no money left"}
 	};
 }

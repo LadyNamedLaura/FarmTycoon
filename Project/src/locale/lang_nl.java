@@ -2,6 +2,7 @@ package locale;
 
 import java.util.ListResourceBundle;
 
+
 public class lang_nl extends ListResourceBundle {
 
 	@Override
@@ -97,8 +98,23 @@ public class lang_nl extends ListResourceBundle {
 			{ "sellstring", "verkopen voor: "},
 			{ "daystring", "%d dagen"},
 			{ "daystring1", "%d dag"},
+			{ "FACTORY", "fabriek"},
+			{ "FACTORY_START", "de fabriek is opgestart"},
+			{ "BUTTERFACTORY","boterfabriek"},
+			{ "CHESEFACTORY","kaasfabriek"},
+			{ "FLOURFACTORY","graanfabriek"},
+			{ "JUICEFACTORY","fruitsapfabriek"},
+			{ "SALADFACTORY","saladefabriek"},
+			{ "OILFACTORY","oliefabriek"},
+			{ "CHOCOLATEFACTORY","chocoladefabriek"},
+			{ "BREADFACTORY","broodfabriek"},
+			{ "TRUFFLEFACTORY","truffelfabriek"},
+			{ "Barn", "schuur"},
+			{ "BARNINUSE","De schuur die u wilt verwijderen is in gebruik. Gelieve de producten eerst te verkopen"},
 			{ "MSG_INFECTION", "De pest is opgetreden"},
-			{ "MSG_STORM", "Er is een storm geweest"}
+			{ "MSG_STORM", "Er is een storm geweest"},
+			{ "MSG_NOCASH", "U heeft geen geld meer"}
+			
 	};
 	
 }

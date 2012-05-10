@@ -96,7 +96,7 @@ public class lang_no extends ListResourceBundle {
 			{ "ENTER", "gå inn"},
 			{ "sellstring", "selge til: "},
 			{ "daystring", "%d dager"},
-			{"MSG_INFECTION", "De pest is opgetreden"},
-			{"MSG_STORM", "Er is een storm geweest"}
+			{ "MSG_INFECTION", "De pest is opgetreden"},
+			{ "MSG_STORM", "Er is een storm geweest"}
 };
 }

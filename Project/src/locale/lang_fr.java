@@ -97,6 +97,22 @@ public class lang_fr extends ListResourceBundle {
 			{ "ENTER", "entrer"},
 			{ "sellstring", "vendre pour: "},
 			{ "daystring", "%d jours"},
-			{"MSG_INFECTION", "la peste s'est produite"},
-			{"MSG_STORM", "Il y a eu une tempête"}};
+			{ "FACTORY", "fabrique"},
+			{ "FACTORY_START", "l'usine est commencée"},
+			{ "BUTTERFACTORY","usine de beurre"},
+			{ "CHESEFACTORY","fromagerie"},
+			{ "FLOURFACTORY","usine de grain"},
+			{ "JUICEFACTORY","usine de jus de fruits "},
+			{ "SALADFACTORY","usine de laitue "},
+			{ "OILFACTORY","usine d'huile"},
+			{ "CHOCOLATEFACTORY","chocolaterie"},
+			{ "BREADFACTORY","usine de pain "},
+			{ "TRUFFLEFACTORY","usine de truffe"},
+			{ "Barn", "grange"},	
+			{ "BARNINUSE","la grange que vous souhaitez supprimer est utilisé."},
+			{ "MSG_INFECTION", "la peste s'est produite"},
+			{ "MSG_STORM", "Il y a eu une tempête"},
+			{ "MSG_NOCASH", "Il n' y plus d'argent"}
+			
+	};
 }
