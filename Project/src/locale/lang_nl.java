@@ -95,6 +95,7 @@ public class lang_nl extends ListResourceBundle {
 			{ "MILK", "melk"},
 			{ "COLLECT", "inzamelen"},
 			{ "ENTER", "binnengaan"},
+			{ "DESINFECT", "Desinfecteren"},
 			{ "sellstring", "verkopen voor: "},
 			{ "daystring", "%d dagen"},
 			{ "daystring1", "%d dag"},
@@ -113,7 +114,9 @@ public class lang_nl extends ListResourceBundle {
 			{ "BARNINUSE","De schuur die u wilt verwijderen is in gebruik. Gelieve de producten eerst te verkopen"},
 			{ "MSG_INFECTION", "De pest is opgetreden"},
 			{ "MSG_STORM", "Er is een storm geweest"},
-			{ "MSG_NOCASH", "U heeft geen geld meer"}
+			{ "MSG_NOCASH", "U heeft geen geld meer"},
+			{ "MSG_FACTORY_NOINPUT", "er zijn niet voldoende grondstoffen"},
+			{ "INVENTROYFULL","Er is geen plaats meer om dit product op te slaan. Bouw een schuur of verkoop de producten op de markt."},
 			
 	};
 	

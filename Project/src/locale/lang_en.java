@@ -94,6 +94,7 @@ public class lang_en extends ListResourceBundle {
 			{ "MILK", "milk"},
 			{ "COLLECT", "collect"},
 			{ "ENTER", "enter"},
+			{ "DESINFECT", "Desinfect"},
 			{ "sellstring", "sell at: "},
 			{ "daystring", "%d days"},
 			{ "FACTORY", "factory"},
@@ -108,9 +109,12 @@ public class lang_en extends ListResourceBundle {
 			{ "BREADFACTORY","Breadfactory"},
 			{ "TRUFFLEFACTORY","trufflefactory"},
 			{ "Barn", "barn"},		
-			{ "BARNINUSE","the barn you would like to delete is in use."},
+			{ "BARNINUSE","The barn you would like to delete is in use. Please sell the products"},
 			{ "MSG_INFECTION", "the plague has occurred "},
 			{ "MSG_STORM", "There's been a storm "},
-			{ "MSG_NOCASH", "There's no money left"}
+			{ "MSG_NOCASH", "There's no money left"},
+			{ "MSG_FACTORY_NOINPUT", "There are not enough raw materials"},
+			{ "INVENTROYFULL","There is no place to save more products. Build a barn or sell the products on the market."},
+			
 	};
 }

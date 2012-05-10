@@ -95,6 +95,7 @@ public class lang_fr extends ListResourceBundle {
 			{ "MILK", "du lait"},
 			{ "COLLECT", "collecter"},
 			{ "ENTER", "entrer"},
+			{ "DESINFECT", "désinfection"},
 			{ "sellstring", "vendre pour: "},
 			{ "daystring", "%d jours"},
 			{ "FACTORY", "fabrique"},
@@ -109,10 +110,12 @@ public class lang_fr extends ListResourceBundle {
 			{ "BREADFACTORY","usine de pain "},
 			{ "TRUFFLEFACTORY","usine de truffe"},
 			{ "Barn", "grange"},	
-			{ "BARNINUSE","la grange que vous souhaitez supprimer est utilisé."},
+			{ "BARNINUSE","La grange que vous souhaitez supprimer est utilisé. Vendre les produits, s'il vous plaît"},
 			{ "MSG_INFECTION", "la peste s'est produite"},
 			{ "MSG_STORM", "Il y a eu une tempête"},
-			{ "MSG_NOCASH", "Il n' y plus d'argent"}
+			{ "MSG_NOCASH", "Il n' y plus d'argent"},
+			{ "MSG_FACTORY_NOINPUT", "il n'y a pas assez de matières premières"},
+			{ "INVENTROYFULL","Il n'y a plus de place pour enregistrer ce produit. Construire une grange ou vendre des produits au marché."},
 			
 	};
 }

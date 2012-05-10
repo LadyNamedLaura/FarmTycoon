@@ -36,7 +36,7 @@ public class Factory extends Savable implements TileState {
 	}
 	public static enum Factories implements TileAction {
 		BUTTERFACTORY(750,Product.BUTTER,3,Product.MILK),
-		CHESEFACTORY(1000,Product.CHEESE,4,Product.MILK,Product.MILK),
+		CHEESEFACTORY(1000,Product.CHEESE,4,Product.MILK,Product.MILK),
 		FLOURFACTORY(3000,Product.FLOUR,5,Product.CORN,Product.WHEAT,Product.WHEAT),
 		JUICEFACTORY(5000,Product.JUICE,6,Product.STRAWBERRY,Product.RASPBERRY,Product.GRAPE,Product.GRAPE),
 		SALADFACTORY(15000,Product.SALAD,8,Product.CARROT,Product.LETTUCE,Product.TOMATO,Product.TOMATO),
