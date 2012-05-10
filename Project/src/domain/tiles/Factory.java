@@ -22,7 +22,6 @@ public class Factory extends Savable implements TileState {
 
 	private enum Actions implements TileAction {
 		FACTORY_START(0),
-		FACTORY_CHANGE(200),
 		CLEAR(500),
 		COLLECT(0);
 		private Actions(int cost) {
@@ -102,7 +101,7 @@ public class Factory extends Savable implements TileState {
 			return actions;
 		case IDLE:
 			Actions.FACTORY_START.time=factory.getTime();
-			return new TileAction[]{Actions.FACTORY_START,Actions.FACTORY_CHANGE,Actions.CLEAR};
+			return new TileAction[]{Actions.FACTORY_START,Actions.CLEAR};
 		case DONE:
 			return new TileAction[]{Actions.COLLECT};
 		default:
@@ -144,17 +143,12 @@ public class Factory extends Savable implements TileState {
 			start=timestamp;
 			return this;
 		}
-		if(action == Actions.FACTORY_CHANGE) {
-			state=State.NONE;
-			factory=null;
-			return this;
-		}
 		if(action == Actions.COLLECT) {
 			domain.Game.getGame().getInv().add(factory.getOutput());
 			state = State.IDLE;
 			return this;
 		}
-		if(action == Actions.CLEAR) {
+		if(action == Actions.CLEAR || action == TileAction.Defaults.CANCEL) {
 			return new None();
 		}
 		return null;

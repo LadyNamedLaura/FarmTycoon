@@ -72,7 +72,7 @@ public class Crop extends Savable implements TileState {
 
 	@Override
 	public TileState executeAction(TileAction action, domain.Tile tile, long timestamp) throws InventoryFullException {
-		if(action instanceof domain.Infection && state != State.INFECTED) {
+		if(action instanceof domain.Infection && (state == State.GROWING || state == State.READY)) {
 			state=State.INFECTED;
 			infected=timestamp;
 			infectioncount=1;
