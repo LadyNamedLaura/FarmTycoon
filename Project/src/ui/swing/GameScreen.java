@@ -11,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -51,7 +52,7 @@ public class GameScreen extends javax.swing.JFrame implements ComponentListener,
 			sidebar.update();
 			while(domain.MsgQue.get().hasNext()){
 				Message msg = domain.MsgQue.get().next();
-				JOptionPane.showMessageDialog(GameScreen.this, Translator.getString(msg.getMessage()));
+				JOptionPane.showMessageDialog(GameScreen.this, new Date(msg.getTime()).toString()+"\n\n"+Translator.getString(msg.getMessage()), "",JOptionPane.PLAIN_MESSAGE);
 			}
 		}
 	}

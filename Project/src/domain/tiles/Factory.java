@@ -73,7 +73,13 @@ public class Factory extends Savable implements TileState {
 	long start;
 	
 	public Factory(String type, long start, long damage, String state) {
-		this(Factories.valueOf(type), start, damage, State.valueOf(state));
+		if(type.equals("NONE"))
+			this.factory=null;
+		else
+			this.factory = Factories.valueOf(type);
+		this.start = start;
+		this.damage = damage;
+		this.state = State.valueOf(state);
 	}
 	public Factory(){
 		state=State.NONE;
@@ -182,6 +188,8 @@ public class Factory extends Savable implements TileState {
 		return new TileInfo(getClass().getSimpleName(), factory.name(), state.name());
 	}
 	public String getType() {
+		if(factory==null)
+			return "NONE";
 		return factory.name();
 	}
 	public long getStart() {
