@@ -5,38 +5,87 @@ import java.util.NoSuchElementException;
 
 import exceptions.InventoryFullException;
 
+/**
+ * This class implements an inventory.
+ * The inventory is based on a <Product,Integer> Map.
+ * @author simon
+ *
+ */
 public class Inventory extends java.util.AbstractMap<Product, Integer> {
+	/**
+	 * the amount of slots available by default.
+	 */
 	public static final int DEFAULTSPACE=5;
+	/**
+	 * the amount of slots a barn adds to this inventory
+	 */
 	public static final int BARNSPACE=25;
+
 	private final Product[] keys = Product.values();
 	private final int size = keys.length;
+	/**
+	 * the amount of barns available for this inventory.
+	 */
 	private int barncount;
 
 	private final int[] vals = new int[keys.length];
 	
+	/**
+	 * Create a new Inventory with a given amount of barns.
+	 * @param barncount the amount of barns to use for this inventory.
+	 */
 	public Inventory(int barncount){
 		this.barncount=barncount;
 	}
 	
+	/**
+	 * updates the amount of barns
+	 * @param count the amount of barns to use for this inventory.
+	 */
 	public void setBarnCount(int count){
 		this.barncount = count;
 	}
 
+	/**
+	 * @return the amount of slots left in this inventory
+	 */
 	public int spaceLeft() {
 		return getSize()-count();
 	}
+	
+	/**
+	 * @return the total amount of slots available for this inventory.
+	 */
 	public int getSize() {
 		return DEFAULTSPACE + (BARNSPACE * barncount);
 	}
+	
+	/**
+	 * @return the amount of slots in use.
+	 */
 	public int count() {
 		int count=0;
 		for(int val:values())
 			count+=val;
 		return count;
 	}
+	
+	/**
+	 * Add one instance of a given Product to this inventory.
+	 * @param key the Product to add.
+	 * @return the new amount for this product.
+	 * @throws InventoryFullException if ther is no space left in this inventory.
+	 */
 	public Integer add(Product key) throws InventoryFullException {
 		return add(key,1);
 	}
+	/**
+	 * Add a given amount of a given Product to this inventory.
+	 * @param key the Product to add.
+	 * @param amount the amount of this product to add.
+	 * @return the new amount for this product.
+	 * @throws InventoryFullException if ther is no space left in this inventory.
+	 */
 	public Integer add(Product key, int amount) throws InventoryFullException {
 		if(amount > spaceLeft())
 			throw new InventoryFullException();
@@ -44,6 +93,12 @@ public class Inventory extends java.util.AbstractMap<Product, Integer> {
 		return get(key);
 	}
 	
+	/**
+	 * Remove a given amount of a given Product to this inventory.
+	 * @param key the Product to remove.
+	 * @param amount the amount of this product to remove.
+	 * @return the new amount for this product.
+	 */
 	public Integer remove(Product key, int amount) {
 		vals[key.ordinal()] -= amount;
 		return get(key);
@@ -135,6 +190,10 @@ public class Inventory extends java.util.AbstractMap<Product, Integer> {
 		protected abstract T get(int i);
 	}
 
+	/**
+	 * Class which represent a single entry in the inventory map.
+	 * @author simon
+	 */
 	public class InvItem extends Savable implements Map.Entry<Product, Integer> {
 		public InvItem(int index) {
 			if (index >= size || index < 0)

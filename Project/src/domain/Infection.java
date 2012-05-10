@@ -7,21 +7,30 @@ import exceptions.NoSuchTileException;
 
 import api.Coordinate;
 import api.TileAction;
-
+/**
+ * this class contains most of the logic to infect tiles.
+ * @author simon
+ *
+ */
 public class Infection implements TileAction {
-	Random rand;
+	private Random rand;
 	private long nextinfection;
-	Infection() {
-		this(0);
-	}
-	Infection(long time) {
+	
+	/**
+	 * Create a new infection object.
+	 * @param time the time at which the next infection will take place, if 0, the time will be randomly chosen.
+	 */
+	public Infection(long time) {
 		rand = new Random();
 		if(time==0)
 			forecastnext();
 		else
 			nextinfection = time;
 	}
-	public void forecastnext() {
+	/**
+	 * generate a random time for the next infection.
+	 */
+	private void forecastnext() {
 		int days = 0;
 		while (true) {
 			days++;
@@ -32,6 +41,11 @@ public class Infection implements TileAction {
 				+ (long) (rand.nextDouble() * Clock.MSECONDSADAY);
 		System.out.println("next infection on "+new Date(nextinfection).toString());
 	}
+	/**
+	 * Spread the infection around the given tile.
+	 * @param coordinate the coordinate of the tile to spread from.
+	 * @param timestamp the time at which this should happen/have happened
+	 */
 	public void spreadFrom(Coordinate coordinate,long timestamp) {
 		short x = coordinate.getX();
 		short y = coordinate.getY();
@@ -46,7 +60,11 @@ public class Infection implements TileAction {
 			} catch (NoSuchTileException e) {}
 		}
 	}
-	public void doInfect(long time) {
+	/**
+	 * Execute the infection
+	 * @param time the time at which this should happen/have happened
+	 */
+	private void doInfect(long time) {
 		 Tile[] tiles = Game.getGame().getFarm().getTiles().values().toArray(new Tile[1]);
 		 int count=0;
 		 while(count <= tiles.length / 10) {
@@ -55,6 +73,11 @@ public class Infection implements TileAction {
 			 count++;
 		 }
 	}
+	/**
+	 * Update this object.
+	 * This executes the infection if the forecasted time has passed.
+	 * A new forecasted time is created afterwards.
+	 */
 	public void update() {
 		if (nextinfection < Game.getGame().getClock().getTime()){
 			doInfect(nextinfection);
@@ -62,6 +85,9 @@ public class Infection implements TileAction {
 			forecastnext();
 		}
 	}
+	/**
+	 * @return the time at which the next infection will happen.
+	 */
 	public long getNext(){
 		return nextinfection;
 	}

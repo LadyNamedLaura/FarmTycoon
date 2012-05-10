@@ -111,7 +111,7 @@ public class Factory extends Savable implements TileState {
 	}
 
 	public TileState executeAction(TileAction action, Tile tile, long timestamp) throws InventoryFullException {
-		if(action instanceof domain.Storm){
+		if(action instanceof domain.Storm && state=State.WORKING){
 			damage=timestamp;
 			state=State.DAMAGED;
 			return this;

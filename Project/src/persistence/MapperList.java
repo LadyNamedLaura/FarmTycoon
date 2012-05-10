@@ -92,6 +92,10 @@ public enum MapperList {
 					mapper.save(obj).getInsertSql(obj.getId()));
 	}
 
+	/**
+	 * Initialize the database table for this object if it does not exist.
+	 * @throws SQLException
+	 */
 	public void initIfNeed() throws SQLException {
 		java.sql.Statement st = db.getConnection().createStatement();
 		String update = "id INTEGER PRIMARY KEY";
@@ -101,13 +105,26 @@ public enum MapperList {
 				this.tablename, update));
 	}
 
+	/**
+	 * load an object from this table by its id
+	 * @param id the id to load.
+	 * @return the loaded object 
+	 * @throws SQLException
+	 */
 	public domain.Savable loadById(int id) throws SQLException {
 		java.sql.Statement st = db.getConnection().createStatement();
 		java.sql.ResultSet rs = st.executeQuery(String.format(
 				"SELECT * FROM %s WHERE id = %d", this.tablename, id));
+		if(id>=nextid)
+			nextid=id+1;
 		return mapper.load(new DBmap(mapper, rs));
 	}
 
+	/**
+	 * load all objects from this table.
+	 * @return a set of objects loaded.
+	 * @throws SQLException
+	 */
 	public Set<domain.Savable> loadAll() throws SQLException {
 		Set<domain.Savable> set = new HashSet<domain.Savable>();
 		java.sql.Statement st = db.getConnection().createStatement();
@@ -118,6 +135,10 @@ public enum MapperList {
 		return set;
 	}
 
+	/**
+	 * get the next id for this table.
+	 * @return
+	 */
 	public int getNextID() {
 		return nextid++;
 	}

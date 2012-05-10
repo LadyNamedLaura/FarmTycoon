@@ -1,14 +1,24 @@
 package api;
 
+/**
+ * Class containing information about the state of a specific tile.
+ * @author simon
+ *
+ */
 public class TileInfo {
 	private final String field;
 	private final String subtype;
 	private final String state;
+	private final long expiryTime;
 
 	public TileInfo(String field, String subtype, String state) {
+		this(field,subtype,state,0);
+	}
+	public TileInfo(String field, String subtype, String state, long expirytime) {
 		this.field = field;
 		this.subtype = subtype;
 		this.state = state;
+		this.expiryTime = expirytime;
 	}
 
 	/**
@@ -32,6 +42,9 @@ public class TileInfo {
 		return state;
 	}
 
+	public long getExpiryTime() {
+		return expiryTime;
+	}
 	public String toString() {
 		StringJoiner str = new StringJoiner("_",this.field);
 		if(this.subtype!=null && this.subtype.length()>0)			

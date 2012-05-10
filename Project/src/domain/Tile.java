@@ -13,7 +13,11 @@ import api.Coordinate;
 import api.TileAction;
 import api.TileInfo;
 
-
+/**
+ * 
+ * @author simon
+ *
+ */
 public class Tile extends Savable {
 	private final static SortedMap<Long,Tile> expiryMap = Collections.synchronizedSortedMap(new TreeMap<Long,Tile>());
 
@@ -21,10 +25,20 @@ public class Tile extends Savable {
 	private final Coordinate coord;
 	private TileState state;
 
+	/**
+	 * create a new empty tile.
+	 * @param coord the coordinate for this tile.
+	 */
 	public Tile(Coordinate coord) {
 		this(coord, new domain.tiles.None(), 0);
 	}
 
+	/**
+	 * create a new tile from data loaded from the database.
+	 * @param coord the coordinate for this tile.
+	 * @param state the state of this tile.
+	 * @param expiryTime the loaded expirytime.
+	 */
 	public Tile(Coordinate coord, TileState state, long expiryTime) {
 		this.coord = coord;
 		this.state = state;
@@ -39,13 +53,15 @@ public class Tile extends Savable {
 	}
 
 	/**
-	 * @param state
-	 *            the state to set
+	 * @param state the state to set
 	 */
 	public void setState(TileState state) {
 		this.state = state;
 	}
 
+	/**
+	 * @return this tiles coordinate.
+	 */
 	public Coordinate getCoordinate() {
 		return coord;
 	}
@@ -55,8 +71,9 @@ public class Tile extends Savable {
 	}
 
 	/**
-	 * @return
-	 * @throws InvalidStateException 
+	 * Get the actions available on the this tile.
+	 * @return the actions available on this tile.
+	 * @throws InvalidStateException if the tile has an invalid state.
 	 * @see domain.TileState#getActions()
 	 */
 	public TileAction[] getActions() throws InvalidStateException {
@@ -65,7 +82,6 @@ public class Tile extends Savable {
 
 	/**
 	 * Gets the expireyTime for this instance.
-	 *
 	 * @return The expireyTime.
 	 */
 	public long getExpiryTime() {
@@ -79,13 +95,21 @@ public class Tile extends Savable {
 		return state;
 	}
 
+	/**
+	 * Execute an action on this tile.
+	 * The action passed to this method should be previously received by a call to getActions().
+	 * @param action the action to execute.
+	 * @return whether or not the action succeeded.
+	 */
 	public boolean executeAction(TileAction action) {
 		return executeAction(action, Game.getGame().getClock().getTime());
 	}
 	/**
-	 * @param action
-	 * @return
-	 * @see domain.TileState#executeAction(api.TileAction)
+	 * Execute an action on this tile.
+	 * The action passed to this method should be previously received by a call to getActions().
+	 * @param action the action to execute.
+	 * @param timestamp the time at which this should happen/have happened
+	 * @return whether or not the action succeeded.
 	 */
 	public boolean executeAction(TileAction action, long timestamp) {
 		try {
@@ -122,6 +146,10 @@ public class Tile extends Savable {
 		}
 	}
 
+	/**
+	 * Update all tiles.
+	 * This will let the tiles expire if their expirytime has passed.
+	 */
 	public static void update() {
 		Map<Long,Tile> expiredMap;
 		expiredMap = new HashMap<Long,Tile>(expiryMap.headMap(
@@ -135,6 +163,9 @@ public class Tile extends Savable {
 		}
 	}
 	
+	/**
+	 * @return info on this tile.
+	 */
 	public TileInfo getInfo() {
 		return state.getInfo();
 	}

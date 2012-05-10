@@ -1,5 +1,8 @@
 package ui;
 
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.MissingResourceException;
 
 /**
@@ -11,6 +14,7 @@ import java.util.MissingResourceException;
 public class Translator {
 	private static final String BUNDLENAME = "locale.lang";
 	private static java.util.ResourceBundle bundle = null;
+	private static Locale locale=null;
 
 	private static java.util.ResourceBundle getBundle() {
 		if (bundle == null)
@@ -66,8 +70,9 @@ public class Translator {
 	 *            locale to use.
 	 * @throws MissingResourceException
 	 */
-	public static void setLocale(java.util.Locale locale)
+	public static void setLocale(java.util.Locale loc)
 			throws MissingResourceException {
+		locale=loc;
 		bundle = java.util.ResourceBundle.getBundle(BUNDLENAME, locale);
 	}
 
@@ -125,5 +130,23 @@ public class Translator {
 			throws MissingResourceException {
 		return java.util.Arrays.asList(getStringArray(key)).contains(
 				needle.toLowerCase());
+	}
+	
+	public static String timeFormat(long time){
+		return timeFormat(new Date(time));
+	}
+	
+	public static String timeFormat(Date time){
+		DateFormat formatter;
+		if(locale==null)
+			formatter = DateFormat.getDateTimeInstance(
+	                DateFormat.LONG, 
+	                DateFormat.LONG);
+		else
+			formatter = DateFormat.getDateTimeInstance(
+	                DateFormat.LONG, 
+	                DateFormat.LONG, 
+	                locale);
+		return formatter.format(time);
 	}
 }

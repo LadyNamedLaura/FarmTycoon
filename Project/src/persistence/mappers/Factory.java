@@ -7,7 +7,7 @@ import persistence.DBmap;
 
 public class Factory implements persistence.Mapper {
 	public domain.tiles.Factory load(DBmap map) {
-		return new domain.tiles.Factory(map.getStr("type"), map.getLong("start"), map.getLong("damadge"),map.getStr("state"));
+		return new domain.tiles.Factory(map.getStr("type"), map.getLong("start"), map.getLong("damage"),map.getStr("state"));
 	}
 
 	public DBmap save(domain.Savable obj) {

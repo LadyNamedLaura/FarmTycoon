@@ -10,13 +10,19 @@ import domain.tiles.Plowing;
 
 import api.Coordinate;
 import api.TileAction;
-
+/**
+ * this class contains most of the logic to infect tiles.
+ * @author simon
+ *
+ */
 public class Storm implements TileAction {
 	Random rand;
 	private long next;
-	Storm() {
-		this(0);
-	}
+	
+	/**
+	 * Create a new storm object.
+	 * @param time the time at which the next storm will take place, if 0, the time will be randomly chosen.
+	 */
 	Storm(long time) {
 		rand = new Random();
 		if(time==0)
@@ -24,6 +30,9 @@ public class Storm implements TileAction {
 		else
 			next = time;
 	}
+	/**
+	 * generate a random time for the next storm.
+	 */
 	public void forecastnext() {
 		int days = 0;
 		while (true) {
@@ -35,6 +44,10 @@ public class Storm implements TileAction {
 				+ (long) (rand.nextDouble() * Clock.MSECONDSADAY);
 		System.out.println("next storm on "+new Date(next).toString());
 	}
+	/**
+	 * Execute the storm
+	 * @param time the time at which this should happen/have happened
+	 */
 	public void doStorm(long time) {
 		ArrayList<Coordinate> tiles = new ArrayList<Coordinate>();
 		for(Tile tile : Game.getGame().getFarm().getTiles().values())
@@ -59,6 +72,11 @@ public class Storm implements TileAction {
 				count++;
 			}
 	}
+	/**
+	 * Update this object.
+	 * This executes the storm if the forecasted time has passed.
+	 * A new forecasted time is created afterwards.
+	 */
 	public void update() {
 		if (next < Game.getGame().getClock().getTime()){
 			doStorm(next);
@@ -66,6 +84,9 @@ public class Storm implements TileAction {
 			forecastnext();
 		}
 	}
+	/**
+	 * @return the time at which the next storm will happen.
+	 */
 	public long getNext(){
 		return next;
 	}

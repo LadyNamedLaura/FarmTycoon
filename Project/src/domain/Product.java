@@ -1,5 +1,10 @@
 package domain;
 
+/**
+ * Enum containing the different products in this game, and there price on the market.
+ * @author simon
+ *
+ */
 public enum Product {
 	POTATO		( 20),
 	CARROT		( 30),
@@ -25,6 +30,9 @@ public enum Product {
 	TRUFFLES	(12540);
 
 	final int price;
+	/**
+	 * @return the marketprice of the product.
+	 */
 	public int getPrice()	{ return price; }
-	Product(int price) 		{ this.price = price; }
+	private Product(int price) 		{ this.price = price; }
 }

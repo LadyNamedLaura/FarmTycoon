@@ -5,17 +5,6 @@ import java.awt.Image;
 
 import api.Coordinate;
 
-
-/**
- * This code was edited or generated using CloudGarden's Jigloo SWT/Swing GUI
- * Builder, which is free for non-commercial use. If Jigloo is being used
- * commercially (ie, by a corporation, company or business for any purpose
- * whatever) then you should purchase a license for each developer using Jigloo.
- * Please visit www.cloudgarden.com for details. Use of Jigloo implies
- * acceptance of these licensing terms. A COMMERCIAL LICENSE HAS NOT BEEN
- * PURCHASED FOR THIS MACHINE, SO JIGLOO OR THIS CODE CANNOT BE USED LEGALLY FOR
- * ANY CORPORATE OR COMMERCIAL PURPOSE.
- */
 @SuppressWarnings("serial")
 public class TilePanel extends javax.swing.JPanel {
 	private domain.Game game;
@@ -23,12 +12,6 @@ public class TilePanel extends javax.swing.JPanel {
 	private Image bgimage;
 	private static Image cursor;
 	public boolean selected = false;
-
-	// just to prevent jigloo from craching
-	public TilePanel() {
-		super();
-		initGUI();
-	}
 
 	TilePanel(domain.Game game, Coordinate coord) {
 		super();

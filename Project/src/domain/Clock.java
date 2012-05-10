@@ -19,9 +19,21 @@ import java.util.Date;
  * 
  */
 public class Clock extends Savable {
+	/**
+	 * the time at which the clock starts
+	 */
 	private static final long STARTTIME = 1325419200000L; // 1 jan. 2012 6:00
+	/**
+	 * the amount of milliseconds that add up to one day.
+	 */
 	public static final long MSECONDSADAY = 86400000L;
+	/**
+	 * the speed multiplier of the clock
+	 */
 	private double multiplier;
+	/**
+	 * the offset between unix epoch and the time the clock was started
+	 */
 	private long offset;
 
 	/**
@@ -130,6 +142,9 @@ public class Clock extends Savable {
 				- (long) ((time - STARTTIME) / multiplier);
 	}
 	
+	/**
+	 * This makes the clock skip a complete day.
+	 */
 	public void skipDay() {
 		this.setTime(this.getTime()+MSECONDSADAY);
 	}
