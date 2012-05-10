@@ -41,7 +41,7 @@ public class Factory extends Savable implements TileState {
 		JUICEFACTORY(5000,Product.JUICE,6,Product.STRAWBERRY,Product.RASPBERRY,Product.GRAPE,Product.GRAPE),
 		SALADFACTORY(15000,Product.SALAD,8,Product.CARROT,Product.LETTUCE,Product.TOMATO,Product.TOMATO),
 		OILFACTORY(25000,Product.CORNOIL,8,Product.CORN,Product.CORN,Product.CORN,Product.CORN,Product.CORN),
-		CHOCLATFACTORY(40000,Product.CHOCLAT,7,Product.COCOA,Product.COCOA,Product.MILK),
+		CHOCOLATFACTORY(40000,Product.CHOCOLAT,7,Product.COCOA,Product.COCOA,Product.MILK),
 		BREADFACTORY(50000,Product.BREAD,6,Product.WHEAT,Product.WHEAT,Product.MILK,Product.EGGS),
 		TRUFFLEFACTORY(100000,Product.TRUFFLES,12,Product.COCOA,Product.COCOA,Product.CORNOIL);
 		

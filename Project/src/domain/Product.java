@@ -20,7 +20,7 @@ public enum Product {
 	JUICE		(350),
 	SALAD		(2000),
 	CORNOIL		(2520),
-	CHOCLAT		(1890),
+	CHOCOLAT	(1890),
 	BREAD		(920),
 	TRUFFLES	(12540);
 
