@@ -65,6 +65,7 @@ public class lang_no extends ListResourceBundle {
 			{ "Crop_RASPBERRY_READY","bringebærene er ferdig"},
 			{ "Crop_COCOA_READY","kakaobønnene er ferdig"},
 			{ "Crop_SOY_READY","soya er ferdig"},
+			{ "MSG_CROP_ROTTEN","Er zijn gewassen rot"},
 			{ "Crop_POTATO_ROTTEN","potetene er råtne"},
 			{ "Crop_CARROT_ROTTEN","gulrotene er råtne"},
 			{ "Crop_WHEAT_ROTTEN","hveten er råtne"},
@@ -82,6 +83,7 @@ public class lang_no extends ListResourceBundle {
 			{ "Animal_Cow_READY", "kuerne kan melkes"},
 			{ "Animal_Chicken_DEATH", "hønenen er død"},
 			{ "Animal_Cow_DEATH", "kuerne er død"},
+			{ "MSG_ANIMAL_DEATH", "er zijn dieren dood"},
 			{ "HARVEST", "høste"},
 			{ "CLEAR", "tømme"},
 			{ "ANIMALS", "dyr"},
@@ -93,6 +95,8 @@ public class lang_no extends ListResourceBundle {
 			{ "COLLECT", "hente"},
 			{ "ENTER", "gå inn"},
 			{ "sellstring", "selge til: "},
-			{ "daystring", "%d dager"}
+			{ "daystring", "%d dager"},
+			{"MSG_INFECTION", "De pest is opgetreden"},
+			{"MSG_STORM", "Er is een storm geweest"}
 };
 }

@@ -65,6 +65,7 @@ public class lang_en extends ListResourceBundle {
 			{ "Crop_RASPBERRY_READY","raspberries are ready"},
 			{ "Crop_COCOA_READY","cacao is ready"},
 			{ "Crop_SOY_READY","soy is ready"},
+			{ "MSG_CROP_ROTTEN","There are crops rot"},
 			{ "Crop_POTATO_ROTTEN","potatoes are rotten"},
 			{ "Crop_CARROT_ROTTEN","carrots are rotten"},
 			{ "Crop_WHEAT_ROTTEN","wheat is rotten"},
@@ -80,6 +81,7 @@ public class lang_en extends ListResourceBundle {
 			{ "Animal_Cow_NORMAL", "cows"},
 			{ "Animal_Chicken_READY", "chickens laid eggs"},
 			{ "Animal_Cow_READY", "cows are ready to give milk"},
+			{ "MSG_ANIMAL-DEATH", "There are dead animals"},
 			{ "Animal_Chicken_DEATH", "chickens are dead"},
 			{ "Animal_Cow_DEATH", "cows are dead"},
 			{ "HARVEST", "harvest"},
@@ -93,6 +95,8 @@ public class lang_en extends ListResourceBundle {
 			{ "COLLECT", "collect"},
 			{ "ENTER", "enter"},
 			{ "sellstring", "sell at: "},
-			{ "daystring", "%d days"}
+			{ "daystring", "%d days"},
+			{"MSG_INFECTION", "the plague has occurred "},
+			{"MSG_STORM", "There's been a storm "}
 	};
 }

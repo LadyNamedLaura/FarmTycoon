@@ -65,6 +65,7 @@ public class lang_nl extends ListResourceBundle {
 			{ "Crop_RASPBERRY_READY","frambozen zijn klaar"},
 			{ "Crop_COCOA_READY","cacaobonen zijn klaar"},
 			{ "Crop_SOY_READY","sojabonen zijn klaar"},
+			{ "MSG_CROP_ROTTEN","Er zijn gewassen rot"},
 			{ "Crop_POTATO_ROTTEN","aardappelen zijn rot"},
 			{ "Crop_CARROT_ROTTEN","wortelen zijn rot"},
 			{ "Crop_WHEAT_ROTTEN","tarwe is rot"},
@@ -75,13 +76,14 @@ public class lang_nl extends ListResourceBundle {
 			{ "Crop_STRAWBERRY_ROTTEN","aardbeien zijn rot"},
 			{ "Crop_RASPBERRY_ROTTEN","frambozen zijn rot"},
 			{ "Crop_COCOA_ROTTEN","cacaobonen zijn rot"},
-			{ "Crop_SOY_ROTTEN","sojabonen zijn rot"},
+			{ "Crop_SOY_ROTTEN","sojabonen zijn rot"},			
 			{ "Animal_Chicken_NORMAL", "kippen"},
 			{ "Animal_Cow_NORMAL", "koeien"},
 			{ "Animal_Chicken_READY", "kippen hebben eieren gelegd"},
 			{ "Animal_Cow_READY", "koeien moeten gemolken worden"},
 			{ "Animal_Chicken_DEATH", "de kippen zijn dood"},
 			{ "Animal_Cow_DEATH", "de koeien zijn dood"},
+			{ "MSG_ANIMAL_DEATH", "er zijn dieren dood"},
 			{ "HARVEST", "oogsten"},
 			{ "CLEAR", "vrijmaken"},
 			{ "ANIMALS", "dieren"},
@@ -93,6 +95,10 @@ public class lang_nl extends ListResourceBundle {
 			{ "COLLECT", "inzamelen"},
 			{ "ENTER", "binnengaan"},
 			{ "sellstring", "verkopen voor: "},
-			{ "daystring", "%d dagen"}};
+			{ "daystring", "%d dagen"},
+			{ "daystring1", "%d dag"},
+			{ "MSG_INFECTION", "De pest is opgetreden"},
+			{ "MSG_STORM", "Er is een storm geweest"}
+	};
 	
 }
