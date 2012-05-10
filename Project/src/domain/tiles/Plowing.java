@@ -20,7 +20,7 @@ public class Plowing implements TileState {
 	public TileState executeAction(TileAction action, domain.Tile tile, long timestamp) {
 		if(action instanceof domain.Storm)
 			return new None();
-		if((TileAction.Defaults) action == TileAction.Defaults.EXPIRE)
+		if(action == TileAction.Defaults.EXPIRE)
 			return new Plowed();
 		return null;
 	}

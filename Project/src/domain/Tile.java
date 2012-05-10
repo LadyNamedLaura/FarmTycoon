@@ -89,6 +89,10 @@ public class Tile extends Savable {
 	 */
 	public boolean executeAction(TileAction action, long timestamp) {
 		try {
+			if(Game.getGame().getCash() < action.getCost()) {
+				MsgQue.get().put("MSG_NOCASH", timestamp);
+				return false;
+			}
 			TileState tmp = state.executeAction(action, this, timestamp);
 			if(tmp == null){
 				System.out.println(action.name()+" on "+getCoordinate().toString()+" returned null");
