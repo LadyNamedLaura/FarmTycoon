@@ -141,4 +141,12 @@ public class Farm extends Savable {
 	public Infection getStorm() {
 		return infection;
 	}
+
+	public int countBarn() {
+		int count=0;
+		for(Tile tile:tileMap.values())
+			if(tile.getState() instanceof domain.tiles.Barn)
+				count++;
+		return count;
+	}
 }

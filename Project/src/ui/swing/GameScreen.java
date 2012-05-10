@@ -50,7 +50,7 @@ public class GameScreen extends javax.swing.JFrame implements ComponentListener,
 			gameBoard.update();
 			sidebar.update();
 			while(domain.MsgQue.get().hasNext()){
-				Message msg = domain.MsgQue.get().getNext();
+				Message msg = domain.MsgQue.get().next();
 				JOptionPane.showMessageDialog(GameScreen.this, Translator.getString(msg.getMessage()));
 			}
 		}

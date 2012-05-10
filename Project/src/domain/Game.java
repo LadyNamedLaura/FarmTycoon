@@ -8,7 +8,6 @@ import api.Coordinate;
 import api.TileAction;
 import api.TileInfo;
 
-
 public class Game {
 	private Farm farm;
 	private Clock clock;
@@ -21,7 +20,7 @@ public class Game {
 			try {
 				clock = (Clock) Clock.load(Clock.class, 0);
 				farm = (Farm) Farm.load(Farm.class, 0);
-				inv = new Inventory();
+				inv = new Inventory(farm.countBarn());
 				inv.load();
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -30,7 +29,7 @@ public class Game {
 		} else {
 			clock = new Clock();
 			farm = new Farm();
-			inv = new Inventory();
+			inv = new Inventory(0);
 		}
 	}
 
@@ -86,6 +85,9 @@ public class Game {
 
 	public Inventory getInv() {
 		return inv;
+	}
+	public void updateInv() {
+		inv.setBarnCount(farm.countBarn());
 	}
 
 	public void sell(Product product) {

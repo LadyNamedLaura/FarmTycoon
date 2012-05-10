@@ -11,6 +11,7 @@ import domain.Product;
 import domain.Savable;
 import domain.TileState;
 import exceptions.InvalidStateException;
+import exceptions.InventoryFullException;
 public class Animal extends Savable implements TileState{
 
 	private enum Animals implements TileAction {
@@ -89,7 +90,7 @@ public class Animal extends Savable implements TileState{
 	}
 
 	@Override
-	public TileState executeAction(TileAction action, domain.Tile tile, long timestamp) {
+	public TileState executeAction(TileAction action, domain.Tile tile, long timestamp) throws InventoryFullException {
 		if(action instanceof Animals)
 			return new Animal((Animals) action);
 		if(action == TileAction.Defaults.EXPIRE) {
@@ -104,7 +105,7 @@ public class Animal extends Savable implements TileState{
 			}
 			return this;
 		}
-		if((Actions) action == Actions.CLEAR) {
+		if(action == Actions.CLEAR) {
 			return new None();
 		}
 		if( this.state == State.READY && (Actions) action == Actions.COLLECT) {

@@ -3,16 +3,43 @@ package domain;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
+import exceptions.InventoryFullException;
+
 public class Inventory extends java.util.AbstractMap<Product, Integer> {
+	public static final int DEFAULTSPACE=5;
+	public static final int BARNSPACE=25;
 	private final Product[] keys = Product.values();
 	private final int size = keys.length;
+	private int barncount;
 
 	private final int[] vals = new int[keys.length];
+	
+	public Inventory(int barncount){
+		this.barncount=barncount;
+	}
+	
+	public void setBarnCount(int count){
+		this.barncount = count;
+	}
 
-	public Integer add(Product key) {
+	public int spaceLeft() {
+		return getSize()-count();
+	}
+	public int getSize() {
+		return DEFAULTSPACE + (BARNSPACE * barncount);
+	}
+	public int count() {
+		int count=0;
+		for(int val:values())
+			count+=val;
+		return count;
+	}
+	public Integer add(Product key) throws InventoryFullException {
 		return add(key,1);
 	}
-	public Integer add(Product key, int amount) {
+	public Integer add(Product key, int amount) throws InventoryFullException {
+		if(amount > spaceLeft())
+			throw new InventoryFullException();
 		put(key, get(key)+amount);
 		return get(key);
 	}

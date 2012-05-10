@@ -16,7 +16,7 @@ public class Plowed implements TileState
 			Crops crop = (Crops) action;
 			return new Crop(crop);
 		}
-		if(action == TileAction.Defaults.DESTROY)
+		if(action instanceof domain.Storm)
 			return new None();
 		return null;
 	}

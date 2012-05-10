@@ -41,7 +41,11 @@ public enum MapperList {
 	/**
 	 * @see domain.Inventory.InvItem
 	 */
-	INVITEM(new persistence.mappers.InvItem());
+	INVITEM(new persistence.mappers.InvItem()),
+	/**
+	 * @see domain.tiles.Factory
+	 */
+	FACTORY(new persistence.mappers.Factory());
 
 	private DB db;
 	private String tablename;

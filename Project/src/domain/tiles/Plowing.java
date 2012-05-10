@@ -2,7 +2,6 @@ package domain.tiles;
 
 import api.TileAction;
 import api.TileInfo;
-import domain.Game;
 import domain.TileState;
 
 public class Plowing implements TileState {
@@ -19,7 +18,7 @@ public class Plowing implements TileState {
 	}
 
 	public TileState executeAction(TileAction action, domain.Tile tile, long timestamp) {
-		if(action == TileAction.Defaults.DESTROY)
+		if(action instanceof domain.Storm)
 			return new None();
 		if((TileAction.Defaults) action == TileAction.Defaults.EXPIRE)
 			return new Plowed();

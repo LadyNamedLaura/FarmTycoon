@@ -1,8 +1,10 @@
 package domain;
 
+import java.util.Iterator;
+
 import api.Message;
 
-public class MsgQue {
+public class MsgQue implements Iterator<Message> {
 	private static class Msg implements Message {
 		public Msg next;
 		String msg;
@@ -39,7 +41,7 @@ public class MsgQue {
 		return head != null;
 	}
 
-	public Message getNext() {
+	public Message next() {
 		Msg tmp = head;
 		head = tmp.next;
 		tmp.next = null;
@@ -55,4 +57,7 @@ public class MsgQue {
 		}
 		tail.next = null;
 	}
+
+	@Override
+	public void remove() {}
 }

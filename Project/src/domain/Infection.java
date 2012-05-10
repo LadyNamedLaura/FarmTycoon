@@ -6,8 +6,9 @@ import java.util.Random;
 import exceptions.NoSuchTileException;
 
 import api.Coordinate;
+import api.TileAction;
 
-public class Infection {
+public class Infection implements TileAction {
 	Random rand;
 	private long nextinfection;
 	Infection() {
@@ -39,7 +40,7 @@ public class Infection {
 				if(tile.equals(coordinate)){
 					System.out.println("not infecting myself");
 				} else {
-					Game.getGame().executeAction(tile, api.TileAction.Defaults.INFECT);
+					Game.getGame().executeAction(tile, this);
 					System.out.println("infected "+tile.toString());
 				}
 			} catch (NoSuchTileException e) {}
@@ -50,7 +51,7 @@ public class Infection {
 		 int count=0;
 		 while(count <= tiles.length / 10) {
 			 Coordinate coord = tiles[rand.nextInt(tiles.length)].getCoordinate();
-			 Game.getGame().executeAction(coord, api.TileAction.Defaults.INFECT);
+			 Game.getGame().executeAction(coord, this);
 			 count++;
 		 }
 	}
@@ -64,4 +65,8 @@ public class Infection {
 	public long getNext(){
 		return nextinfection;
 	}
+
+	public String name() {return "INFECTION";}
+	public int getCost() {return 0;}
+	public int getTime() {return 0;}
 }

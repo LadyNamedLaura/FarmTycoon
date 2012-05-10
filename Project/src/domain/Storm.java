@@ -9,8 +9,9 @@ import domain.tiles.Plowed;
 import domain.tiles.Plowing;
 
 import api.Coordinate;
+import api.TileAction;
 
-public class Storm {
+public class Storm implements TileAction {
 	Random rand;
 	private long next;
 	Storm() {
@@ -34,22 +35,33 @@ public class Storm {
 				+ (long) (rand.nextDouble() * Clock.MSECONDSADAY);
 		System.out.println("next storm on "+new Date(next).toString());
 	}
-	public void doInfect(long time) {
+	public void doStorm(long time) {
 		ArrayList<Coordinate> tiles = new ArrayList<Coordinate>();
 		for(Tile tile : Game.getGame().getFarm().getTiles().values())
 			if (tile.getState() instanceof Crop || tile.getState() instanceof Plowed || tile.getState() instanceof Plowing)
 				tiles.add(tile.getCoordinate());
-		int count=0;
-		while(count <= tiles.size() * 3 / 10) {
-			Coordinate coord = tiles.get(rand.nextInt(tiles.size()));
-			Game.getGame().executeAction(coord, api.TileAction.Defaults.DESTROY);
-			count++;
-		}
-		System.out.println("destroyed "+count+" fields");
+		int count = 0;
+		if (tiles.size() > 0)
+			while (count <= tiles.size() * 3 / 10) {
+				Coordinate coord = tiles.get(rand.nextInt(tiles.size()));
+				Game.getGame().executeAction(coord, this);
+				count++;
+			}
+		tiles = new ArrayList<Coordinate>();
+		for (Tile tile : Game.getGame().getFarm().getTiles().values())
+			if (tile.getState() instanceof domain.tiles.Factory)
+				tiles.add(tile.getCoordinate());
+		count = 0;
+		if (tiles.size() > 0)
+			while (count <= tiles.size() / 2) {
+				Coordinate coord = tiles.get(rand.nextInt(tiles.size()));
+				Game.getGame().executeAction(coord, this);
+				count++;
+			}
 	}
 	public void update() {
 		if (next < Game.getGame().getClock().getTime()){
-			doInfect(next);
+			doStorm(next);
 			MsgQue.get().put("MSG_STORM", next);
 			forecastnext();
 		}
@@ -57,4 +69,8 @@ public class Storm {
 	public long getNext(){
 		return next;
 	}
+
+	public String name() {return "STORM";}
+	public int getCost() {return 0;}
+	public int getTime() {return 0;}
 }

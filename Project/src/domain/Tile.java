@@ -7,6 +7,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import exceptions.InvalidStateException;
+import exceptions.InventoryFullException;
 
 import api.Coordinate;
 import api.TileAction;
@@ -106,7 +107,11 @@ public class Tile extends Savable {
 					expiryMap.put(expiryTime, this);
 				}
 			}
+			Game.getGame().updateInv();
 			return true;
+		}catch(InventoryFullException e){
+			MsgQue.get().put("INVENTORYFULL", timestamp);
+			return false;
 		}catch(Exception e){
 			e.printStackTrace();
 			return false;

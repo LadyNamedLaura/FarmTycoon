@@ -1,7 +1,5 @@
 package domain.tiles;
 
-import java.util.Date;
-
 import api.TileAction;
 import api.TileInfo;
 
@@ -10,6 +8,7 @@ import domain.Game;
 import domain.MsgQue;
 import domain.Savable;
 import domain.TileState;
+import exceptions.InventoryFullException;
 
 public class Crop extends Savable implements TileState {
 
@@ -72,8 +71,8 @@ public class Crop extends Savable implements TileState {
 	}
 
 	@Override
-	public TileState executeAction(TileAction action, domain.Tile tile, long timestamp) {
-		if(action == TileAction.Defaults.INFECT && state != State.INFECTED) {
+	public TileState executeAction(TileAction action, domain.Tile tile, long timestamp) throws InventoryFullException {
+		if(action instanceof domain.Infection && state != State.INFECTED) {
 			state=State.INFECTED;
 			infected=timestamp;
 			infectioncount=1;
@@ -95,7 +94,7 @@ public class Crop extends Savable implements TileState {
 			}
 			return this;
 		}
-		if(action == Actions.CLEAR || action == TileAction.Defaults.DESTROY) {
+		if(action == Actions.CLEAR || action instanceof domain.Storm) {
 			return new None();
 		}
 		if(action == Actions.DESINFECT) {

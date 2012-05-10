@@ -13,7 +13,16 @@ public enum Product {
 	COCOA		(220),
 	SOY			(290),
 	EGGS		(30),
-	MILK		(70);
+	MILK		(70),
+	BUTTER		(90),
+	CHEESE		(180),
+	FLOUR		(300),
+	JUICE		(350),
+	SALAD		(2000),
+	CORNOIL		(2520),
+	CHOCLAT		(1890),
+	BREAD		(920),
+	TRUFFLES	(12540);
 
 	final int price;
 	public int getPrice()	{ return price; }

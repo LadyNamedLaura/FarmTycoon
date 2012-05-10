@@ -3,9 +3,7 @@ package api;
 public interface TileAction {
 	public enum Defaults implements TileAction {
 		EXPIRE,
-		INFECT,
-		CANCEL,
-		DESTROY;
+		CANCEL;
 		public int getCost(){
 			return 0;
 		}
