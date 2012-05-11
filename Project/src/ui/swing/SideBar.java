@@ -3,6 +3,8 @@ package ui.swing;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -10,6 +12,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import api.TileInfo;
 
@@ -18,7 +21,7 @@ import ui.Translator;
 import domain.Game;
 import exceptions.InvalidStateException;
 
-public class SideBar extends javax.swing.JPanel {
+public class SideBar extends javax.swing.JPanel implements ComponentListener {
 
 	private JPanel selectedImage;
 	private JLabel selectedName;
@@ -26,6 +29,7 @@ public class SideBar extends javax.swing.JPanel {
 	private GameScreen gameScreen;
 	private JPanel actionsPanel;
 	private TileInfo info;
+	private JScrollPane infopanel;
 
 	private class ActionButton extends JPanel {
 		private api.TileAction action;
@@ -52,10 +56,11 @@ public class SideBar extends javax.swing.JPanel {
 		private void execute() {
 			if(action.name().equals("ENTER")) {
 				if(info.getField().equals("Market")) {
-					new MarketWindow(game);
+					gameScreen.showMarket();
 				}
 			}
 			game.executeAction(gameScreen.getSelected().getCoords(), action);
+			gameScreen.updateMarket();
 		}
 	}
 
@@ -70,7 +75,8 @@ public class SideBar extends javax.swing.JPanel {
 		try {
 			BoxLayout layout = new BoxLayout(this, javax.swing.BoxLayout.Y_AXIS);
 			this.setLayout(layout);
-			this.setPreferredSize(new java.awt.Dimension(200, 570));
+			this.setPreferredSize(new java.awt.Dimension(300, 570));
+			addComponentListener(this);
 			{
 				selectedImage = new JPanel() {
 					public Image img;
@@ -82,7 +88,7 @@ public class SideBar extends javax.swing.JPanel {
 											gameScreen.getSelected()
 													.getCoords()).toString()
 											.toUpperCase()).getScaledInstance(
-									200, 200, Image.SCALE_DEFAULT);
+									300, 300, Image.SCALE_DEFAULT);
 						} catch (Exception e) {
 							img = null;
 						}
@@ -92,13 +98,14 @@ public class SideBar extends javax.swing.JPanel {
 
 				};
 				this.add(selectedImage);
-				selectedImage.setSize(200, 200);
+				selectedImage.setSize(300, 300);
 			}
 			selectedName = new JLabel();
 			actionsPanel = new JPanel();
+			infopanel = new JScrollPane(actionsPanel);
 			add(selectedName);
 			add(Box.createVerticalStrut(5));
-			add(actionsPanel);
+			add(infopanel);
 			actionsPanel.setLayout(new BoxLayout(actionsPanel, BoxLayout.Y_AXIS));
 
 		} catch (Exception e) {
@@ -121,13 +128,23 @@ public class SideBar extends javax.swing.JPanel {
 							.getSelected().getCoords())){
 						actionsPanel.add(new ActionButton(action));
 					}
-					actionsPanel.add(Box.createVerticalGlue());
 				} catch (NullPointerException e) {
-
 				} catch (InvalidStateException e) {
-					
 				}
+				actionsPanel.repaint();
 			}
 		}
 	}
+	public void componentResized(ComponentEvent evt) {
+		int height = getHeight();
+		infopanel.setSize(300, height - 300);
+		infopanel.setPreferredSize(new Dimension(300,height-300));
+		infopanel.setMaximumSize(new Dimension(300,height-300));
+		infopanel.setMinimumSize(new Dimension(300,height-300));
+	}
+
+	public void componentHidden(ComponentEvent evt) {}
+	public void componentMoved(ComponentEvent evt) {}
+	public void componentShown(ComponentEvent evt) {}
+
 }

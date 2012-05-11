@@ -41,4 +41,7 @@ public class PersistenceController {
 			return false;
 		}
 	}
+	public void sync() throws SQLException {
+		db.sync();
+	}
 }

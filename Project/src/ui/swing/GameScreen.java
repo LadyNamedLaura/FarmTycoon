@@ -21,6 +21,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToolBar;
 
+import exceptions.SystemDBException;
+
 import api.Message;
 
 import ui.Translator;
@@ -40,6 +42,7 @@ public class GameScreen extends javax.swing.JFrame implements ComponentListener,
 	private TilePanel selectedPanel = null;
 	private final Timer timer = new Timer();
 	private TimerTask timertask;
+	private MarketWindow market;
 
 	private class UpdateTask extends TimerTask{
 		public void run() {
@@ -59,6 +62,7 @@ public class GameScreen extends javax.swing.JFrame implements ComponentListener,
 	public GameScreen(domain.Game thegame) {
 		super();
 		game = thegame;
+		market = new MarketWindow(thegame);
 
 		try {
 			getContentPane().setLayout(new BoxLayout(getContentPane(),
@@ -82,7 +86,7 @@ public class GameScreen extends javax.swing.JFrame implements ComponentListener,
 							public void mouseClicked(MouseEvent evt) {
 								try {
 									game.save();
-								} catch (SQLException e) {
+								} catch (SQLException | SystemDBException e) {
 									e.printStackTrace();
 								}
 							}
@@ -169,14 +173,21 @@ public class GameScreen extends javax.swing.JFrame implements ComponentListener,
 			//we already canceled the timer, leave it like that
 		}
 	}
+	
+	public void updateMarket(){
+		market.doUpdate();
+	}
+	public void showMarket(){
+		market.setVisible(true);
+	}
 
 	public void componentResized(ComponentEvent evt) {
 		int height = getContentPane().getHeight();
 		int width = getContentPane().getWidth();
 		toolBar.setSize(width, 40);
 		contentPanel.setSize(width, height - 40);
-		gameBoard.setSize(width - 200, height - 40);
-		sidebar.setSize(150, height - 40);
+		gameBoard.setSize(width - 300, height - 40);
+		sidebar.setSize(300, height - 40);
 	}
 
 	public void componentHidden(ComponentEvent evt) {}
@@ -190,9 +201,10 @@ public class GameScreen extends javax.swing.JFrame implements ComponentListener,
 		setUpdate(0);
 	}
 	public void windowClosing(WindowEvent arg0) {
+		market.dispose();
 		try {
 			game.save();
-		} catch (SQLException e) {
+		} catch (SQLException | SystemDBException e) {
 			e.printStackTrace();
 		}
 		setUpdate(0);

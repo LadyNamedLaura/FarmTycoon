@@ -4,6 +4,7 @@ import java.sql.SQLException;
 
 import exceptions.InvalidStateException;
 import exceptions.NoSuchTileException;
+import exceptions.SystemDBException;
 
 import api.Coordinate;
 import api.TileAction;
@@ -74,10 +75,11 @@ public class Game {
 		return farm.adjustCash(adj);
 	}
 
-	public void save() throws SQLException {
+	public void save() throws SQLException, SystemDBException {
 		farm.save();
 		clock.save();
 		inv.save();
+		persistence.PersistenceController.getInstance().sync();
 	}
 
 	/**

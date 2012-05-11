@@ -1,9 +1,12 @@
 package persistence;
 
+import java.sql.SQLException;
+
 import exceptions.*;
 
 public class DB {
 	private java.sql.Connection connection;
+	private String name;
 
 	/**
 	 * 
@@ -22,10 +25,13 @@ public class DB {
 	 * @throws SystemDBException 
 	 */
 	public DB(String name) throws DBConnectException, SystemDBException {
+		this.name=name;
 		try {
 			Class.forName("org.sqlite.JDBC");
-			connection = java.sql.DriverManager.getConnection(String.format(
-					"jdbc:sqlite:%s.sav", name));
+//			connection = java.sql.DriverManager.getConnection(String.format(
+//			"jdbc:sqlite:%s.sav", name));
+			connection = java.sql.DriverManager.getConnection("jdbc:sqlite:");
+			connection.createStatement().executeUpdate(String.format("restore from %s.sav",name));
 		} catch (java.sql.SQLException sqlException) {
 			DBConnectException e = (DBConnectException) sqlException;
 			e.setDBName(name);
@@ -36,9 +42,14 @@ public class DB {
 			throw new SystemDBException();
 		}
 	}
+	
+	public void sync() throws SQLException{
+		connection.createStatement().executeUpdate(String.format("backup to %s.sav",name));
+	}
 
 	public void close() throws DBCloseException {
 		try {
+			sync();
 			connection.close();
 		} catch (java.sql.SQLException e) {
 			throw (DBCloseException) e;

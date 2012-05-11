@@ -4,8 +4,8 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Map.Entry;
 
 import javax.swing.JButton;
@@ -21,12 +21,12 @@ public class MarketWindow extends JFrame {
 
 	public MarketWindow(Game game) {
 		super(Translator.getString("Market"));
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(HIDE_ON_CLOSE);
 		this.game=game;
-		initGUI();
+		doUpdate();
 	}
 	
-	private void initGUI() {
+	public void doUpdate() {
 		try {
 			int i=0;
 			GridBagLayout layout = new GridBagLayout();
@@ -54,26 +54,21 @@ public class MarketWindow extends JFrame {
 					i++;
 				}
 			}
-			this.setVisible(true);
 			this.setSize(400, 30 + (i*40));
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
-	private class SellButton extends JButton implements MouseListener {
+	private class SellButton extends JButton implements ActionListener {
 		private Product product;
 		SellButton (Product product){
 			super(Translator.getString("sellstring")+String.format(Translator.getString("moneystring"), product.getPrice()));
 			this.product = product;
-			addMouseListener(this);
+			addActionListener(this);
 		}
-		public void mouseClicked(MouseEvent arg0) {
+		public void actionPerformed(ActionEvent arg0) {
 			game.sell(product);
-			initGUI();
+			doUpdate();
 		}
-		public void mouseEntered(MouseEvent arg0) {}
-		public void mouseExited(MouseEvent arg0) {}
-		public void mousePressed(MouseEvent arg0) {}
-		public void mouseReleased(MouseEvent arg0) {}
 	}
 }
