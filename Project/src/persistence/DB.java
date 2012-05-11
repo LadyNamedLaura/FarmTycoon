@@ -34,7 +34,6 @@ public class DB {
 			connection.createStatement().executeUpdate(String.format("restore from %s.sav",name));
 		} catch (java.sql.SQLException sqlException) {
 			DBConnectException e = (DBConnectException) sqlException;
-			e.setDBName(name);
 			throw e;
 		}
 		// detect problems loading database driver'
