@@ -2,7 +2,7 @@ package domain;
 
 /**
  * Enum containing the different products in this game, and there price on the market.
- * @author simon
+ * @author Rigès De Witte, Simon Peeters,Barny Pieters,Laurens Van Damme
  *
  */
 public enum Product {

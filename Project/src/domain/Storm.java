@@ -1,7 +1,6 @@
 package domain;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Random;
 
 import domain.tiles.Crop;
@@ -12,7 +11,7 @@ import api.Coordinate;
 import api.TileAction;
 /**
  * this class contains most of the logic to infect tiles.
- * @author simon
+ * @author Rigès De Witte, Simon Peeters,Barny Pieters,Laurens Van Damme
  *
  */
 public class Storm implements TileAction {
@@ -42,7 +41,6 @@ public class Storm implements TileAction {
 		}
 		next = Game.getGame().getClock().getTime() + Clock.MSECONDSADAY * days
 				+ (long) (rand.nextDouble() * Clock.MSECONDSADAY);
-		System.out.println("next storm on "+new Date(next).toString());
 	}
 	/**
 	 * Execute the storm

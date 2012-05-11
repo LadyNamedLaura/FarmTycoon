@@ -2,7 +2,7 @@ package api;
 
 /**
  * Class containing information about the state of a specific tile.
- * @author simon
+ * @author Rigès De Witte, Simon Peeters,Barny Pieters,Laurens Van Damme
  *
  */
 public class TileInfo {

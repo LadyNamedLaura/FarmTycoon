@@ -2,7 +2,7 @@ package api;
 
 /**
  * Action which can be executed on a tile.
- * @author simon
+ * @author Rigès De Witte, Simon Peeters,Barny Pieters,Laurens Van Damme
  *
  */
 public interface TileAction {

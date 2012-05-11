@@ -12,7 +12,7 @@ import exceptions.NoSuchTileException;
 
 /**
  * The Class which has control over the whole farm. 
- * @author simon
+ * @author Rigès De Witte, Simon Peeters,Barny Pieters,Laurens Van Damme
  *
  */
 public class Farm extends Savable {

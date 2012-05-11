@@ -15,7 +15,7 @@ import api.TileInfo;
 
 /**
  * 
- * @author simon
+ * @author Rigès De Witte, Simon Peeters,Barny Pieters,Laurens Van Damme
  *
  */
 public class Tile extends Savable {
@@ -119,17 +119,14 @@ public class Tile extends Savable {
 			}
 			TileState tmp = state.executeAction(action, this, timestamp);
 			if(tmp == null){
-				System.out.println(action.name()+" on "+getCoordinate().toString()+" returned null");
 				return false;
 			}
 			Controller.getInstance().getGame().adjustCash(-action.getCost());
 			this.state = tmp;
 			this.expiryTime = state.getExpiryTime();
 			if (expiryTime > 0) {
-				System.out.println("tile "+getCoordinate()+" expires: "+new java.util.Date(expiryTime).toString());
 				synchronized (expiryMap) {
 					while(expiryMap.get(expiryTime) != null){ //almost impossible
-						System.out.println("imposible colission");
 						expiryTime++;
 					}
 					expiryMap.put(expiryTime, this);
@@ -158,8 +155,6 @@ public class Tile extends Savable {
 			expiryMap.remove(entry.getKey());
 			if(entry.getValue().expiryTime == entry.getKey())
 				entry.getValue().executeAction(TileAction.Defaults.EXPIRE, entry.getKey());
-			else
-				System.out.println("bogus expiry time deleted from map");
 		}
 	}
 	

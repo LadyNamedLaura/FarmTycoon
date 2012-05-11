@@ -13,7 +13,7 @@ import api.TileInfo;
 /**
  * The controller for the game.
  * This class takes over from the domain controller once a game has been loaded. 
- * @author simon
+ * @author Rigès De Witte, Simon Peeters,Barny Pieters,Laurens Van Damme
  *
  */
 public class Game {

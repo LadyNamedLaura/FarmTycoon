@@ -2,7 +2,7 @@ package api;
 
 /**
  * Wrapper around StringBuilder to join string using the given glue.
- * @author simon 
+ * @author Rigès De Witte, Simon Peeters,Barny Pieters,Laurens Van Damme
  */
 public class StringJoiner {
 	/**

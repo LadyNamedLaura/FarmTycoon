@@ -5,7 +5,7 @@ import java.util.Set;
 
 /**
  * An abstract class used to abstract the save and load logic from elements that can be saved to the database.
- * @author simon
+ * @author Rigès De Witte, Simon Peeters,Barny Pieters,Laurens Van Damme
  *
  */
 public abstract class Savable {

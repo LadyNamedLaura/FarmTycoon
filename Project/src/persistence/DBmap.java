@@ -8,7 +8,7 @@ import api.StringJoiner;
 
 /**
  * Map extending the HashMap with some Database specific functionality.
- * @author simon
+ * @author Rigès De Witte, Simon Peeters,Barny Pieters,Laurens Van Damme
  *
  */
 public class DBmap extends HashMap<String, Object> {

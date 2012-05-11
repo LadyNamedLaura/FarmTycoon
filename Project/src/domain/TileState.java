@@ -6,7 +6,7 @@ import api.TileInfo;
 
 /**
  * This interface defines the glue between the tile and the different possible states.
- * @author simon
+ * @author Rigès De Witte, Simon Peeters,Barny Pieters,Laurens Van Damme
  */
 public interface TileState {
 	/**

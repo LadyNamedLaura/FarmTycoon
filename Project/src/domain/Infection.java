@@ -1,6 +1,5 @@
 package domain;
 
-import java.util.Date;
 import java.util.Random;
 
 import exceptions.NoSuchTileException;
@@ -9,7 +8,7 @@ import api.Coordinate;
 import api.TileAction;
 /**
  * this class contains most of the logic to infect tiles.
- * @author simon
+ * @author Rigès De Witte, Simon Peeters,Barny Pieters,Laurens Van Damme
  *
  */
 public class Infection implements TileAction {
@@ -39,7 +38,6 @@ public class Infection implements TileAction {
 		}
 		nextinfection = Game.getGame().getClock().getTime() + Clock.MSECONDSADAY * days
 				+ (long) (rand.nextDouble() * Clock.MSECONDSADAY);
-		System.out.println("next infection on "+new Date(nextinfection).toString());
 	}
 	/**
 	 * Spread the infection around the given tile.
@@ -52,10 +50,8 @@ public class Infection implements TileAction {
 		for(Coordinate tile : Coordinate.getCoordSet(new Coordinate(x-1,y-1), new Coordinate(x+2,y+2))){
 			try{
 				if(tile.equals(coordinate)){
-					System.out.println("not infecting myself");
 				} else {
 					Game.getGame().executeAction(tile, this);
-					System.out.println("infected "+tile.toString());
 				}
 			} catch (NoSuchTileException e) {}
 		}

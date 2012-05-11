@@ -8,7 +8,7 @@ import exceptions.InventoryFullException;
 /**
  * This class implements an inventory.
  * The inventory is based on a <Product,Integer> Map.
- * @author simon
+ * @author Rigès De Witte, Simon Peeters,Barny Pieters,Laurens Van Damme
  *
  */
 public class Inventory extends java.util.AbstractMap<Product, Integer> {
@@ -192,7 +192,7 @@ public class Inventory extends java.util.AbstractMap<Product, Integer> {
 
 	/**
 	 * Class which represent a single entry in the inventory map.
-	 * @author simon
+	 * @author Rigès De Witte, Simon Peeters,Barny Pieters,Laurens Van Damme
 	 */
 	public class InvItem extends Savable implements Map.Entry<Product, Integer> {
 		public InvItem(int index) {

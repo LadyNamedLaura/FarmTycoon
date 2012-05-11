@@ -84,12 +84,6 @@ public class Factory extends Savable implements TileState {
 		state=State.NONE;
 	}
 
-	public Factory(Factories factory, long start, long damage, State state) {
-		this.factory = factory;
-		this.start = start;
-		this.damage = damage;
-		this.state = state;
-	}
 	public TileAction[] getActions() throws InvalidStateException {
 		switch(state){
 		case NONE:
