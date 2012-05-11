@@ -86,7 +86,9 @@ public class GameScreen extends javax.swing.JFrame implements ComponentListener,
 							public void mouseClicked(MouseEvent evt) {
 								try {
 									game.save();
-								} catch (SQLException | SystemDBException e) {
+								} catch (SQLException e) {
+									e.printStackTrace();
+								} catch (SystemDBException e) {
 									e.printStackTrace();
 								}
 							}
@@ -204,7 +206,9 @@ public class GameScreen extends javax.swing.JFrame implements ComponentListener,
 		market.dispose();
 		try {
 			game.save();
-		} catch (SQLException | SystemDBException e) {
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (SystemDBException e) {
 			e.printStackTrace();
 		}
 		setUpdate(0);

@@ -62,7 +62,9 @@ public class Controller {
 		game = new Game(false);
 		try {
 			game.save();
-		} catch (SQLException | SystemDBException e) {
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} catch (SystemDBException e) {
 			e.printStackTrace();
 		}
 	}
